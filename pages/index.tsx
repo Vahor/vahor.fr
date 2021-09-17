@@ -4,12 +4,25 @@ import Brand from 'app/components/Home/Brand'
 import Layout from 'app/components/layouts/Layout'
 import React from 'react'
 import type { NextPageWithLayout } from 'types'
+import { GetStaticProps } from "next"
 
-const Home: NextPageWithLayout = () => {
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = await (await fetch(`${process.env.SERVER_URL}/api/posts`)).json()
+
+  return {
+    props: {
+      posts
+    },
+    revalidate: 60 * 60 // every hour
+  }
+}
+
+const Home: NextPageWithLayout = ({ posts }: any) => {
   return (
     <>
       <Brand />
-      <Posts />
+      <Posts posts={posts} />
     </>
   )
 }

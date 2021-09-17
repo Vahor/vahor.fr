@@ -9,3 +9,26 @@ export type NextPageWithLayout = NextPage & {
 export type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
 }
+
+export type NotionPage = {
+    id: string
+    created_time: Date
+    cover: null | {
+        external: {
+            url: string
+        }
+    }
+    properties: {
+        Tags: {
+            multi_select: {
+                name: string
+                color: string
+            }[]
+        }
+        Name: {
+            title: {
+                plain_text: string
+            }[]
+        }
+    }
+}
