@@ -16,6 +16,9 @@ export type NotionPage = {
     cover: null | {
         external: {
             url: string
+            width: number
+            height: number
+            blur: string
         }
     }
     properties: {

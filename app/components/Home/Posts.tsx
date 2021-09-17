@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { NotionPage } from "types"
 import Link from "next/link"
+import Image from "next/image"
 
 interface Props {
     posts: NotionPage[];
@@ -41,10 +42,16 @@ const Posts = ({ posts }: Props) => {
                         <li key={post.id} className="p-2 break-inside">
                             <Link href={`/post/${post.id}`}>
                                 <a className="block group relative mb-2 rounded-md cursor-pointer overflow-hidden select-none">
-                                    <img className="group-hover:scale-105 transition duration-500"
-                                        src={post.cover?.external.url}
-                                        alt={`Illustration pour ${post.properties.Name.title[0].plain_text}`} />
-                                    <div className="absolute inset-0 h-full opacity-0 group-hover:opacity-60 bg-black text-white transition duration-500 ease-in-out ">
+                                    <Image
+                                        src={post.cover?.external.url || ""}
+                                        className="group-hover:scale-105 transition duration-500"
+                                        alt={`Illustration pour ${post.properties.Name.title[0].plain_text}`}
+                                        width={post.cover?.external.width}
+                                        height={post.cover?.external.height}
+                                        placeholder={"blur"}
+                                        blurDataURL={post.cover?.external.blur}
+                                    />
+                                    <div className="absolute inset-0 bottom-[5px] opacity-0 group-hover:opacity-60 bg-black text-white transition duration-500 ease-in-out ">
                                         <div className="flex h-full justify-center items-center text-xl font-bold">Voir</div>
                                     </div>
                                 </a>
