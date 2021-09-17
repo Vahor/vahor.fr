@@ -6,7 +6,6 @@ import Notion from 'integrations/notion'
 import Meta from 'app/components/meta/Meta'
 import NotionPageContent from 'app/components/Notion/NotionPageContent'
 import { NotionContent } from 'app/components/Notion/types'
-import styles from "styles/Notion/notion.module.css"
 
 export const getStaticPaths: GetStaticPaths = async () => {
     return { paths: [], fallback: true }
@@ -51,7 +50,7 @@ const PostPage: NextPageWithLayout<Props> = ({ post, content }) => {
         return (
             <>
                 <Meta title={"Chargement"} contentType={"article"} />
-                <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none ${styles.base}`}>
+                <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none base`}>
                     <h1 className="bg-gray-400 pb-8 skeleton" />
                     <span className="bg-gray-400 pb-8 skeleton mb-1" />
                     <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
@@ -69,7 +68,7 @@ const PostPage: NextPageWithLayout<Props> = ({ post, content }) => {
                     <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
                     <span className="bg-gray-400 pb-6 skeleton mb-12" />
 
-                    <span className={`bg-gray-400 py-64 skeleton mb-2 ${styles.wide}`} />
+                    <span className={`bg-gray-400 py-64 skeleton mb-2 wide`} />
                     <h1 className="bg-gray-400 pb-8 skeleton mb-12" />
 
                     <h1 className="bg-gray-400 pb-8 skeleton" />
@@ -90,6 +89,16 @@ const PostPage: NextPageWithLayout<Props> = ({ post, content }) => {
                 title={post.properties.Name.title[0].plain_text}
                 imageUrl={cover?.url}
                 contentType="article" />
+
+            <div className={`pt-8 container prose lg:prose-lg dark:prose-dark max-w-none base`}>
+                <h1 className="font-bold text-3xl md:text-5xl !mb-4">
+                    {post.properties.Name.title[0].plain_text}
+                </h1>
+                <p className="pb-12 border-b dark:border-gray-800">
+                    {post.properties.Summary.rich_text[0].plain_text}
+                </p>
+            </div>
+
             <NotionPageContent page={content} />
         </>
     )

@@ -51,6 +51,11 @@ export type NotionPage = {
                 plain_text: string
             }[]
         }
+        Summary: {
+            rich_text: {
+                plain_text: string
+            }[]
+        }
     }
 }
 

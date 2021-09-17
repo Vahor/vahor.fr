@@ -1,7 +1,5 @@
 import { NotionBlockType, NotionContent, TextElement, Annotations } from "./types";
 import { Fragment, ReactElement } from "react"
-import styles from "styles/Notion/notion.module.css"
-
 interface Props {
     page: NotionContent
 }
@@ -20,16 +18,18 @@ const CheckIcon = () => {
 const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement): ReactElement => {
     switch (type) {
         case "heading_1":
-            return <h1 className="!mb-0 pb-4">{children}</h1>
+            return <h2 className="!mb-0 pb-4">{children}</h2>
         case "heading_2":
-            return <h2 className="!mt-0 pb-2">{children}</h2>
+            return <h3 className="!mt-0 pb-2">{children}</h3>
+        case "heading_3":
+            return <h4 className="!mt-0 pb-2">{children}</h4>
         case "paragraph":
             return <p>{children}</p>
         case "bulleted_list_item":
             return <li className="pl-2 !my-1">{children}</li>
         case "image":
             const type = block.type
-            return <figure className={`${styles.wide} text-center`}>
+            return <figure className={`wide text-center`}>
                 <img src={block[type]?.url} alt={block.caption?.[0].plain_text || ""} className="rounded-md" />
                 {block.caption && (
                     <figcaption>{children}</figcaption>
@@ -74,7 +74,7 @@ const NotionPageContent = ({ page }: Props) => {
 
     return (
 
-        <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none ${styles.base}`}>
+        <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none base`}>
             {page.results.map((block, i) => {
 
                 const type = block.type

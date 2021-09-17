@@ -53,7 +53,7 @@ const Posts = ({ posts }: Props) => {
                                         blurDataURL={cover?.blur}
                                         objectFit="cover"
                                     />
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-60 bg-black text-white transition duration-500 ease-in-out ">
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-60 bg-gray-900 text-white transition duration-500 ease-in-out ">
                                         <div className="flex h-full justify-center items-center text-xl font-bold">Voir</div>
                                     </div>
                                 </a>

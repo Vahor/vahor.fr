@@ -1,20 +1,30 @@
-import Posts from 'app/components/Home/Posts'
-import Brand from 'app/components/Home/Brand'
-import About from 'app/components/Home/About'
-import Contact from 'app/components/Home/Contact'
+import Posts from '@/components/Home/Posts'
+import Brand from '@/components/Home/Brand'
+import About from '@/components/Home/About'
+import Contact from '@/components/Home/Contact'
 
-import Layout from 'app/components/layouts/Layout'
+import Layout from '@/components/layouts/Layout'
 import React from 'react'
 import type { NextPageWithLayout, NotionPage } from 'types'
 import { GetStaticProps } from "next"
 import Notion from 'integrations/notion'
-import Meta from 'app/components/meta/Meta'
+import Meta from '@/components/meta/Meta'
 import { getPlaiceholder } from 'plaiceholder'
 
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts: NotionPage[] = (await Notion.databases.query({
     database_id: process.env.DATABASE_ID,
+    filter: {
+      "and": [
+        {
+          property: 'Project',
+          checkbox: {
+            equals: true,
+          },
+        }
+      ]
+    }
   }))?.results
 
 
@@ -29,17 +39,18 @@ export const getStaticProps: GetStaticProps = async () => {
         height: img.height,
       }
     }
+
+    // Remove unused properties
+    delete post.object
+    delete post.parent
+    delete post.icon
+    delete post.url
+    delete post.archived
+    delete post.url
+    delete post.last_edited_time
+    delete post.created_time
   }
 
-  // Remove unused properties
-  delete posts[0].object
-  delete posts[0].parent
-  delete posts[0].icon
-  delete posts[0].url
-  delete posts[0].archived
-  delete posts[0].url
-  delete posts[0].last_edited_time
-  delete posts[0].created_time
 
   return {
     props: {

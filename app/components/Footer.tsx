@@ -40,9 +40,9 @@ const Footer = () => {
                 </div>
 
                 <div className="max-w-xs w-full flex flex-col px-8 pb-4 space-y-4">
-                    <ExtrernalLink text="Twitter" href="/" />
+                    <ExtrernalLink text="Twitter" href="https://twitter.com/vahor_" />
                     <ExtrernalLink text="GitHub" href="https://github.com/Vahor" />
-                    <ExtrernalLink text="LinkedIn" href="/" />
+                    <ExtrernalLink text="LinkedIn" href="https://www.linkedin.com/in/nathan--david" />
                 </div>
             </div>
             <div className="flex justify-end">

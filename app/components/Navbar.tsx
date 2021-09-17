@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 const navigation = (currentPath: string): { name: string; href: string, current?: boolean }[] => {
     return [
         { name: "Accueil", href: "/", current: true },
-        { name: "Projets", href: "/projects" },
+        { name: "Blog", href: "/posts" },
         { name: "A propos", href: "/about" },
     ].map((item) => {
         item.current = "/" + currentPath.split("/")[1] === item.href
@@ -49,7 +49,7 @@ const Navbar = () => {
                     </div>
 
                     <Link href={"/contact"} >
-                        <a className="rounded-md px-4 py-2 border dark:border-gray-400 hover:bg-black dark:hover:bg-white dark:hover:text-black hover:text-white font-medium">
+                        <a className="rounded-md px-4 py-2 border dark:border-gray-400 hover:bg-gray-900 dark:hover:bg-white dark:hover:text-gray-900 hover:text-white font-medium">
                             Me contacter
                         </a>
                     </Link>

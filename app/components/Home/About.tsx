@@ -19,7 +19,7 @@ const About = ({ }: Props) => {
             </div>
             <div className="text-center md:text-left">
                 <a href="#"
-                    className="md:mx-0 bg-black px-6 py-3 text-white rounded-md hover:bg-white hover:text-black transition duration-400 border">
+                    className="md:mx-0 bg-gray-900 px-6 py-3 text-white rounded-md hover:bg-white hover:text-gray-900 transition duration-400 border">
                     Télécharger mon cv</a>
             </div>
         </section>
