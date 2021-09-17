@@ -7,7 +7,6 @@ interface Props {
 }
 
 const BlogPost = ({ post }: Props) => {
-    console.log(post.properties)
     return (
         <Link href={`/posts/${post.id}`}>
             <a className="!no-underline">

@@ -40,7 +40,7 @@ const Posts = ({ posts }: Props) => {
                     const cover = type && post.cover?.[type]
                     return (
                         <li key={post.id} className="p-2 break-inside">
-                            <Link href={`/post/${post.id}`}>
+                            <Link href={`/posts/${post.id}`}>
                                 <a
                                     className="block group relative mb-2 rounded-md cursor-pointer overflow-hidden select-none shadow pb-[56.25%]"
                                 >
