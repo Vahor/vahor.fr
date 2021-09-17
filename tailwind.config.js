@@ -2,7 +2,12 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   mode: "jit",
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './app/components/**/*.{js,ts,jsx,tsx}'],
+  purge: {
+    content: ['./pages/**/*.{js,ts,jsx,tsx}', './app/components/**/*.{js,ts,jsx,tsx}'],
+    options: {
+      variables: true,
+    }
+  },
   darkMode: false, // or 'media' or 'class'
   future: {
     removeDeprecatedGapUtilities: true,
@@ -36,5 +41,6 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/typography")],
 }

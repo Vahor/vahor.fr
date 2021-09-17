@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 const navigation = (): { name: string; href: string }[] => {
     return [
-        { name: "Projets", href: "#projects" },
-        { name: "Experiences", href: "#about" },
+        { name: "Projets", href: "/#projects" },
+        { name: "Experiences", href: "/#about" },
     ]
 }
 
