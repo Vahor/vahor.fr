@@ -17,7 +17,6 @@ type Filter = (typeof Filter)[keyof typeof Filter]
 
 const Posts = ({ posts }: Props) => {
     const [currentFilter, setCurrentFilter] = useState<Filter>(Filter.ALL)
-    console.log({ currentFilter }, Filter.ALL)
     return (
         <div className="container" id="projects">
             <div className="mb-8 px-2">

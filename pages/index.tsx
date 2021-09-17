@@ -5,10 +5,13 @@ import Layout from 'app/components/layouts/Layout'
 import React from 'react'
 import type { NextPageWithLayout } from 'types'
 import { GetStaticProps } from "next"
+import Notion from 'integrations/notion'
 
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = await (await fetch(`${process.env.SERVER_URL}/api/posts`)).json()
+  const posts = (await Notion.databases.query({
+    database_id: process.env.DATABASE_ID,
+  }))?.results
 
   return {
     props: {
