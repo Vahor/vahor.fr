@@ -38,7 +38,7 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
         case "to_do":
             return <div>
                 <label
-                    className="flex items-center font-light"
+                    className="flex items-center font-light py-1 border-b"
                 >
                     <div
                         className={`flex flex-shrink-0 items-center justify-center border rounded-md h-5 w-5 bg-white`}
