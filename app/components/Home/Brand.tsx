@@ -5,7 +5,7 @@ interface Props {
 
 const Brand = ({ }: Props) => {
     return (
-        <section id="brand" className="py-16 lg:py-24 container">
+        <section id="brand" className="pt-16 lg:pt-24 container">
             <div className="md:w-3/4 xl:w-2/3 text-center md:text-left">
                 <div>
                     <span className="text-gray-400 font-mono">{"// "} Nathan David</span>

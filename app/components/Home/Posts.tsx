@@ -18,7 +18,7 @@ type Filter = (typeof Filter)[keyof typeof Filter]
 const Posts = ({ posts }: Props) => {
     const [currentFilter, setCurrentFilter] = useState<Filter>(Filter.ALL)
     return (
-        <div className="container" id="projects">
+        <div className="container pt-16" id="projects">
             <div className="mb-8 px-2">
                 <ul className="flex space-x-4 select-none">
                     {Object.entries(Filter).map(([name, filter]) => {

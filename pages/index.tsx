@@ -1,5 +1,7 @@
 import Posts from 'app/components/Home/Posts'
 import Brand from 'app/components/Home/Brand'
+import About from 'app/components/Home/About'
+import Contact from 'app/components/Home/Contact'
 
 import Layout from 'app/components/layouts/Layout'
 import React from 'react'
@@ -53,6 +55,8 @@ const Home: NextPageWithLayout = ({ posts }: any) => {
       <Meta title="Accueil" />
       <Brand />
       <Posts posts={posts} />
+      <About />
+      <Contact />
     </>
   )
 }
