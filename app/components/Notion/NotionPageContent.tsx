@@ -20,7 +20,7 @@ const CheckIcon = () => {
 const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement): ReactElement => {
     switch (type) {
         case "heading_1":
-            return <h1 className="!mb-2">{children}</h1>
+            return <h1 className="!mb-4">{children}</h1>
         case "heading_2":
             return <h2 className="!mt-2">{children}</h2>
         case "paragraph":

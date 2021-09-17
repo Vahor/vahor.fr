@@ -9,9 +9,8 @@ interface Props {
 
 const Filter = {
     ALL: "Tous",
-    DEVBLOGS: "DevBlogs",
-    JAVA: "Java",
-    OTHER: "Autre"
+    FINISHED: "Terminés",
+    PROGRESS: "En cours"
 }
 
 type Filter = (typeof Filter)[keyof typeof Filter]

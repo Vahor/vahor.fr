@@ -1,5 +1,8 @@
 import React, { ReactNode } from "react"
+import dynamic from 'next/dynamic'
+
 import Navbar from "../Navbar"
+const Loading = dynamic(() => import("../Progress"))
 
 type Props = {
   children: ReactNode
@@ -8,6 +11,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <>
+      <Loading />
       <Navbar />
       <main>{children}</main>
     </>
@@ -15,3 +19,4 @@ const Layout = ({ children }: Props) => {
 }
 
 export default Layout
+
