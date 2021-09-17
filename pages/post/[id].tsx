@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
             post,
             content
         },
-        revalidate: 60 * 60 // every hour
+        revalidate: 5 * 60 // every 5 minutes
     }
 }
 

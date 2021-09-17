@@ -41,17 +41,19 @@ const Posts = ({ posts }: Props) => {
                     return (
                         <li key={post.id} className="p-2 break-inside">
                             <Link href={`/post/${post.id}`}>
-                                <a className="block group relative mb-2 rounded-md cursor-pointer overflow-hidden select-none shadow">
+                                <a
+                                    className="block group relative mb-2 rounded-md cursor-pointer overflow-hidden select-none shadow pb-[56.25%]"
+                                >
                                     <Image
                                         src={cover?.url || ""}
-                                        className="group-hover:scale-105 transition duration-500"
+                                        className="group-hover:scale-105 transition duration-500 rounded-md "
                                         alt={`Illustration pour ${post.properties.Name.title[0].plain_text}`}
-                                        width={cover?.width}
-                                        height={cover?.height}
                                         placeholder={"blur"}
+                                        layout="fill"
                                         blurDataURL={cover?.blur}
+                                        objectFit="cover"
                                     />
-                                    <div className="absolute inset-0 bottom-[5px] opacity-0 group-hover:opacity-60 bg-black text-white transition duration-500 ease-in-out ">
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-60 bg-black text-white transition duration-500 ease-in-out ">
                                         <div className="flex h-full justify-center items-center text-xl font-bold">Voir</div>
                                     </div>
                                 </a>
