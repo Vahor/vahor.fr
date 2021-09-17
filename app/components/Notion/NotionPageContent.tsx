@@ -20,9 +20,9 @@ const CheckIcon = () => {
 const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement): ReactElement => {
     switch (type) {
         case "heading_1":
-            return <h1 className="!mb-4">{children}</h1>
+            return <h1 className="!mb-0 pb-4">{children}</h1>
         case "heading_2":
-            return <h2 className="!mt-2">{children}</h2>
+            return <h2 className="!mt-0 pb-2">{children}</h2>
         case "paragraph":
             return <p>{children}</p>
         case "bulleted_list_item":
@@ -38,10 +38,10 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
         case "to_do":
             return <div>
                 <label
-                    className="flex items-center font-light w-max"
+                    className="flex items-center font-light"
                 >
                     <div
-                        className={`flex items-center justify-center border rounded-md h-5 w-5 bg-white`}
+                        className={`flex flex-shrink-0 items-center justify-center border rounded-md h-5 w-5 bg-white`}
                     >
                         {block.checked && CheckIcon()}
                     </div>
