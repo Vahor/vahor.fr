@@ -26,7 +26,7 @@ const Posts = ({ posts }: Props) => {
                         const isActive = currentFilter === filter
                         return <li
                             key={name}
-                            className={`${isActive ? "border-gray" : "border-transparent"} border rounded-md px-2 py-1 cursor-pointer`}
+                            className={`${isActive ? "border-gray" : "border-transparent"} border rounded-md px-3 py-1 cursor-pointer`}
                             onClick={() => setCurrentFilter(filter)}
                         >
                             <span>{filter}</span>

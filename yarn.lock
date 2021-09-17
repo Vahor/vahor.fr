@@ -2501,6 +2501,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
+next-themes@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.0.15.tgz#ab0cee69cd763b77d41211f631e108beab39bf7d"
+  integrity sha512-LTmtqYi03c4gMTJmWwVK9XkHL7h0/+XrtR970Ujvtu3s0kZNeJN24aJsi4rkZOI8i19+qq6f8j+8Duwy5jqcrQ==
+
 next@11.1.2:
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/next/-/next-11.1.2.tgz#527475787a9a362f1bc916962b0c0655cc05bc91"
@@ -3213,6 +3218,11 @@ react-dom@17.0.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.2"
+
+react-icons@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.2.0.tgz#6dda80c8a8f338ff96a1851424d63083282630d0"
+  integrity sha512-rmzEDFt+AVXRzD7zDE21gcxyBizD/3NqjbX6cmViAgdqfJ2UiLer8927/QhhrXQV7dEj/1EGuOTPp7JnLYVJKQ==
 
 react-is@17.0.2:
   version "17.0.2"

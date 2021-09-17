@@ -16,7 +16,13 @@
     "jsx": "preserve",
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo",
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "paths": {
+      "@/components/*": ["app/components/*"],
+      "@/layouts/*": ["app/layouts/*"],
+      "@/lib/*": ["integrations/*"],
+      "@/styles/*": ["styles/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts"],
   "exclude": ["node_modules"]

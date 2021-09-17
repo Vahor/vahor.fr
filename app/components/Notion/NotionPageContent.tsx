@@ -41,7 +41,7 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
                     className="flex items-center font-light py-1 border-b"
                 >
                     <div
-                        className={`flex flex-shrink-0 items-center justify-center border rounded-md h-5 w-5 bg-white`}
+                        className={`flex flex-shrink-0 items-center justify-center border rounded-md h-5 w-5 bg-white dark:bg-gray-800 dark:text-white dark:border-gray-400`}
                     >
                         {block.checked && CheckIcon()}
                     </div>
@@ -74,7 +74,7 @@ const NotionPageContent = ({ page }: Props) => {
 
     return (
 
-        <article className={`py-8 container prose lg:prose-lg max-w-none ${styles.base}`}>
+        <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none ${styles.base}`}>
             {page.results.map((block, i) => {
 
                 const type = block.type

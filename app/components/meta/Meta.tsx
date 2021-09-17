@@ -35,6 +35,8 @@ const Meta = ({
             <meta name="googlebot" content={follow} />
             <meta name="theme-color" content="#82BEF4" />
 
+            <link rel="canonical" href={BASE_URL} />
+
             {/* Open Graph / Facebook */}
             <meta property="og:type" content={contentType} />
             <meta property="og:url" content={BASE_URL} key="og:url" />
@@ -47,6 +49,7 @@ const Meta = ({
             <meta property="twitter:card" content="summary_large_image" />
             <meta property="twitter:url" content={BASE_URL} key="twitter:url" />
             <meta property="twitter:title" content={title} key="twitter:title" />
+            <meta property="twitter:site" content="@vahor_" key="twitter:site" />
             <meta property="twitter:description" content={description} key="twitter:description" />
             <meta property="twitter:image" content={imageUrl} key="twitter:image" />
         </Head>

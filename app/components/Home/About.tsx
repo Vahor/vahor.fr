@@ -14,7 +14,7 @@ const About = ({ }: Props) => {
                     <span className="text-3xl lg:text-5xl font-bold">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem </span>
                 </div>
             </div>
-            <div className="prose pb-8">
+            <div className="prose dark:prose-dark pb-8">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime consectetur id accusamus reiciendis minus saepe? Excepturi nam deserunt tempora, sunt corporis modi adipisci facilis tempore esse! Explicabo fuga eius incidunt!
             </div>
             <div className="text-center md:text-left">

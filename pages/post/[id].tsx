@@ -51,7 +51,7 @@ const PostPage: NextPageWithLayout<Props> = ({ post, content }) => {
         return (
             <>
                 <Meta title={"Chargement"} contentType={"article"} />
-                <article className={`py-8 container prose lg:prose-lg max-w-none ${styles.base}`}>
+                <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none ${styles.base}`}>
                     <h1 className="bg-gray-400 pb-8 skeleton" />
                     <span className="bg-gray-400 pb-8 skeleton mb-1" />
                     <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />

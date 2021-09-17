@@ -1,16 +1,22 @@
 import React from "react"
 import Link from 'next/link'
+import { useRouter } from "next/router"
 
-const navigation = (): { name: string; href: string }[] => {
+const navigation = (currentPath: string): { name: string; href: string, current?: boolean }[] => {
     return [
-        { name: "Projets", href: "/#projects" },
-        { name: "A propos", href: "/#about" },
-    ]
+        { name: "Accueil", href: "/", current: true },
+        { name: "Projets", href: "/projects" },
+        { name: "A propos", href: "/about" },
+    ].map((item) => {
+        item.current = "/" + currentPath.split("/")[1] === item.href
+        return item
+    })
 }
 
 const Navbar = () => {
+    const { pathname } = useRouter()
     return (
-        <header className="bg-white border-b ">
+        <header className="bg-white dark:bg-black border-b dark:border-gray-800">
 
             <div className="container flex justify-between items-center h-16 lg:text-lg">
 
@@ -31,10 +37,10 @@ const Navbar = () => {
                 <nav className="flex space-x-3 lg:space-x-6 items-center font-light">
                     <div className="hidden md:flex space-x-3 lg:space-x-6 items-center">
 
-                        {navigation().map((item) => (
+                        {navigation(pathname).map((item) => (
                             <Link href={item.href} key={item.name}>
                                 <a
-                                    className={`hover:text-primary`}
+                                    className={`${item.current ? "text-gray-800 dark:text-gray-200" : "text-gray-400 dark:text-gray-500"} hover:text-gray-600 transition`}
                                 >
                                     {item.name}
                                 </a>
@@ -42,8 +48,8 @@ const Navbar = () => {
                         ))}
                     </div>
 
-                    <Link href={"#contact"} >
-                        <a className="rounded-md px-4 py-2 border hover:bg-black hover:text-white font-medium">
+                    <Link href={"/contact"} >
+                        <a className="rounded-md px-4 py-2 border dark:border-gray-400 hover:bg-black dark:hover:bg-white dark:hover:text-black hover:text-white font-medium">
                             Me contacter
                         </a>
                     </Link>

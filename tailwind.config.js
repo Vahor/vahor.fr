@@ -1,4 +1,4 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+const { fontFamily, colors } = require('tailwindcss/defaultTheme')
 
 module.exports = {
   mode: "jit",
@@ -8,7 +8,7 @@ module.exports = {
       variables: true,
     }
   },
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class',
   future: {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
@@ -16,9 +16,9 @@ module.exports = {
     standardFontWeights: true
   },
   theme: {
+
     colors: {
-      primary: '#82BEF4',
-      ...defaultTheme.colors
+      ...colors
     },
     container: {
       center: true,
@@ -36,10 +36,30 @@ module.exports = {
         xl: "1280px"
       }
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter', ...fontFamily.sans]
+      },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.gray.700'),
+          }
+        },
+        dark: {
+          css: {
+            color: theme('colors.gray.300'),
+            'h1,h2,h3,h4': {
+              color: theme('colors.gray.100')
+            },
+          }
+        }
+      })
+    },
   },
   variants: {
     extend: {},
+    typography: ['dark']
   },
   plugins: [
     require("@tailwindcss/typography")],
