@@ -1,10 +1,16 @@
+import Posts from 'app/components/Home/Posts'
+import Brand from 'app/components/Home/Brand'
+
 import Layout from 'app/components/layouts/Layout'
 import React from 'react'
 import type { NextPageWithLayout } from 'types'
 
 const Home: NextPageWithLayout = () => {
   return (
-    <p> yep</p>
+    <>
+      <Brand />
+      <Posts />
+    </>
   )
 }
 
