@@ -1,4 +1,4 @@
-import { NotionBlockType, NotionContent, TextElement, Annotations, NotionBlockContent, NotionBlockImageContent } from "./types";
+import { NotionBlockType, NotionContent, TextElement, Annotations } from "./types";
 import { Fragment, ReactElement } from "react"
 import styles from "styles/Notion/notion.module.css"
 
@@ -71,10 +71,6 @@ const BlockText = (text: TextElement) => {
 
 
 const NotionPageContent = ({ page }: Props) => {
-
-    if (!page) {
-        return <div>Chargement</div>
-    }
 
     return (
 
