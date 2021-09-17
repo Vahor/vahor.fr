@@ -17,16 +17,27 @@ export const getStaticProps: GetStaticProps = async () => {
 
 
   for (let post of posts.values()) {
-    if (post.cover?.external.url) {
-      const { base64, img } = await getPlaiceholder(post.cover.external.url, { size: 10 })
-      post.cover.external = {
-        url: post.cover.external.url,
+    const type = post.cover?.type
+    if (type && post.cover?.[type]) {
+      const { base64, img } = await getPlaiceholder(post.cover[type].url, { size: 10 })
+      post.cover[type] = {
+        url: post.cover[type].url,
         blur: base64,
         width: img.width,
         height: img.height,
       }
     }
   }
+
+  // Remove unused properties
+  delete posts[0].object
+  delete posts[0].parent
+  delete posts[0].icon
+  delete posts[0].url
+  delete posts[0].archived
+  delete posts[0].url
+  delete posts[0].last_edited_time
+  delete posts[0].created_time
 
   return {
     props: {

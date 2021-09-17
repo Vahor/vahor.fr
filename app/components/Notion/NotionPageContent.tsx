@@ -28,8 +28,9 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
         case "bulleted_list_item":
             return <li className="pl-2 !my-1">{children}</li>
         case "image":
+            const type = block.type
             return <figure className={`${styles.wide} text-center`}>
-                <img src={block.external?.url} alt={block.caption?.[0].plain_text || ""} className="rounded-md" />
+                <img src={block[type]?.url} alt={block.caption?.[0].plain_text || ""} className="rounded-md" />
                 {block.caption && (
                     <figcaption>{children}</figcaption>
                 )}
@@ -37,10 +38,10 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
         case "to_do":
             return <div>
                 <label
-                    className="flex items-center font-light group cursor-pointer w-max"
+                    className="flex items-center font-light w-max"
                 >
                     <div
-                        className={`flex items-center justify-center border transition-colors duration-100 rounded-md h-5 w-5 bg-white`}
+                        className={`flex items-center justify-center border rounded-md h-5 w-5 bg-white`}
                     >
                         {block.checked && CheckIcon()}
                     </div>
@@ -81,11 +82,11 @@ const NotionPageContent = ({ page }: Props) => {
             {page.results.map((block, i) => {
 
                 const type = block.type
-                return <Fragment key={i}>
+                return <Fragment key={block.id}>
                     {BlockWrapper(type, block?.[type], (
                         <>
-                            {block?.[type].text?.map((text: TextElement) => {
-                                return <>{BlockText(text)}</>
+                            {block?.[type].text?.map((text: TextElement, i) => {
+                                return <Fragment key={i}>{BlockText(text)}</Fragment>
                             })}
                         </>
                     )

@@ -36,19 +36,20 @@ const Posts = ({ posts }: Props) => {
             </div>
             <ul className="md:masonry-2-col lg:masonry-3-col box-border mx-auto before:box-inherit after:box-inherit">
                 {posts.filter(post => currentFilter === Filter.ALL || post.properties.Tags.multi_select.some(tag => tag.name === currentFilter)).map(post => {
-
+                    const type = post.cover?.type
+                    const cover = type && post.cover?.[type]
                     return (
                         <li key={post.id} className="p-2 break-inside">
                             <Link href={`/post/${post.id}`}>
-                                <a className="block group relative mb-2 rounded-md cursor-pointer overflow-hidden select-none">
+                                <a className="block group relative mb-2 rounded-md cursor-pointer overflow-hidden select-none shadow">
                                     <Image
-                                        src={post.cover?.external.url || ""}
+                                        src={cover?.url || ""}
                                         className="group-hover:scale-105 transition duration-500"
                                         alt={`Illustration pour ${post.properties.Name.title[0].plain_text}`}
-                                        width={post.cover?.external.width}
-                                        height={post.cover?.external.height}
+                                        width={cover?.width}
+                                        height={cover?.height}
                                         placeholder={"blur"}
-                                        blurDataURL={post.cover?.external.blur}
+                                        blurDataURL={cover?.blur}
                                     />
                                     <div className="absolute inset-0 bottom-[5px] opacity-0 group-hover:opacity-60 bg-black text-white transition duration-500 ease-in-out ">
                                         <div className="flex h-full justify-center items-center text-xl font-bold">Voir</div>

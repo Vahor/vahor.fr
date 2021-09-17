@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
-export type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout<T = {}> = NextPage<T> & {
     getLayout?: (page: ReactElement) => ReactNode
 }
 
@@ -10,16 +10,34 @@ export type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
 }
 
+export enum NotionCoverType {
+    file = "file",
+    external = "external"
+}
+
+export type BlurImage = {
+    url: string
+    width: number
+    height: number
+    blur: string
+}
+
 export type NotionPage = {
+    object?: string
     id: string
-    created_time: Date
+    created_time?: Date
+    last_edited_time?: Date
+    parent?: {
+        type: string
+        [id: string]: any
+    }
+    icon?: any
+    archived?: boolean
+    url?: string
     cover: null | {
-        external: {
-            url: string
-            width: number
-            height: number
-            blur: string
-        }
+        type: NotionCoverType
+    } & {
+        [type in NotionCoverType]: BlurImage;
     }
     properties: {
         Tags: {
