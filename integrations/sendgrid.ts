@@ -9,6 +9,7 @@ export const sendEmail = async (mail: {
     text: string,
     name: string
 }) => {
+    console.log(mail)
     await sgMail
         .send({
             ...mail,
