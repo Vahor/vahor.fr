@@ -32,6 +32,7 @@ const ContactPage: NextPageWithLayout<Props> = ({ }) => {
                         schema={ContactMessage}
                         submitText="Envoyer"
                         onSubmit={async (values) => {
+                            console.log(values)
                             fetch('/api/send-email', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -46,7 +47,7 @@ const ContactPage: NextPageWithLayout<Props> = ({ }) => {
                         <LabeledTextField name="subject" label="Sujet" placeholder="Sujet" />
                         <LabeledTextField name="name" label="Nom" placeholder="Votre nom" />
                         <LabeledTextField name="from" label="Votre email" placeholder="nom@email.fr" />
-                        <LabeledTextArea name="html" label="Message" placeholder="Contenu du message" />
+                        <LabeledTextArea name="text" label="Message" placeholder="Contenu du message" />
 
                     </Form>
                 </div>
