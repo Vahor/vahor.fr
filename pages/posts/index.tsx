@@ -66,7 +66,7 @@ const PostsPage: NextPageWithLayout<Props> = ({ posts }) => {
                         type="text"
                         onChange={(e) => setSearchValue(e.target.value)}
                         placeholder="Chercher un article"
-                        className="px-4 py-2 border border-gray-300 dark:border-gray-900 w-full rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                        className="px-4 py-2 border border-gray-300 dark:border-gray-900 w-full rounded-md text-gray-900 dark:text-gray-100"
                     />
                 </div>
 
