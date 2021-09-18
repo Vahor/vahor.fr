@@ -1,30 +1,29 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import mailer from "@/lib/mailer"
 
-import * as sgMail from "@sendgrid/mail"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
 
-        if (!process.env.SENDGRID_API_KEY)
+        if (!process.env.MAILER_SMTP_HOST)
             return res.status(502).end();
 
         const { subject, text, name, from } = req.body;
 
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+        // A database would do the same thing but why not use email :)
+        // At least I have notification when someone send a message
         const content = {
             html: text?.replace(/\r\n/g, '<br>') || "",
             to: "me@vahor.fr",
+            from: "me@vahor.fr",
             subject: `[Vahor.fr] - ${from} (${name}) - ${subject}`,
             text: text,
-            from: from,
         }
 
-        return await sgMail.send(content).then(() => {
+
+        return await mailer.sendMail(content).then(() => {
             return res.status(200).end();
         }).catch(err => {
-            console.log(err)
-            console.log(err.response)
-
             return res.status(err.code || 500).end();
         });
     }
