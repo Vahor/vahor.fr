@@ -17,7 +17,7 @@ module.exports = {
           {
             key: 'Cache-Control',
             value:
-              'public, max-age=2678400, s-maxage=2678400, stale-while-revalidate=2678400',
+              'public, max-age=31536000, s-maxage=31536000',
           },
         ],
       },
@@ -26,7 +26,7 @@ module.exports = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=2678400, s-maxage=2678400, stale-while-revalidate=2678400',
+            value: 'public, max-age=315576000, s-maxage=315576000',
           },
         ],
       },
