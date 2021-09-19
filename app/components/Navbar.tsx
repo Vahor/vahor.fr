@@ -1,6 +1,7 @@
 import React from "react"
 import Link from 'next/link'
 import { useRouter } from "next/router"
+import { useTheme } from 'next-themes';
 
 const navigation = (currentPath: string): { name: string; href: string, current?: boolean }[] => {
     return [
@@ -15,6 +16,8 @@ const navigation = (currentPath: string): { name: string; href: string, current?
 
 const Navbar = () => {
     const { pathname } = useRouter()
+    const { resolvedTheme } = useTheme();
+
     return (
         <header className="bg-white-light dark:bg-black-dark border-b dark:border-gray-800">
 
@@ -27,7 +30,7 @@ const Navbar = () => {
                                 className={"block h-8 w-auto"}
                                 height={32}
                                 width={32}
-                                src="https://static.vahor.fr/vahor/logo.png"
+                                src={`https://static.vahor.fr/vahor/${resolvedTheme == "light" ? "logo.png" : "logo-dark.png"}`}
                                 alt="logo"
                             />
                         </a>
