@@ -48,8 +48,8 @@ const Posts = ({ posts, tags }: Props) => {
 
     return (
         <div className="container pt-16" id="projects">
-            <div className="mb-8 px-2 flex justify-between">
-                <ul className="flex space-x-4 select-none">
+            <div className="mb-8 px-2 flex justify-between items-center">
+                <ul className="flex space-x-2 md:space-x-4 select-none">
                     {Object.entries(Status).map(([name, status]) => {
 
                         const isActive = currentStatus === status
@@ -70,7 +70,7 @@ const Posts = ({ posts, tags }: Props) => {
                             <span>Filtrer</span>
                         </div>
                         {isOpen && (
-                            <div className="absolute -left-32 top-8 bg-white-light dark:bg-black w-max max-w-xl rounded-md shadow border border-gray-300 dark:border-gray-700">
+                            <div className="absolute -left-40 top-8 bg-white-light dark:bg-black w-max max-w-xl rounded-md shadow border border-gray-300 dark:border-gray-700">
                                 <div className="px-2">
                                     <input
                                         aria-label="Chercher un tag"

@@ -52,8 +52,8 @@ const PostsPage: NextPageWithLayout<Props> = ({ posts }) => {
         <>
             <Meta title="Blog" />
 
-            <div className={`py-8 container prose dark:prose-dark max-w-none base`}>
-                <h1 className="font-bold text-3xl md:text-5xl mb-4">
+            <div className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none base`}>
+                <h1 className="font-bold text-3xl md:text-5xl !mb-4">
                     Blog
                 </h1>
                 <p className="mb-4">
@@ -70,9 +70,9 @@ const PostsPage: NextPageWithLayout<Props> = ({ posts }) => {
                     />
                 </div>
 
-                <h3 className="font-bold text-2xl md:text-4xl mb-4 mt-8 text-black dark:text-white">
+                <h2 className="font-bold mb-6 mt-8 text-black dark:text-white">
                     Tous les articles
-                </h3>
+                </h2>
                 {!filteredBlogPosts.length &&
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
                         Aucun article trouvé.
