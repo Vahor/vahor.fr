@@ -50,6 +50,7 @@ export const getStaticProps: GetStaticProps = async () => {
     delete post.url
     delete post.last_edited_time
     delete post.created_time
+    delete post.properties.Summary
   }
 
 

@@ -17,9 +17,9 @@ export enum NotionCoverType {
 
 export type BlurImage = {
     url: string
-    width: number
-    height: number
-    blur: string
+    width: number // Custom
+    height: number // Custom
+    blur: string // Custom
 }
 
 export type NotionPage = {
@@ -57,7 +57,7 @@ export type NotionPage = {
                 plain_text: string
             }[]
         }
-        Summary: {
+        Summary?: {
             rich_text: {
                 plain_text: string
             }[]

@@ -12,6 +12,7 @@ export enum NotionBlockType {
     to_do = "to_do",
     toggle = "toggle",
     image = "image",
+    bookmark = "bookmark",
     unsupported = "unsupported"
 }
 
@@ -25,17 +26,32 @@ export type NotionBlock = {
     archived: boolean;
     type: NotionBlockType;
     image?: NotionBlockImageContent,
+    bookmark?: NotionBlockBookmarkContent,
 };
 
 export interface NotionBlockContent {
     text: TextElement[];
 }
 
+export interface NotionBlockBookmarkContent {
+    url: string;
+    meta: { // Custom
+        title: string
+        description: string
+        image: CustomImageContent
+    }
+}
+
+export interface CustomImageContent {
+    url: string
+    width: number
+    height: number
+    blur: string
+}
+
 export interface NotionBlockImageContent {
     caption?: TextElement[];
-    external: {
-        url: string;
-    }
+    external: CustomImageContent
 }
 export interface NotionBlockTodoContent extends NotionBlockContent {
     checked: boolean

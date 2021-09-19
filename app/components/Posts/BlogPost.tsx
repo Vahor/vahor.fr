@@ -16,7 +16,7 @@ const BlogPost = ({ post }: Props) => {
                             {post.properties.Name.title[0].plain_text}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400">
-                            {post.properties.Summary.rich_text[0].plain_text}
+                            {post.properties.Summary?.rich_text[0].plain_text}
                         </p>
                     </div>
                 </div>

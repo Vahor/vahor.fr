@@ -1,5 +1,6 @@
 import { NotionBlockType, NotionContent, TextElement, Annotations } from "./types";
 import { Fragment, ReactElement } from "react"
+import Image from "next/image"
 interface Props {
     page: NotionContent
 }
@@ -48,6 +49,27 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
                     <span className={`ml-2 mr-1 ${block.checked ? "line-through" : ""}`}>{children}</span>
                 </label>
             </div>
+        case "bookmark":
+            return <a href={block.url} className="border rounded-sm !no-underline group relative">
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-gray-900  transition duration-500 ease-in-out " />
+                <div className="grid grid-cols-3 h-32">
+                    <div className="flex-col col-span-2 space-y-2 text-sm p-4">
+                        <div className="text-md">{block.meta.title}</div>
+                        <div className="font-light">{block.meta.description}</div>
+                        <div>{block.url}</div>
+                    </div>
+                    <div className="relative block h-32 w-full">
+                        <Image
+                            src={block.meta.image.url}
+                            alt={`Illustration pour ${block.meta.title}`}
+                            placeholder={"blur"}
+                            layout="fill"
+                            blurDataURL={block.meta.image.blur}
+                            objectFit="cover"
+                        />
+                    </div>
+                </div>
+            </a>
     }
 
     return <div>{children}</div>

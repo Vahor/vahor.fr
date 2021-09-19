@@ -6,6 +6,8 @@ import Notion from 'integrations/notion'
 import Meta from 'app/components/meta/Meta'
 import NotionPageContent from 'app/components/Notion/NotionPageContent'
 import { NotionContent } from 'app/components/Notion/types'
+import { extractMetaTags } from '@/lib/scraper'
+import { getPlaiceholder } from 'plaiceholder'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     return { paths: [], fallback: true }
@@ -18,10 +20,32 @@ export const getStaticProps: GetStaticProps = async (context) => {
         page_id: id,
     })
 
-    const content = await Notion.blocks.children.list({
+    let content: NotionContent = await Notion.blocks.children.list({
         block_id: id,
         page_size: 50, // max 100
     });
+
+    content.results = await Promise.all(Object.values(content?.results).map(async (block) => {
+        if (block.type === "bookmark") {
+            const meta = await extractMetaTags(block.bookmark.url)
+            const { base64, img } = await getPlaiceholder(meta.image, { size: 10 })
+
+            block["bookmark"].meta = {
+                title: meta.title,
+                description: meta.description,
+                image: {
+                    url: meta.image,
+                    blur: base64,
+                    width: img.width,
+                    height: img.height
+                }
+            }
+            console.log(block.bookmark)
+        }
+
+        return block
+    }))
+
 
 
     delete post.parent
@@ -95,7 +119,7 @@ const PostPage: NextPageWithLayout<Props> = ({ post, content }) => {
                     {post.properties.Name.title[0].plain_text}
                 </h1>
                 <p className="pb-12 border-b dark:border-gray-800">
-                    {post.properties.Summary.rich_text[0].plain_text}
+                    {post.properties.Summary?.rich_text[0].plain_text}
                 </p>
             </div>
 
