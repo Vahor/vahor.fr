@@ -12,6 +12,8 @@
     "@headlessui/react": "^1.4.1",
     "@notionhq/client": "^0.3.2",
     "@tailwindcss/typography": "^0.4.1",
+    "@xmldom/xmldom": "^0.7.5",
+    "dayjs": "^1.10.7",
     "final-form": "^4.20.2",
     "next": "11.1.2",
     "next-themes": "^0.0.15",
@@ -27,7 +29,6 @@
     "sharp": "^0.29.1",
     "sitemap": "^7.0.0",
     "tailwindcss": "2.2.15",
-    "@xmldom/xmldom": "^0.7.5",
     "xpath": "^0.0.32",
     "zod": "^3.8.2"
   },
