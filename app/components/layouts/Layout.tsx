@@ -14,7 +14,7 @@ const Layout = ({ children }: Props) => {
     <>
       <Loading />
       <Navbar />
-      <main>{children}</main>
+      <main className="bg-white dark:bg-black">{children}</main>
       <Footer />
     </>
   )

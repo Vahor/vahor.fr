@@ -9,7 +9,7 @@ const addPostToSitemap = async (smStream: SitemapStream) => {
         database_id: process.env.DATABASE_ID
     }))?.results
 
-    // Create each URL row
+    // Add each posts in sitemap
     posts.forEach((post) => {
         const type = post.cover?.type
         const cover = type && post.cover?.[type]

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.1",
     "@notionhq/client": "^0.3.2",
     "@tailwindcss/typography": "^0.4.1",
     "final-form": "^4.20.2",

@@ -18,7 +18,17 @@ module.exports = {
   theme: {
 
     colors: {
-      ...colors
+      ...colors,
+      white: {
+        light: "#FFFFFF",
+        DEFAULT: "#fafafa",
+        dark: "#EAEAEA"
+      },
+      black: {
+        light: "#3B3B3B",
+        DEFAULT: "#121212",
+        dark: "#000000"
+      },
     },
     container: {
       center: true,

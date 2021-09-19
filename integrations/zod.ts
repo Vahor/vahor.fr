@@ -9,6 +9,10 @@ export const errorMap: z.ZodErrorMap = (error, ctx) => {
                 return { message: "Requis" }
             }
             break
+        case z.ZodIssueCode.too_small:
+            if (error.type === "string")
+                return { message: `Doit faire au moins ${error.minimum} caractères` }
+            break
         case z.ZodIssueCode.too_big:
             if (error.type === "string")
                 return { message: `Doit faire au maximum ${error.maximum} caractères` }

@@ -16,7 +16,7 @@ const navigation = (currentPath: string): { name: string; href: string, current?
 const Navbar = () => {
     const { pathname } = useRouter()
     return (
-        <header className="bg-white dark:bg-black border-b dark:border-gray-800">
+        <header className="bg-white-light dark:bg-black-dark border-b dark:border-gray-800">
 
             <div className="container flex justify-between items-center h-16 lg:text-lg">
 
@@ -49,7 +49,10 @@ const Navbar = () => {
                     </div>
 
                     <Link href={"/contact"} >
-                        <a className="rounded-md px-4 py-2 border dark:border-gray-400 hover:bg-gray-900 dark:hover:bg-white dark:hover:text-gray-900 hover:text-white font-medium">
+                        <a className={`${pathname === "/contact" ?
+                            " bg-white-light text-black dark:bg-white dark:text-black" :
+                            "bg-black text-white-light hover:bg-white-light hover:text-black dark:hover:bg-white "}
+                         rounded-md px-4 py-2 border font-medium transition-colors duration-200 border-gray-800 `}>
                             Me contacter
                         </a>
                     </Link>

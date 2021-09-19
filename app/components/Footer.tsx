@@ -24,14 +24,22 @@ const ExtrernalLink = ({ text, href }: { text: string; href: string }) => {
     )
 }
 
+const ThemeSelectorButton = ({ theme, children }: { theme: "light" | "dark" | "system", children: any }) => {
+    const { theme: currentTheme, setTheme } = useTheme();
+    return <div
+        className={`flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-white px-2 py-1 rounded-md ${currentTheme === theme ? "bg-white-dark dark:bg-black-light" : ""}`}
+        onClick={() => setTheme(theme)}>
+        {children}
+    </div>
+}
+
 const Footer = () => {
     const [mounted, setMounted] = useState(false);
-    const { theme, setTheme } = useTheme();
 
     useEffect(() => setMounted(true), []);
 
     return (
-        <footer className="bg-white dark:bg-black border-t dark:border-gray-800 p-8">
+        <footer className="bg-white-light dark:bg-black-dark border-t dark:border-gray-800 p-8">
             <div className="flex md:max-w-lg justify-center mx-auto">
                 <div className="max-w-xs w-full flex flex-col px-8 pb-4 space-y-4">
                     <FooterLink text="Accueil" href="/" />
@@ -48,25 +56,19 @@ const Footer = () => {
             <div className="flex justify-end">
 
                 {mounted && (
-                    <div className="rounded-md flex p-1 bg-gray-200 dark:bg-gray-800 w-max space-x-2 text-sm">
-                        <div
-                            className={`flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-white px-1 py-1 rounded-md ${theme === "light" ? "bg-white dark:bg-gray-600" : ""}`}
-                            onClick={() => setTheme("light")}>
+                    <div className="rounded-md flex p-1 border border-gray-300 dark:border-gray-800 bg-white-light dark:bg-black w-max space-x-2 text-sm">
+                        <ThemeSelectorButton theme="light">
                             <FiSun />
                             <span>Light</span>
-                        </div>
-                        <div
-                            className={`flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-white px-1 py-1 rounded-md ${theme === "dark" ? "bg-white dark:bg-gray-600" : ""}`}
-                            onClick={() => setTheme("dark")}>
+                        </ThemeSelectorButton>
+                        <ThemeSelectorButton theme="dark">
                             <FiMoon />
                             <span>Dark</span>
-                        </div>
-                        <div
-                            className={`flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-white px-1 py-1 rounded-md ${theme === "system" ? "bg-white dark:bg-gray-600" : ""}`}
-                            onClick={() => setTheme("system")}>
+                        </ThemeSelectorButton>
+                        <ThemeSelectorButton theme="system">
                             <FiMonitor />
                             <span>System</span>
-                        </div>
+                        </ThemeSelectorButton>
                     </div>
                 )}
 
