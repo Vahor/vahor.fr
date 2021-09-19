@@ -1,5 +1,5 @@
 import * as xpath from "xpath";
-import { DOMParser } from "xmldom"
+import { DOMParser } from '@xmldom/xmldom'
 
 type MetaTags = {
     title: string;
