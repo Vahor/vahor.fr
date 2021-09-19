@@ -75,7 +75,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
         res.end()
     } catch (e) {
         console.log(e)
-        res.write(JSON.stringify(e))
         res.end()
     }
 
