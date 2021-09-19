@@ -40,6 +40,12 @@ export type NotionPage = {
         [type in NotionCoverType]: BlurImage;
     }
     properties: {
+        Date: {
+            date: {
+                start: string
+                end: string
+            }
+        }
         Tags: {
             multi_select: {
                 name: string
