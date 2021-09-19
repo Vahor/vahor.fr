@@ -10,6 +10,7 @@ import { GetStaticProps } from "next"
 import Notion from 'integrations/notion'
 import Meta from '@/components/meta/Meta'
 import { getPlaiceholder } from 'plaiceholder'
+import OrganizationMeta from '@/components/meta/OrganizationMeta'
 
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -64,6 +65,7 @@ const Home: NextPageWithLayout = ({ posts }: any) => {
   return (
     <>
       <Meta title="Accueil" />
+      <OrganizationMeta />
       <Brand />
       <Posts posts={posts} />
       <About />

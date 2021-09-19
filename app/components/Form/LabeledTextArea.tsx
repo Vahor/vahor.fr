@@ -57,8 +57,8 @@ export const LabeledTextArea = forwardRef<HTMLTextAreaElement, Props>(
                     <TextareaAutosize
                         minRows={10}
                         id={name}
-                        className={`${showError ? "border-red-400" : ""}
-             shadow appearance-none border border-gray-300 dark:border-gray-900 rounded w-full py-2 px-3 text-gray-900 dark:text-gray-100 focus:shadow-outline`}
+                        className={`${showError ? "border-red-400" : "border-gray-300 dark:border-gray-900"}
+             shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 dark:text-gray-100 focus:shadow-outline`}
                         {...input}
                         onChange={(e) => {
                             input.onChange(e)
