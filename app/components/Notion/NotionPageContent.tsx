@@ -50,15 +50,15 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
                 </label>
             </div>
         case "bookmark":
-            return <a href={block.url} className="border rounded-sm !no-underline group relative">
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-gray-900  transition duration-500 ease-in-out " />
+            return <a href={block.url} className="my-2 border rounded-sm !no-underline group relative dark:border-gray-800 bg-white-light dark:bg-black-dark dark:text-white">
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-black dark:bg-white-light transition duration-500 ease-in-out " />
                 <div className="grid grid-cols-3 h-32">
                     <div className="flex-col col-span-2 space-y-2 text-sm p-4">
                         <div className="text-md">{block.meta.title}</div>
                         <div className="font-light">{block.meta.description}</div>
                         <div>{block.url}</div>
                     </div>
-                    <div className="relative block h-32 w-full">
+                    <div className="relative block h-32 w-full ">
                         <Image
                             src={block.meta.image.url}
                             alt={`Illustration pour ${block.meta.title}`}
