@@ -53,12 +53,12 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
             return <a href={block.url} className="my-2 border rounded-sm !no-underline group relative dark:border-gray-800 bg-white-light dark:bg-black-dark dark:text-white">
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-black dark:bg-white-light transition duration-500 ease-in-out " />
                 <div className="grid grid-cols-3 h-32">
-                    <div className="flex-col col-span-2 space-y-2 text-sm p-4">
+                    <div className="flex flex-col justify-between col-span-3 md:col-span-2 text-sm p-4">
                         <div className="text-md">{block.meta.title}</div>
-                        <div className="font-light">{block.meta.description}</div>
-                        <div>{block.url}</div>
+                        <div className="font-light break-words overflow-hidden max-h-[3.5em]">{block.meta.description}</div>
+                        <div className="">{block.url}</div>
                     </div>
-                    <div className="relative block h-32 w-full ">
+                    <div className="relative h-32 w-full hidden md:block">
                         <Image
                             src={block.meta.image.url}
                             alt={`Illustration pour ${block.meta.title}`}
@@ -93,6 +93,7 @@ const BlockText = (text: TextElement) => {
 
 
 const NotionPageContent = ({ page }: Props) => {
+    console.log({ page })
 
     return (
 

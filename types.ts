@@ -40,6 +40,12 @@ export type NotionPage = {
         [type in NotionCoverType]: BlurImage;
     }
     properties: {
+        Status: {
+            select: {
+                name: string
+                color: string
+            }
+        }
         Date: {
             date: {
                 start: string

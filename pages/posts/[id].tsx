@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
             block["bookmark"].meta = {
                 title: meta.title,
-                description: meta.description,
+                description: meta.description.substring(0, 100),
                 image: {
                     url: meta.image,
                     blur: base64,

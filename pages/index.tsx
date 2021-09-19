@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }))?.results
 
 
+  const tags: string[] = []
   for (let post of posts.values()) {
     const type = post.cover?.type
     if (type && post.cover?.[type]) {
@@ -40,6 +41,10 @@ export const getStaticProps: GetStaticProps = async () => {
         height: img.height,
       }
     }
+
+    post.properties.Tags.multi_select.forEach(tag => {
+      if (tags.indexOf(tag.name) === -1) tags.push(tag.name)
+    })
 
     // Remove unused properties
     delete post.object
@@ -53,22 +58,31 @@ export const getStaticProps: GetStaticProps = async () => {
     delete post.properties.Summary
   }
 
+  // Sort
+  tags.sort();
+
+  // "Autre" at the end
+  const i = tags.indexOf("Autre")
+  tags.splice(i, 1);
+  tags.push("Autre")
+
 
   return {
     props: {
-      posts
+      posts,
+      tags
     },
     revalidate: 5 * 60 // every 5 minutes
   }
 }
 
-const Home: NextPageWithLayout = ({ posts }: any) => {
+const Home: NextPageWithLayout = ({ posts, tags }: any) => {
   return (
     <>
       <Meta title="Accueil" />
       <OrganizationMeta />
       <Brand />
-      <Posts posts={posts} />
+      <Posts posts={posts} tags={tags} />
       <About />
       <Contact />
     </>

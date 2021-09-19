@@ -40,6 +40,7 @@ const Navbar = () => {
                                     alt="logo"
                                 />
                             )}
+
                         </a>
                     </Link>
                 </div>
