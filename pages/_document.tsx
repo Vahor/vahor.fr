@@ -8,7 +8,7 @@ class MyDocument extends Document {
                 <Head >
                     <link
                         rel="preload"
-                        href="/fonts/inter.var.woff2"
+                        href="/fonts/Inter.var.woff2"
                         as="font"
                         type="font/woff2"
                         crossOrigin="anonymous"
@@ -26,6 +26,7 @@ class MyDocument extends Document {
                                 gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
                                 page_path: window.location.pathname,
                                 });
+                                console.log('id :', '${process.env.GOOGLE_ANALYTICS_ID}')
                             `,
                         }}
                     />
