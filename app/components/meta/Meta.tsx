@@ -14,7 +14,7 @@ interface MetaProps {
 
 const Meta = ({
     title,
-    description = "Ut auctor pulvinar lectus ac bibendum. Aenean bibendum tristique sem quis augue.",
+    description = "Salut ! Mon nom est Nathan, je suis un développeur basé sur Metz. Sur ce site je partage des articles à propos de mes expériences, projets et autres.",
     imageUrl = "https://static.vahor.fr/vahor/logo.png",
     follow = "index,follow",
     contentType = "website"

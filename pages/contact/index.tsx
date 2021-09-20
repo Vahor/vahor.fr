@@ -75,7 +75,7 @@ const ContactPage: NextPageWithLayout<Props> = ({ }) => {
                     <span>
                         Écrivez-moi sur <a
                             className="text-gray-500 dark:text-gray-400"
-                            href="mailto:me@vahor.fr"
+                            href="mailto:Nathan David <me@vahor.fr>"
                         >me@vahor.fr</a> ou utilisez le formulaire.
                     </span>
                 </div>

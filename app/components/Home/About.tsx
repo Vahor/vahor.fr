@@ -8,7 +8,7 @@ const About = ({ }: Props) => {
         <section id="about" className="py-16 lg:py-24 container">
             <div className="pb-8 md:w-3/4 xl:w-2/3 text-center md:text-left">
                 <div>
-                    <span className="text-gray-400 font-mono">{"// "} En savoir plus sur moi</span>
+                    <span className="text-gray-400 font-mono italic">{"// "} En savoir plus sur moi</span>
                 </div>
                 <div>
                     <span className="text-3xl lg:text-5xl font-bold">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem </span>
