@@ -74,32 +74,34 @@ const PostPage: NextPageWithLayout<Props> = ({ post, content }) => {
         return (
             <>
                 <Meta title={"Chargement"} contentType={"article"} />
+
                 <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none base`}>
-                    <h1 className="bg-gray-400 pb-8 skeleton" />
-                    <span className="bg-gray-400 pb-8 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-4/5 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 skeleton mb-12" />
+                    <h1 className="pb-16 skeleton !mb-4" />
+                    <p className="pb-24 mb-12 skeleton" />
+                    <div className="border-b dark:border-gray-800" />
 
-                    <h1 className="bg-gray-400 pb-8 skeleton" />
-                    <span className="bg-gray-400 pb-8 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-4/6 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 skeleton mb-12" />
+                    <h2 className="pb-8 skeleton" />
+                    <span className="pb-8 skeleton mb-1" />
+                    <span className="pb-6 w-3/4 skeleton mb-1" />
+                    <span className="pb-6 skeleton mb-1" />
+                    <span className="pb-6 w-4/5 skeleton mb-1" />
+                    <span className="pb-6 skeleton mb-12" />
 
-                    <span className={`bg-gray-400 py-64 skeleton mb-2 wide`} />
-                    <h1 className="bg-gray-400 pb-8 skeleton mb-12" />
+                    <h2 className="pb-8 skeleton" />
+                    <span className="pb-8 skeleton mb-1" />
+                    <span className="pb-6 skeleton mb-1" />
+                    <span className="pb-6 w-3/4 skeleton mb-1" />
+                    <span className="pb-6 w-3/4 skeleton mb-1" />
+                    <span className="pb-6 skeleton mb-12" />
 
-                    <h1 className="bg-gray-400 pb-8 skeleton" />
-                    <span className="bg-gray-400 pb-8 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
-                    <span className="bg-gray-400 pb-6 w-3/4 skeleton mb-1" />
+                    <span className={`py-64 skeleton mb-2 wide`} />
+                    <h2 className="pb-8 skeleton mb-12" />
+
+                    <h2 className="pb-8 skeleton" />
+                    <span className="pb-8 skeleton mb-1" />
+                    <span className="pb-6 skeleton mb-1" />
+                    <span className="pb-6 w-3/4 skeleton mb-1" />
+                    <span className="pb-6 w-3/4 skeleton mb-1" />
                 </article>
             </>
         )

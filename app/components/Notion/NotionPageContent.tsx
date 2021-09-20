@@ -72,6 +72,8 @@ const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement)
             </a>
     }
 
+    console.log(type)
+
     return <div>{children}</div>
 }
 
@@ -96,8 +98,6 @@ const BlockText = (text: TextElement) => {
 
 
 const NotionPageContent = ({ page }: Props) => {
-    console.log({ page })
-
     return (
 
         <article className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none base`}>
