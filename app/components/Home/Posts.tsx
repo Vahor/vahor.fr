@@ -104,12 +104,12 @@ const Posts = ({ posts, tags }: Props) => {
 
                 </div>
             </div>
-            <ul className="md:masonry-2-col lg:masonry-3-col box-border mx-auto before:box-inherit after:box-inherit">
+            <ul className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 box-border gap-4 mx-auto before:box-inherit after:box-inherit">
                 {filteredPosts.map(post => {
                     const type = post.cover?.type
                     const cover = type && post.cover?.[type]
                     return (
-                        <li key={post.id} className="p-2 break-inside">
+                        <li key={post.id} className="break-inside">
                             <Link href={`/posts/${post.id}`}>
                                 <a
                                     className="block group relative mb-2 rounded-md cursor-pointer overflow-hidden select-none shadow pb-[56.25%]"
