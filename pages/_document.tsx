@@ -26,7 +26,6 @@ class MyDocument extends Document {
                                 gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
                                 page_path: window.location.pathname,
                                 });
-                                console.log('id :', '${process.env.GOOGLE_ANALYTICS_ID}')
                             `,
                         }}
                     />
