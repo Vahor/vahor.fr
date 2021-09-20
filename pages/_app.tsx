@@ -2,6 +2,7 @@ import type { AppPropsWithLayout } from 'types'
 import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import type { NextWebVitalsMetric } from 'next/app'
 
 import * as ga from '@/lib/analytics'
 
@@ -30,5 +31,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       {getLayout(<Component {...pageProps} />)}
     </ThemeProvider>
   )
+}
+
+export function reportWebVitals({ id, name, label, value }: NextWebVitalsMetric) {
+  // Use `window.gtag` if you initialized Google Analytics as this example:
+  // https://github.com/vercel/next.js/blob/canary/examples/with-google-analytics/pages/_document.js
+  window.gtag('event', name, {
+    event_category:
+      label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+    value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
+    event_label: id, // id unique to current page load
+    non_interaction: true, // avoids affecting bounce rate.
+  })
 }
 export default MyApp
