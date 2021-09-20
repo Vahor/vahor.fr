@@ -19,13 +19,13 @@ const CheckIcon = () => {
 const BlockWrapper = (type: NotionBlockType, block: any, children: ReactElement): ReactElement => {
     switch (type) {
         case "heading_1":
-            return <h2 className="!mb-0 pb-4">{children}</h2>
+            return <h2 className="">{children}</h2>
         case "heading_2":
-            return <h3 className="!mt-0 pb-2">{children}</h3>
+            return <h3 className="">{children}</h3>
         case "heading_3":
-            return <h4 className="!mt-0 pb-2">{children}</h4>
+            return <h4 className="">{children}</h4>
         case "paragraph":
-            return <p>{children}</p>
+            return <p className="!mb-0">{children}</p>
         case "bulleted_list_item":
             return <li className="pl-2 !my-1">{children}</li>
         case "image":
@@ -87,6 +87,9 @@ const BlockClass = (annotations: Annotations) => {
 const BlockText = (text: TextElement) => {
     if (text.href) {
         return <a href={text.href} className={BlockClass(text.annotations)}>{text.plain_text}</a>
+    }
+    if (text.annotations.code) {
+        return <code className={`${BlockClass(text.annotations)} dark:text-white-light`}>{text.plain_text}</code>
     }
     return <span className={BlockClass(text.annotations)}>{text.plain_text}</span>
 }
