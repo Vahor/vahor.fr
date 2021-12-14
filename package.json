@@ -30,7 +30,7 @@
     "react-textarea-autosize": "^8.3.3",
     "sharp": "^0.29.3",
     "sitemap": "^7.0.0",
-    "tailwindcss": "2.2.15",
+    "tailwindcss": "2.2.19",
     "xpath": "^0.0.32",
     "zod": "^3.11.6"
   },
