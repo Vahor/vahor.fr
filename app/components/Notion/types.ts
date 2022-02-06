@@ -13,6 +13,7 @@ export enum NotionBlockType {
     toggle = "toggle",
     image = "image",
     bookmark = "bookmark",
+    table_of_contents = "table_of_contents",
     unsupported = "unsupported"
 }
 
