@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
-    "@notionhq/client": "^0.4.12",
+    "@notionhq/client": "^0.4.13",
     "@tailwindcss/typography": "^0.4.1",
     "@xmldom/xmldom": "^0.7.5",
     "dayjs": "^1.10.7",
