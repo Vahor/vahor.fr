@@ -1,8 +1,6 @@
 import React from "react"
 import Link from 'next/link'
 import { useRouter } from "next/router"
-import { useTheme } from 'next-themes';
-import { useState, useEffect } from 'react';
 
 const navigation = (currentPath: string): { name: string; href: string, current?: boolean }[] => {
     return [
@@ -17,33 +15,11 @@ const navigation = (currentPath: string): { name: string; href: string, current?
 
 const Navbar = () => {
     const { pathname } = useRouter()
-    const { resolvedTheme } = useTheme();
-
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => setMounted(true), []);
 
     return (
         <header className="bg-white-light dark:bg-black-dark border-b dark:border-gray-800">
 
-            <div className="container flex justify-between items-center h-16 lg:text-lg">
-
-                <div className="flex flex-1 justify-center items-center md:items-stretch md:justify-start">
-                    <Link href={"/"}>
-                        <a className="flex flex-shrink-0 items-center">
-                            {mounted && (
-                                <img
-                                    className={"block h-8 w-auto"}
-                                    height={32}
-                                    width={32}
-                                    src={`https://static.vahor.fr/vahor/${resolvedTheme == "light" ? "logo.png" : "logo-dark.png"}`}
-                                    alt="logo"
-                                />
-                            )}
-
-                        </a>
-                    </Link>
-                </div>
+            <div className="container flex justify-end items-center h-16 lg:text-lg">
 
                 <nav className="flex space-x-3 lg:space-x-6 items-center font-light">
                     <div className="hidden md:flex space-x-3 lg:space-x-6 items-center">
