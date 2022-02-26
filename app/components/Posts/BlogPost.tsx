@@ -20,7 +20,7 @@ const BlogPost = ({ post }: Props) => {
                             </h3>
                             <span className="font-light text-sm">
                                 <span className="hidden md:inline">Publié le </span>
-                                <span>{dayjs(post.properties.Date.date.start).locale("fr").format("DD MMMM YYYY")}</span>
+                                <span>{dayjs(post.properties.Date.date?.start).locale("fr").format("DD MMMM YYYY")}</span>
                             </span>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400">

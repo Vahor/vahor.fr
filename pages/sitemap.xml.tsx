@@ -13,7 +13,7 @@ const addPostToSitemap = async (smStream: SitemapStream) => {
     posts.forEach((post) => {
         const type = post.cover?.type
         const cover = type && post.cover?.[type]
-        const date = new Date(post.properties.Date.date.start).toISOString()
+        const date = new Date(post.properties.Date.date?.start || 'now').toISOString()
         smStream.write({
             url: `/posts/${post.id}`,
             priority: 0.7,
