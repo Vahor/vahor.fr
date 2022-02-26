@@ -14,6 +14,7 @@ export enum NotionBlockType {
     image = "image",
     bookmark = "bookmark",
     table_of_contents = "table_of_contents",
+    divider = "divider",
     unsupported = "unsupported"
 }
 

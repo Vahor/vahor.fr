@@ -103,6 +103,9 @@ const BlockWrapper = (
           </div>
         </a>
       );
+
+      case "divider":
+        return (<hr/>)
   }
 
   return <div>{children}</div>;
