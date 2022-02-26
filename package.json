@@ -32,7 +32,7 @@
     "sitemap": "^7.1.1",
     "tailwindcss": "3.0.23",
     "xpath": "^0.0.32",
-    "zod": "^3.11.6"
+    "zod": "^3.12.0"
   },
   "devDependencies": {
     "@types/gtag.js": "^0.0.8",
