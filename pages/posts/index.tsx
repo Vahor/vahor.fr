@@ -42,7 +42,7 @@ interface Props {
 const PostsPage: NextPageWithLayout<Props> = ({ posts }) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const filteredBlogPosts = posts
-        .sort((a, b) => Number(new Date(b.properties.Date.date.start!)) - Number(new Date(a.properties.Date.date.start!))
+        .sort((a, b) => Number(new Date(b.properties.Date.date?.start || 'now')) - Number(new Date(a.properties.Date.date?.start  || 'now'))
         )
         .filter((post) =>
             post.properties.Name.title[0]?.plain_text.toLowerCase().includes(searchValue.toLowerCase())

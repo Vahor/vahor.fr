@@ -21,7 +21,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   let content: NotionContent = await Notion.blocks.children.list({
     block_id: id,
-    page_size: 50, // max 100
+    page_size: 100, // max 100
   });
 
   content.results = await Promise.all(

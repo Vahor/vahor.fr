@@ -52,8 +52,8 @@ const BlockWrapper = (
         <figure className={`wide text-center`}>
           <img
             src={block[type]?.url}
-            alt={block.caption?.[0].plain_text || ""}
-            className="rounded-md"
+            alt={block.caption?.[0]?.plain_text || ""}
+            className="rounded-md mx-auto"
           />
           {block.caption && <figcaption>{children}</figcaption>}
         </figure>

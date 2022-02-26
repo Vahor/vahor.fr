@@ -47,7 +47,7 @@ export type NotionPage = {
             }
         }
         Date: {
-            date: {
+            date?: {
                 start: string
                 end: string
             }
