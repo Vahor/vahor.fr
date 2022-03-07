@@ -10,17 +10,17 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
-    "@notionhq/client": "^0.4.13",
+    "@notionhq/client": "^1.0.1",
     "@tailwindcss/typography": "^0.5.2",
     "@xmldom/xmldom": "^0.8.1",
     "dayjs": "^1.10.7",
     "final-form": "^4.20.6",
-    "next": "12.0.10",
+    "next": "12.1.0",
     "next-themes": "^0.1.1",
     "nodemailer": "^6.7.2",
     "nprogress": "^0.2.0",
     "plaiceholder": "^2.3.0",
-    "postcss": "8.4.6",
+    "postcss": "8.4.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-final-form": "^6.5.8",
@@ -28,7 +28,7 @@
     "react-spring": "^9.4.3",
     "react-text-transition": "^1.3.0",
     "react-textarea-autosize": "^8.3.3",
-    "sharp": "^0.30.0",
+    "sharp": "^0.30.1",
     "sitemap": "^7.1.1",
     "tailwindcss": "3.0.23",
     "xpath": "^0.0.32",
@@ -42,7 +42,7 @@
     "@types/xmldom": "^0.1.31",
     "autoprefixer": "^10.4.2",
     "eslint": "8.9.0",
-    "eslint-config-next": "12.0.10",
+    "eslint-config-next": "12.1.0",
     "typescript": "4.5.5"
   }
 }
