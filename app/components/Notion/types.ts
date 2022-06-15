@@ -15,6 +15,7 @@ export enum NotionBlockType {
     bookmark = "bookmark",
     table_of_contents = "table_of_contents",
     divider = "divider",
+    code = "code",
     unsupported = "unsupported"
 }
 
@@ -32,7 +33,7 @@ export type NotionBlock = {
 };
 
 export interface NotionBlockContent {
-    text: TextElement[];
+    rich_text: TextElement[];
 }
 
 export interface NotionBlockBookmarkContent {

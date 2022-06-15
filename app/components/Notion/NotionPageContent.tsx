@@ -3,9 +3,13 @@ import {
   NotionContent,
   TextElement,
   Annotations,
+  NotionBlockContent,
 } from "./types";
 import { Fragment, ReactElement } from "react";
 import Image from "next/image";
+import Highlight, { defaultProps } from "prism-react-renderer";
+import theme from "prism-react-renderer/themes/palenight";
+
 interface Props {
   page: NotionContent;
 }
@@ -32,7 +36,7 @@ const CheckIcon = () => {
 
 const BlockWrapper = (
   type: NotionBlockType,
-  block: any,
+  block: NotionBlockContent & any,
   children: ReactElement
 ): ReactElement => {
   switch (type) {
@@ -106,6 +110,20 @@ const BlockWrapper = (
 
       case "divider":
         return (<hr/>)
+
+      case "code":
+        return <Highlight {...defaultProps} code={block.rich_text[0].plain_text} language={block.language} theme={theme}>
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <pre className={className} style={style}>
+            {tokens.map((line, i) => (
+              <div key={i} {...getLineProps({ line, key: i })}>
+                <span className="w-2 pr-4 opacity-30">{i + 1}</span>
+                {line.map((token, key) => <span key={key} {...getTokenProps({ token, key })} />)}
+              </div>
+            ))}
+          </pre>
+        )}
+      </Highlight>
   }
 
   return <div>{children}</div>;
@@ -145,7 +163,7 @@ const NotionPageContent = ({ page }: Props) => {
     <article
       className={`py-8 container prose lg:prose-lg dark:prose-dark max-w-none base`}
     >
-      {page.results.map((block, i) => {
+      {page.results.map((block) => {
         const type = block.type;
         return (
           <Fragment key={block.id}>
@@ -153,7 +171,7 @@ const NotionPageContent = ({ page }: Props) => {
               type,
               block?.[type],
               <>
-                {block?.[type].text?.map((text: TextElement, i) => {
+                {block?.[type].rich_text?.map((text: TextElement, i) => {
                   return <Fragment key={i}>{BlockText(text)}</Fragment>;
                 })}
               </>
