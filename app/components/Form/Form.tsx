@@ -3,6 +3,7 @@ import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form
 import { z } from "zod"
 import { errorMap } from "@/lib/zod"
 
+// @ts-ignore
 export interface FormProps<S extends z.ZodType<any, any>>
     extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
     /** All your form fields */
@@ -40,16 +41,18 @@ export function Form<S extends z.ZodType<any, any>>({
             render={({ handleSubmit, submitting, pristine }) => {
                 return (
                     <form onSubmit={handleSubmit} {...props}>
-                        {children}
-                        {submitText && (
-                            <button
-                                type="submit"
-                                disabled={submitting || pristine}
-                                className="bg-black px-4 py-2 text-white rounded-md hover:bg-white hover:text-gray-900 transition duration-400 border"
-                            >
-                                {submitText}
-                            </button>
-                        )}
+                        <>
+                            {children}
+                            {submitText && (
+                                <button
+                                    type="submit"
+                                    disabled={submitting || pristine}
+                                    className="bg-black px-4 py-2 text-white rounded-md hover:bg-white hover:text-gray-900 transition duration-400 border"
+                                >
+                                    {submitText}
+                                </button>
+                            )}
+                        </>
                     </form>
                 )
             }}

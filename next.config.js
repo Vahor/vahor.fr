@@ -3,7 +3,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
     domains: [
-      "static.vahor.fr", "www.notion.so", // Notion cover and logo self host
+      "static.vahor.fr", "images.unsplash.com",  "www.notion.so", // Notion cover and logo self host
     ],
   },
   optimization: {
