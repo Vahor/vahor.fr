@@ -85,7 +85,6 @@ const ContactPage: NextPageWithLayout<Props> = ({ }) => {
                         schema={ContactMessage}
                         submitText="Envoyer"
                         onSubmit={async (values, form) => {
-                            console.log(values)
                             fetch('/api/send-email', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
