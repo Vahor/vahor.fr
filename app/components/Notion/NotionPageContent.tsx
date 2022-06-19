@@ -101,6 +101,7 @@ const BlockWrapper = (
                 placeholder={"blur"}
                 layout="fill"
                 blurDataURL={block.meta.image.blur}
+                unoptimized={true}
                 objectFit="cover"
               />
             </div>
@@ -165,6 +166,7 @@ const NotionPageContent = ({ page }: Props) => {
     >
       {page.results.map((block) => {
         const type = block.type;
+
         return (
           <Fragment key={block.id}>
             {BlockWrapper(
