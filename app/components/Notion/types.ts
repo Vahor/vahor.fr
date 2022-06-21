@@ -16,6 +16,7 @@ export enum NotionBlockType {
     table_of_contents = "table_of_contents",
     divider = "divider",
     code = "code",
+    video = "video",
     unsupported = "unsupported"
 }
 
@@ -34,6 +35,11 @@ export type NotionBlock = {
 
 export interface NotionBlockContent {
     rich_text: TextElement[];
+}
+export interface NotionBlockVideoContent {
+    external: {
+        url: string
+    }
 }
 
 export interface NotionBlockBookmarkContent {

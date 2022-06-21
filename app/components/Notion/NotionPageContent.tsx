@@ -125,6 +125,10 @@ const BlockWrapper = (
           </pre>
         )}
       </Highlight>
+      case "video":
+        const videoUrl = block.external.url; // vimeo url
+        const videoId = videoUrl.split("/").pop(); // vimeo id
+        return <iframe src={`https://player.vimeo.com/video/${videoId}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full aspect-video"/>
   }
 
   return <div>{children}</div>;
