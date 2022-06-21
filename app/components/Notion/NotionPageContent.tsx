@@ -49,15 +49,15 @@ const BlockWrapper = (
   switch (type) {
     case "heading_1": {
       const id = getId(block)
-      return <h2 id={id}><a href={`#${id}`} className="no-underline font-bold">{children}</a></h2>;
+      return <h2 id={id}><a href={`#${id}`} className="no-underline font-bold text-inherit">{children}</a></h2>;
     }
     case "heading_2": {
       const id = getId(block)
-      return <h3 id={id}><a href={`#${id}`} className="no-underline font-bold">{children}</a></h3>;
+      return <h3 id={id}><a href={`#${id}`} className="no-underline font-bold text-inherit">{children}</a></h3>;
     }
     case "heading_3": {
       const id = getId(block)
-      return <h4 id={id}><a href={`#${id}`} className="no-underline font-bold">{children}</a></h4>;
+      return <h4 id={id}><a href={`#${id}`} className="no-underline font-bold text-inherit">{children}</a></h4>;
     }
     case "paragraph": {
       return <p className="!mb-0">{children}</p>;
@@ -69,7 +69,7 @@ const BlockWrapper = (
       return (
         <figure className={`wide text-center`}>
           <img
-            src={block[type]?.url}
+            src={block.file.url}
             alt={block.caption?.[0]?.plain_text || ""}
             className="rounded-md mx-auto"
           />

@@ -48,7 +48,7 @@ module.exports = {
         DEFAULT: {
           css: {
             color: theme('colors.gray.700'),
-          }
+          },
         },
         dark: {
           css: {
