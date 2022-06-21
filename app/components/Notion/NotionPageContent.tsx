@@ -9,6 +9,7 @@ import { Fragment, ReactElement } from "react";
 import Image from "next/image";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import theme from "prism-react-renderer/themes/palenight";
+import slugify from "slugify";
 
 interface Props {
   page: NotionContent;
@@ -34,24 +35,37 @@ const CheckIcon = () => {
   );
 };
 
+const getId = (block: NotionBlockContent): string => {
+  const innerText = block.rich_text.map((t: TextElement) => t.plain_text).join("");
+  const id = slugify(innerText, { lower: true });
+  return id;
+}
+
 const BlockWrapper = (
   type: NotionBlockType,
   block: NotionBlockContent & any,
   children: ReactElement
 ): ReactElement => {
   switch (type) {
-    case "heading_1":
-      return <h2 className="">{children}</h2>;
-    case "heading_2":
-      return <h3 className="">{children}</h3>;
-    case "heading_3":
-      return <h4 className="">{children}</h4>;
-    case "paragraph":
+    case "heading_1": {
+      const id = getId(block)
+      return <h2 id={id}><a href={`#${id}`} className="no-underline font-bold">{children}</a></h2>;
+    }
+    case "heading_2": {
+      const id = getId(block)
+      return <h3 id={id}><a href={`#${id}`} className="no-underline font-bold">{children}</a></h3>;
+    }
+    case "heading_3": {
+      const id = getId(block)
+      return <h4 id={id}><a href={`#${id}`} className="no-underline font-bold">{children}</a></h4>;
+    }
+    case "paragraph": {
       return <p className="!mb-0">{children}</p>;
-    case "bulleted_list_item":
+    }
+    case "bulleted_list_item": {
       return <li className="pl-2 !my-1">{children}</li>;
-    case "image":
-      const type = block.type;
+    }
+    case "image": {
       return (
         <figure className={`wide text-center`}>
           <img
@@ -62,7 +76,8 @@ const BlockWrapper = (
           {block.caption && <figcaption>{children}</figcaption>}
         </figure>
       );
-    case "to_do":
+    }
+    case "to_do": {
       return (
         <div>
           <label className="flex items-center py-1 font-light border-b">
@@ -79,7 +94,8 @@ const BlockWrapper = (
           </label>
         </div>
       );
-    case "bookmark":
+    }
+    case "bookmark": {
       return (
         <a
           href={block.url}
@@ -108,11 +124,11 @@ const BlockWrapper = (
           </div>
         </a>
       );
-
-      case "divider":
+      }
+      case "divider": {
         return (<hr/>)
-
-      case "code":
+      }
+      case "code": {
         return <Highlight {...defaultProps} code={block.rich_text[0].plain_text} language={block.language} theme={theme}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <pre className={className} style={style}>
@@ -125,10 +141,12 @@ const BlockWrapper = (
           </pre>
         )}
       </Highlight>
-      case "video":
+      }
+      case "video": {
         const videoUrl = block.external.url; // vimeo url
         const videoId = videoUrl.split("/").pop(); // vimeo id
         return <iframe src={`https://player.vimeo.com/video/${videoId}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full aspect-video"/>
+      }
   }
 
   return <div>{children}</div>;
