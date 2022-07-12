@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.6.4",
+    "@headlessui/react": "^1.6.5",
     "@notionhq/client": "^1.0.4",
     "@tailwindcss/typography": "^0.5.2",
     "@xmldom/xmldom": "^0.8.2",
