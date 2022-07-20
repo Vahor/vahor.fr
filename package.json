@@ -16,7 +16,7 @@
     "dayjs": "^1.11.3",
     "final-form": "^4.20.7",
     "highlight.js": "^11.5.1",
-    "next": "12.1.6",
+    "next": "12.2.0",
     "next-themes": "^0.2.0",
     "nodemailer": "^6.7.5",
     "nprogress": "^0.2.0",
