@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    input,
+    textarea {
+        @apply bg-white-light text-gray-900;
+    }
+    .dark input,
+    .dark textarea {
+        @apply bg-black-light text-gray-100;
+    }
+}
+
+@layer components {
+    .skeleton {
+        line-height: 1;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+        @apply bg-gray-400;
+    }
+
+    .skeleton::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+                90deg,
+                rgba(237, 242, 249, 0) 0,
+                rgba(237, 242, 249, 0.2) 20%,
+                rgba(237, 242, 249, 0.5) 60%,
+                rgba(237, 242, 249, 0)
+        );
+        animation: skeleton 2s ease-in-out infinite;
+        content: "";
+    }
+
+    .dark .skeleton {
+        @apply bg-black-light;
+    }
+    .dark .skeleton::after {
+        background-image: linear-gradient(
+                90deg,
+                rgba(237, 242, 249, 0) 0,
+                rgba(237, 242, 249, 0.1) 20%,
+                rgba(237, 242, 249, 0.2) 60%,
+                rgba(237, 242, 249, 0)
+        );
+    }
+}
+
+@keyframes skeleton {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.base {
+    display: grid;
+    grid-template-columns:
+    [full-start] minmax(4vmin, auto)
+    [wide-start] minmax(auto, 240px)
+    [main-start] min(700px, calc(100% - 8vw))
+    [main-end] minmax(auto, 240px)
+    [wide-end] minmax(4vmin, auto) [full-end];
+}
+
+.base > * {
+    grid-column: main-start/main-end;
+}
+
+.wide {
+    grid-column: wide-start/wide-end;
+    width: 100%;
+}
