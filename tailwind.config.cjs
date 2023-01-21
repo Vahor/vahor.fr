@@ -35,7 +35,22 @@ module.exports = {
           lg: "1024px",
           xl: "1280px"
         }
-      }
+      },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.gray.700'),
+          },
+        },
+        dark: {
+          css: {
+            color: theme('colors.gray.300'),
+            'h1,h2,h3,h4': {
+              color: theme('colors.gray.100')
+            },
+          }
+        }
+      })
     }
   },
   plugins: [

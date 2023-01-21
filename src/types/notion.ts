@@ -37,6 +37,11 @@ export type Page = {
         plain_text: string
       }[]
     },
+    Status: {
+        select: {
+            name: string
+        }
+    }
     Summary: {
       rich_text: {
         plain_text: string

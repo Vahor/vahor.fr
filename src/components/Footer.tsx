@@ -10,7 +10,7 @@ const FooterLink = ({ text, href }: { text: string; href: string }) => {
     </Link>
   );
 };
-const ExtrernalLink = ({ text, href }: { text: string; href: string }) => {
+const ExternalLink = ({ text, href }: { text: string; href: string }) => {
   return (
     <Link className="text-gray-500 hover:text-gray-600 transition"
           target="_blank"
@@ -36,7 +36,7 @@ export const Footer = () => {
   useEffect(() => setMounted(true), []);
 
   return (
-    <footer className="bg-white-light dark:bg-black-dark border-t dark:border-gray-800 p-8">
+    <footer className="bg-white-light dark:bg-black-dark border-t dark:border-gray-800 p-8 mt-8">
       <div className="flex md:max-w-lg justify-center mx-auto">
         <div className="max-w-xs w-full flex flex-col px-8 pb-4 space-y-4">
           <FooterLink text="Accueil" href="/" />
@@ -45,9 +45,9 @@ export const Footer = () => {
         </div>
 
         <div className="max-w-xs w-full flex flex-col px-8 pb-4 space-y-4">
-          <ExtrernalLink text="Twitter" href="https://twitter.com/vahor_" />
-          <ExtrernalLink text="GitHub" href="https://github.com/Vahor" />
-          <ExtrernalLink text="LinkedIn" href="https://www.linkedin.com/in/nathan--david" />
+          <ExternalLink text="Twitter" href="https://twitter.com/vahor_" />
+          <ExternalLink text="GitHub" href="https://github.com/Vahor" />
+          <ExternalLink text="LinkedIn" href="https://www.linkedin.com/in/nathan--david" />
         </div>
       </div>
       <div className="flex justify-end">
