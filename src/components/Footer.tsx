@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons";
+import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
 
 const FooterLink = ({ text, href }: { text: string; href: string }) => {
   return (

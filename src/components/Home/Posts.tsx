@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import Link from "next/link"
 import Image from "next/image"
-import {IconAlignRight, IconCheck} from "@tabler/icons";
+import {IconAlignRight, IconCheck} from "@tabler/icons-react";
 import type {PostStatus} from "@/types/post";
 import {PostStatusMap} from "@/types/post";
 import clsx from "clsx";
