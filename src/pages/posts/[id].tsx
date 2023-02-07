@@ -24,25 +24,38 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }) as unknown as NotionContent;
 
     content.results = await Promise.all(
-      Object.values(content?.results).map(async (block) => {
-        if (block.type === "bookmark") {
-          const meta = await extractMetaTags(block.bookmark.url);
-          const { base64, img } = await getPlaiceholder(meta.image, { size: 10 });
+        Object.values(content?.results).map(async (block) => {
+            if (block.type === "bookmark") {
+                const meta = await extractMetaTags(block.bookmark.url);
 
-          block["bookmark"].meta = {
-            title: meta.title,
-            description: meta.description.substring(0, 100),
-            image: {
-              url: meta.image,
-              blur: base64,
-              width: img.width,
-              height: img.height,
-            },
-          };
-        }
+                console.log(meta)
 
-        return block;
-      })
+                let imgMeta = {
+                    blur: '',
+                    width: 0,
+                    height: 0,
+                };
+                if (meta.image) {
+                    const {base64, img} = await getPlaiceholder(meta.image, {size: 10});
+                    imgMeta = {
+                        blur: base64,
+                        width: img.width,
+                        height: img.height,
+                    }
+                }
+
+                block["bookmark"].meta = {
+                    title: meta.title,
+                    description: meta.description.substring(0, 100),
+                    image: {
+                        url: meta.image,
+                        ...imgMeta
+                    },
+                };
+            }
+
+            return block;
+        })
     );
 
     const parsedPost = {

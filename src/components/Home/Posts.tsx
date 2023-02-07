@@ -55,8 +55,6 @@ const Posts = ({posts, tags}: PostsProps) => {
             <div className="mb-8 px-2 flex justify-between items-center">
                 <ul className="flex space-x-2 md:space-x-4 select-none">
                     {Object.entries(PostStatusMap).map(([status, label]) => {
-                        console.log(status, label)
-
                         const isActive = status === currentStatus
                         return <li
                             key={status}

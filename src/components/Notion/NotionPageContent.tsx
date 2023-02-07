@@ -106,7 +106,7 @@ const BlockWrapper = (
                             <Image
                                 src={block.meta.image.url}
                                 alt={`Illustration pour ${block.meta.title}`}
-                                placeholder={"blur"}
+                                placeholder={block.meta.image.blur && "blur"}
                                 fill
                                 blurDataURL={block.meta.image.blur}
                                 unoptimized={true}
