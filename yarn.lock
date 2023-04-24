@@ -175,10 +175,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@notionhq/client@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@notionhq/client/-/client-2.2.3.tgz#b8563994fd116123b0b2e39fca43a593faaf8360"
-  integrity sha512-ZqUzY0iRg/LIrwS+wzz/6osSB2nxIpmqdAtdUwzpcimc9Jlu1j85FeYdaU26Shr193CFrl2TLFeKqpk/APRQ4g==
+"@notionhq/client@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@notionhq/client/-/client-2.2.4.tgz#909e23de7ae8e975ca67cb924afa4f856ff6e5dc"
+  integrity sha512-cr5yW6mIJX1cBDThClklNUY5KfQO0iW3rL/CEpx5gU+7Bv458VqeT9YfM9KIbhuGw0D2a8/+qv0UpveDM6rsOw==
   dependencies:
     "@types/node-fetch" "^2.5.10"
     node-fetch "^2.6.1"
@@ -253,18 +253,18 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tabler/icons-react@^2.11.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-2.14.0.tgz#38f3b94844d61e28249e5f704b84eafbf38d7d57"
-  integrity sha512-5lsXkV2T+ygKwrernJnnbkRtNdbBp8JANP17gdPHhhhVEUIuvaTWU+lDEwJFgyaChlepl5AwcFoMMhcnlPO6Hw==
+"@tabler/icons-react@^2.16.0":
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-2.16.0.tgz#9944fc966beaaed73f195b61ebaa587cb6d0ddc6"
+  integrity sha512-WwVjPzwvChmaQfhOjaVPyUjHeUosP2G1kqG6RfSkOWWiGx46nfZG7ekuBDidXuvMdTP1o2iC9JJIGm6mz3k5Uw==
   dependencies:
-    "@tabler/icons" "2.14.0"
+    "@tabler/icons" "2.16.0"
     prop-types "^15.7.2"
 
-"@tabler/icons@2.14.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.14.0.tgz#167658ba130272dcf61bfd36abcc513f696f4c87"
-  integrity sha512-q4qFe8P0M0cwRlQajPtjucjVrRPVkv/aFHWrCm+HZH9eOkjYSyyFtn7/Zz7lkjBcGiPUkh08d/d3IvJToP/zvw==
+"@tabler/icons@2.16.0":
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.16.0.tgz#fd7eb6ab7c9578abd8883b018387db141e2289aa"
+  integrity sha512-1kaPH5APIWGtXe0W0eQ9g4MdfaQJ2gh95TAa94lNAqRR0JeC3fkD0yXGCcUiNK4GnGDv3UtPSCd3dbdKTe1b2A==
 
 "@tailwindcss/typography@^0.5.9":
   version "0.5.9"
@@ -2063,6 +2063,11 @@ nanoid@^3.3.4:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
+nanoid@^3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
+  integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
+
 napi-build-utils@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.2.tgz#b1fddc0b2c46e380a0b7a76f984dd47c41a13806"
@@ -2402,12 +2407,21 @@ postcss@8.4.14:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postcss@^8.0.9, postcss@^8.4.14:
+postcss@^8.0.9:
   version "8.4.21"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.21.tgz#c639b719a57efc3187b13a1d765675485f4134f4"
   integrity sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==
   dependencies:
     nanoid "^3.3.4"
+    picocolors "^1.0.0"
+    source-map-js "^1.0.2"
+
+postcss@^8.4.23:
+  version "8.4.23"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.23.tgz#df0aee9ac7c5e53e1075c24a3613496f9e6552ab"
+  integrity sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==
+  dependencies:
+    nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
