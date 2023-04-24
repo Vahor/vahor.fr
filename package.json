@@ -9,8 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.3",
-    "@tabler/icons-react": "^2.11.0",
+    "@notionhq/client": "^2.2.4",
+    "@tabler/icons-react": "^2.16.0",
     "@tailwindcss/typography": "^0.5.9",
     "@xmldom/xmldom": "^0.8.7",
     "clsx": "^1.2.1",
@@ -41,7 +41,7 @@
     "autoprefixer": "^10.4.14",
     "eslint": "8.37.0",
     "eslint-config-next": "13.3.0",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.23",
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.7",
     "tailwindcss": "^3.3.1",
