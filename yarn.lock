@@ -258,18 +258,18 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tabler/icons-react@^2.17.0":
-  version "2.18.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-2.18.0.tgz#c72aa31fb32edb513eb5e4e41a84a6d6870d84c5"
-  integrity sha512-F4HyBIoC3DvIPmjP9ienurvSWhQOajDuTc3C5F7UfjhBkom3cAuJfDWH2tqGAfNrhjvG4X3ERR2dxOWLpegsiA==
+"@tabler/icons-react@^2.19.0":
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-2.19.0.tgz#f94128479c5ab5ebaeaeeb971bf60b0bc9637a4c"
+  integrity sha512-CitxGhjGcvxSmvK5JJ7JUAal5ifygUQzfMrVt/pOg+XELIt+3jtRDTyhZHHz84XoIddxRTQMZTl/11GOjtZ9SA==
   dependencies:
-    "@tabler/icons" "2.18.0"
+    "@tabler/icons" "2.19.0"
     prop-types "^15.7.2"
 
-"@tabler/icons@2.18.0":
-  version "2.18.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.18.0.tgz#2a96983c53665181f2b24691d07166f0bee5a2cd"
-  integrity sha512-N7a20mwbhrFXNqvd8Rxa0Btwu1Li5rQbqdIi3mzt5HRjP25PbyYuTU2BXbu8yMEnUk018Gi13gpS/jlMgXFuOw==
+"@tabler/icons@2.19.0":
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.19.0.tgz#685a794adab6c4f4ce3ceec41132d405ca31f353"
+  integrity sha512-3bqWTxFOFkrld+hx0nDSgwGWPrP2NeB9ySCAqWjXMN0hwewXYnNPpDKkOYtDfUDRtB+iiR/0FyW+kki6tu6qkQ==
 
 "@tailwindcss/typography@^0.5.9":
   version "0.5.9"
@@ -2159,10 +2159,10 @@ node-releases@^2.0.8:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.10.tgz#c311ebae3b6a148c89b1813fd7c4d3c024ef537f"
   integrity sha512-5GFldHPXVG/YZmFzJvKK2zDSzPKhEp0+ZR5SVaoSag9fsL5YgHbUHDfnG5494ISANDcK4KwPXAx2xqVEydmd7w==
 
-nodemailer@^6.9.1:
-  version "6.9.1"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.9.1.tgz#8249d928a43ed85fec17b13d2870c8f758a126ed"
-  integrity sha512-qHw7dOiU5UKNnQpXktdgQ1d3OFgRAekuvbJLcdG5dnEo/GtcTHRYM7+UfJARdOFU9WUQO8OiIamgWPmiSFHYAA==
+nodemailer@^6.9.2:
+  version "6.9.2"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.9.2.tgz#b79051811edd52c2436ad1c6aed2dc45b9c9cf1f"
+  integrity sha512-4+TYaa/e1nIxQfyw/WzNPYTEZ5OvHIDEnmjs4LPmIfccPQN+2CYKmGHjWixn/chzD3bmUTu5FMfpltizMxqzdg==
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
