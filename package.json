@@ -28,7 +28,7 @@
     "sitemap": "^7.1.1",
     "slugify": "^1.6.6",
     "xpath": "^0.0.33",
-    "zod": "^3.21.4"
+    "zod": "^3.22.0"
   },
   "devDependencies": {
     "@types/node": "18.16.3",
