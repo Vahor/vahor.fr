@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.2.9",
-    "@tabler/icons-react": "^2.27.0",
+    "@tabler/icons-react": "^2.31.0",
     "@tailwindcss/typography": "^0.5.9",
     "@xmldom/xmldom": "^0.8.9",
     "clsx": "^1.2.1",
