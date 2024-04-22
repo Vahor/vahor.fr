@@ -4,6 +4,10 @@ import rehypePrettyCode from "rehype-pretty-code";
 import codeImport from "remark-code-import";
 import rehypeSlug from "rehype-slug";
 import { defineNestedType } from "contentlayer2/source-files";
+import { transformerNotationDiff, transformerRenderWhitespace, transformerMetaWordHighlight } from '@shikijs/transformers';
+import {
+	transformerTwoslash
+} from '@shikijs/twoslash'
 
 const CoverProperties = defineNestedType(() => ({
 	name: "CoverProperties",
@@ -68,6 +72,14 @@ const highlightPlugin = () => {
 	return rehypePrettyCode({
 		theme: "catppuccin-mocha",
 		defaultLang: "plaintext",
+		transformers: [
+			transformerRenderWhitespace(),
+			transformerNotationDiff(),
+			// transformerMetaWordHighlight(),
+			transformerTwoslash({
+				explicitTrigger: true,
+			})
+		],
 	});
 };
 

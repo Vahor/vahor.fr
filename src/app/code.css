@@ -21,3 +21,29 @@ code[data-line-numbers-max-digits="2"] > [data-line]::before {
 code[data-line-numbers-max-digits="3"] > [data-line]::before {
   width: 3rem;
 }
+
+code .space {
+  white-space: pre;
+}
+
+code mark {
+  border: 1px solid #6c6c7d;
+  background-color: rgba(60, 60, 70, 0.5);
+  padding: 2px 3px;
+  margin: -2px -3px;
+  border-radius: var(--radius);
+}
+
+code span[data-highlighted-line] {
+  background-color: #272738;
+}
+
+pre code {
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+code {
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
+}

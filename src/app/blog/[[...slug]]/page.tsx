@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import "@catppuccin/highlightjs/css/catppuccin-mocha.css";
 import "@/app/code.css";
+import "@shikijs/twoslash/style-rich.css";
 import { absolutePath } from "@/lib/utils";
 import { Mdx } from "@/lib/mdx";
 import Image from "next/image";

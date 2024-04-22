@@ -34,7 +34,7 @@ const mdxComponents: MDXComponents = {
 	code: ({ className, ...props }) => (
 		<code
 			className={cn(
-				"relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm whitespace-nowrap",
+				"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap",
 				className
 			)}
 			{...props}
@@ -42,7 +42,7 @@ const mdxComponents: MDXComponents = {
 	),
 	pre: ({ className, ...props }) => (
 		<pre
-			className={cn("rounded-lg py-4 px-2 my-4 border group/pre", className)}
+			className={cn("rounded-lg py-4 my-4 border group/pre", className)}
 			{...props}
 		/>
 	),
