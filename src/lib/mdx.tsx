@@ -40,12 +40,15 @@ const mdxComponents: MDXComponents = {
 			{...props}
 		/>
 	),
-	pre: ({ className, ...props }) => (
-		<pre
-			className={cn("rounded-lg py-4 my-4 border group/pre", className)}
-			{...props}
-		/>
-	),
+	pre: ({ className, ...props }) => {
+		// @ts-ignore
+		const { rawString, ...rest } = props;
+		return (
+			<pre
+				className={cn("rounded-lg py-4 my-4 border group/pre", className)}
+				{...rest} />
+		);
+	},
 	h1: ({ className, id, children, ...props }) => (
 		<h1 className={cn("text-4xl mt-2 scroll-m-20 font-bold group flex gap-3 items-center", className)} id={id} {...props} >
 			{children}

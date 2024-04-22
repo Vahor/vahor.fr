@@ -9,6 +9,7 @@ import { absolutePath } from "@/lib/utils";
 import { Mdx } from "@/lib/mdx";
 import Image from "next/image";
 import { fr } from "date-fns/locale";
+import CommentSection from "./comments";
 
 export const generateStaticParams = async () =>
 	allPosts.map((post) => ({ slug: post.slug.split("/") }));
@@ -43,7 +44,7 @@ export default async function PostPage(props: PageProps) {
 	if (!post) notFound();
 
 	return (
-		<article className="container" id="skip-nav">
+		<article className="container py-8" id="skip-nav">
 			<div className="mb-8 text-center">
 				<time dateTime={post.date} className="mb-1 text-xs text-gray-600">
 					{format(parseISO(post.date), "d MMMM yyyy", { locale: fr })}
@@ -59,6 +60,7 @@ export default async function PostPage(props: PageProps) {
 				/>
 			</div>
 			<Mdx code={post.body.code} />
+			<CommentSection />
 		</article>
 	);
 }

@@ -26,12 +26,16 @@ code .space {
   white-space: pre;
 }
 
-code mark {
+code mark[data-highlighted-chars] {
   border: 1px solid #6c6c7d;
   background-color: rgba(60, 60, 70, 0.5);
   padding: 2px 3px;
   margin: -2px -3px;
   border-radius: var(--radius);
+}
+
+code mark[data-highlighted-chars][data-chars-id="e"] {
+  border-style: dashed;
 }
 
 code span[data-highlighted-line] {

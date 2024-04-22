@@ -8,6 +8,9 @@ import { transformerNotationDiff, transformerRenderWhitespace, transformerMetaWo
 import {
 	transformerTwoslash
 } from '@shikijs/twoslash'
+import { type Transformer } from 'unified';
+import { visit } from "unist-util-visit"
+
 
 const CoverProperties = defineNestedType(() => ({
 	name: "CoverProperties",
@@ -75,7 +78,6 @@ const highlightPlugin = () => {
 		transformers: [
 			transformerRenderWhitespace(),
 			transformerNotationDiff(),
-			// transformerMetaWordHighlight(),
 			transformerTwoslash({
 				explicitTrigger: true,
 			})
