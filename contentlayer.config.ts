@@ -14,6 +14,10 @@ const CoverProperties = defineNestedType(() => ({
 	},
 }));
 
+const postSlug = (path: string) => {
+	return path.split("blog/").splice(-1)[0];
+}
+
 export const Post = defineDocumentType(() => ({
 	name: "Post",
 	filePathPattern: "**/*.mdx",
@@ -28,11 +32,18 @@ export const Post = defineDocumentType(() => ({
 	computedFields: {
 		slug: {
 			type: "string",
-			resolve: (post) => post._raw.flattenedPath,
+			resolve: (post) => postSlug(post._raw.flattenedPath),
 		},
 		url: {
 			type: "string",
-			resolve: (post) => `/blog/${post._raw.flattenedPath}`,
+			resolve: (post) => `/blog/${postSlug(post._raw.flattenedPath)}`,
+		},
+		githubEditUrl: {
+			type: "string",
+			resolve: (post) => {
+				const filePath = post._raw.sourceFilePath;
+				return `https://github.com/vahor/vahor.fr/edit/main/src/posts/${filePath}`;
+			},
 		},
 		coverUrl: {
 			type: "string",

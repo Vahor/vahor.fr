@@ -1,13 +1,11 @@
 ---
 title: Simple Schematics
 description: Plugin minecraft pour simplifier la gestion des schématics 
-date: 2024-04-21
+date: 2022-02-26
 cover: 
     image: ../../../public/tmp.jpg
     size: large
 ---
-
-# Informations
 
 <UrlPreview url="https://github.com/Vahor/SimpleSchematics"/>
 
@@ -29,7 +27,7 @@ cover:
 - simpleschematics.default\
     Donne accès à toutes les commandes liées au plugin
 
-# Commandes principales
+## Commandes principales
 
 ### \/s schematic create \<dossier> \<nom>
 
@@ -61,6 +59,14 @@ Redimensionne la zone de sélection au plus proche de la construction.\
 Avec le flag `-c` des coins sont ajoutés.
 
 <Vimeo id="722709583" title="Trim demo"/>
+
+### \/s folder icon \<dossier>
+
+Remplace l'icon du dossier avec l'objet que vous tenez en main.
+
+### \/s toggle
+
+Alterne le mode de selection entre deux modes `mode sélection` et `mode création`.
 
 ## Menus
 
@@ -115,8 +121,43 @@ skull_base64: <base64>
 generate_thumbnail: false
 ```
 
-#### `generate_thumbnail`
+### `generate_thumbnail`
 
+<small>Type: __boolean__</small>
+
+`true` Génère automatiquement les miniatures.\
+`false` Désactive la fonctionalité. 
+
+<Callout title="Remarque">
+    Les minitatures fonctionnent mieux avec les éléments imposants comme les arbres.
+</Callout>
+
+### `skull_base64`
+
+<small>Type: __base64__</small>
+
+Base64 de l'icon du dossier, se remplis automatiquement à l'aide de la commande [`/s folder icon <folder>`](#s-folder-icon-dossier)
+
+
+## Outils
+
+<Callout title="Remarque">
+    Pour changer le mode de l'outil, utilisez [`/s toggle`](#s-toggle)
+</Callout>
+
+### Mode séléction
+
+**Clic droit** : Colle la sélection\
+**Clic gauche** : Ouvre le menu de sélection de schématics.
+
+### Mode création
+
+**Clic droit** : Successivement, `pos1`, `pos2` puis point de `copie`\
+**Shift clic droit** : Reset historique, on recommence à `pos1`
+
+### Schématics
+
+**Clic droit** : Colle le schématic dans la direction visée
 
 ----
 

@@ -2,12 +2,7 @@
 
 import * as xpath from "xpath";
 import { DOMParser } from '@xmldom/xmldom'
-
-type MetaTags = {
-	title: string;
-	description: string;
-	image: string
-}
+import cache from 'memory-cache'
 
 const xpaths = {
 	// title is either the first <title> or og:title
@@ -16,6 +11,7 @@ const xpaths = {
 	description: 'string(//meta[@name="description"]/@content | //meta[@property="og:description"]/@content)',
 	// image is og:image (either name or property)
 	image: 'string(//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content)',
+	favicon: 'string(//link[@rel="icon" or @rel="shortcut icon"]/@href)',
 } as const;
 type XPaths = typeof xpaths
 type XPathsKeys = keyof XPaths
@@ -40,7 +36,16 @@ const domParser = new DOMParser({
 	},
 })
 
+type MetaTags = Record<XPathsKeys, string>
+
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
+
+	const cleanUrl = url.split('?', 2)[0]
+	const cached = cache.get(cleanUrl)
+	if (cached) return cached as MetaTags
+
+	console.log(`Fetching ${url}`)
+
 	const page = await fetch(url,
 		{
 			next: {
@@ -53,5 +58,33 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const document = domParser.parseFromString(html);
 
 	const properties = mapProperties(xpaths, document)
+
+	let favicon = properties.favicon?.toString() ?? ''
+	favicon = favicon && (favicon.startsWith('http') ? favicon : new URL(favicon, url).toString())
+
+	const image = properties.image?.toString() ?? ''
+
+	properties.favicon = await imageToBase64(favicon)
+	properties.image = image ? await imageToBase64(image) : properties.favicon
+
+	cache.put(cleanUrl, properties)
+
 	return properties as MetaTags
 }
+
+const EMPTY_BASE64_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII='
+
+const imageToBase64 = async (url: string) => {
+	if (!url) return EMPTY_BASE64_IMAGE
+	const response = await fetch(url, {
+		method: 'GET',
+		headers: {
+			Accept: 'image/*',
+		}
+	})
+	const blob = await response.arrayBuffer()
+	const buffer = Buffer.from(blob)
+	const base64 = buffer.toString('base64')
+	return `data:${response.headers.get('content-type')};base64,${base64}`
+}
+

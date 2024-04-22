@@ -7,9 +7,10 @@ import "@/app/code.css";
 import { absolutePath } from "@/lib/utils";
 import { Mdx } from "@/lib/mdx";
 import Image from "next/image";
+import { fr } from "date-fns/locale";
 
 export const generateStaticParams = async () =>
-	allPosts.map((post) => ({ slug: post._raw.flattenedPath.split("/") }));
+	allPosts.map((post) => ({ slug: post.slug.split("/") }));
 
 interface PageProps {
 	params: { slug: string[] };
@@ -17,7 +18,7 @@ interface PageProps {
 
 const getPost = ({ params }: PageProps) => {
 	const slug = params.slug.join('/');
-	return allPosts.find((post) => post._raw.flattenedPath === slug);
+	return allPosts.find((post) => post.slug === slug);
 };
 
 export const generateMetadata = (props: PageProps): Metadata => {
@@ -38,22 +39,21 @@ export const generateMetadata = (props: PageProps): Metadata => {
 
 export default async function PostPage(props: PageProps) {
 	const post = getPost(props);
-	console.log(allPosts.map(p => p.coverUrl));
 	if (!post) notFound();
 
 	return (
-		<article className="mx-auto px-12 md:px-0 max-w-2xl py-8">
+		<article className="container" id="skip-nav">
 			<div className="mb-8 text-center">
 				<time dateTime={post.date} className="mb-1 text-xs text-gray-600">
-					{format(parseISO(post.date), "LLLL d, yyyy")}
+					{format(parseISO(post.date), "d MMMM yyyy", { locale: fr })}
 				</time>
 				<h1 className="text-3xl font-bold">{post.title}</h1>
 				<p>{post.blogType}</p>
 				<Image
 					src={post.coverUrl}
 					alt={post.cover.alt ?? post.title}
-					width={800}
-					height={800 / post.cover.image.aspectRatio}
+					width={600}
+					height={600 / post.cover.image.aspectRatio}
 					blurDataURL={post.cover.image.blurhashDataUrl}
 				/>
 			</div>
