@@ -19,5 +19,5 @@ export default function CommentSection() {
 			loading="lazy"
 			lang="fr"
 		/>
-	)
+	);
 }

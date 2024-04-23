@@ -7,12 +7,10 @@ export default function Home() {
 				{allPosts.map((post) => (
 					<li key={post._raw.flattenedPath}>
 						<h2>{post.title}</h2>
-						<a href={post.url}>
-							{post.url}
-						</a>
+						<a href={post.url}>{post.url}</a>
 					</li>
 				))}
 			</ul>
 		</div>
-	)
+	);
 }

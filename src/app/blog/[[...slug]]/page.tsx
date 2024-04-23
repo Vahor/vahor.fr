@@ -1,7 +1,7 @@
 import { format, parseISO } from "date-fns";
 import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import "@catppuccin/highlightjs/css/catppuccin-mocha.css";
 import "@/app/code.css";
 import "@shikijs/twoslash/style-rich.css";
@@ -19,22 +19,32 @@ interface PageProps {
 }
 
 const getPost = ({ params }: PageProps) => {
-	const slug = params.slug.join('/');
+	const slug = params.slug.join("/");
 	return allPosts.find((post) => post.slug === slug);
 };
 
-export const generateMetadata = (props: PageProps): Metadata => {
+export const generateMetadata = async (
+	props: PageProps,
+	parent: ResolvingMetadata,
+): Promise<Metadata> => {
 	const post = getPost(props);
 	if (!post) notFound();
+
+	const parentMetadata = await parent;
 	return {
 		title: post.title,
 		description: post.description,
 		openGraph: {
+			...parentMetadata.openGraph,
 			type: "article",
 			url: absolutePath(post.url),
+			images: post.ogImageUrl || parentMetadata.openGraph?.images,
 		},
 		twitter: {
-			card: "summary_large_image",
+			...parentMetadata.twitter,
+			// @ts-expect-error weird typing
+			card: post.ogImageUrl ? "summary_large_image" : parentMetadata.twitter?.card,
+			images: post.ogImageUrl || parentMetadata.twitter?.images,
 		},
 	};
 };
