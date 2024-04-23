@@ -51,3 +51,22 @@ code {
   padding-right: 0.3rem;
   padding-left: 0.3rem;
 }
+
+figure figcaption + pre {
+  margin-top: 0;
+  border-top-left-radius: 0!important;
+  border-top-right-radius: 0!important;
+}
+
+figure figcaption {
+  background-color: #272738;
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono);
+  margin-top: 1rem;
+}
+
+figure pre {
+  margin-top: 1rem
+}

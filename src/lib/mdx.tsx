@@ -45,7 +45,7 @@ const mdxComponents: MDXComponents = {
 		const { rawString, ...rest } = props;
 		return (
 			<pre
-				className={cn("rounded-lg py-4 my-4 border group/pre", className)}
+				className={cn("rounded-lg py-4 mb-4 border group/pre", className)}
 				{...rest} />
 		);
 	},

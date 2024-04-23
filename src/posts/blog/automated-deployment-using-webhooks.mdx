@@ -17,11 +17,11 @@ sudo apt install webhook
 
 Création d'un endpoint:
 
-```json /name/1#e /command/2 /working directory/ /github secret/ 
+```json /name/1#e /deploy.sh/ /working directory/ /github secret/ title="rules.json" 
 [
   {
     "id": name, 
-    "execute-command": command, 
+    "execute-command": deploy.sh, 
     "command-working-directory": working directory,
     "pass-arguments-to-command": [
       {
@@ -68,7 +68,7 @@ Création d'un endpoint:
 
 Création du script d'automatisation:
 
-```sh /branch/ /appname/ 
+```sh /branch/ /appname/ title="deploy.sh" 
 #!/bin/sh
 
 git pull -f origin branch
@@ -85,7 +85,7 @@ Lancement du serveur webhook
 webhook -hooks hooks.json -port port
 ```
 
-```sh /server_name/2 /port/
+```sh /server_name/2 /port/ title="nging/site-enabled/server_name"
 server {
 
         listen 443 ssl http2;

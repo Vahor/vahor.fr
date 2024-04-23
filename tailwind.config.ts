@@ -12,6 +12,9 @@ const config = {
 				"2xl": "1400px",
 			},
 		},
+		fontFamily: {
+			mono: ["var(--font-mono)"],
+		},
 		extend: {
 			colors: {
 				border: "hsl(var(--border))",
