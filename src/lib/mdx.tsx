@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { UrlPreview } from "@/components/UrlPreview";
 import { Callout } from "@/components/Callout";
 import { Link as IconLink } from "lucide-react";
+import { CopyButton } from "@/components/ui/copy-button";
 
 // Based on Tailwind prose css: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
 // And shadcn
@@ -31,24 +32,31 @@ const mdxComponents: MDXComponents = {
 			{children}
 		</Link>
 	),
-	code: ({ className, ...props }) => (
-		<code
-			className={cn(
-				"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap",
-				className
-			)}
-			{...props}
-		/>
-	),
-	pre: ({ className, ...props }) => {
+	code: ({ className, ...props }) => {
 		// @ts-ignore
-		const { rawString, ...rest } = props;
+		const { __raw_source, ...rest } = props;
+		// @ts-ignore
+		const language = rest["data-language"];
 		return (
-			<pre
-				className={cn("rounded-lg py-4 mb-4 border group/pre", className)}
-				{...rest} />
+			<>
+				<code
+					className={cn(
+						"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap",
+						className
+					)}
+					{...rest} />
+				<span className="absolute top-0 right-0 p-1 text-xs text-muted-foreground">
+					{language}
+				</span>
+				<CopyButton value={__raw_source} className="absolute top-4 right-8 opacity-0 group-hover:opacity-100" />
+			</>
 		);
 	},
+	pre: ({ className, ...props }) => (
+		<pre
+			className={cn("rounded-lg py-4 mb-4 border relative group", className)}
+			{...props} />
+	),
 	h1: ({ className, id, children, ...props }) => (
 		<h1 className={cn("text-4xl mt-2 scroll-m-20 font-bold group flex gap-3 items-center", className)} id={id} {...props} >
 			{children}

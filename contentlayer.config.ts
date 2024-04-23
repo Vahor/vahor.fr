@@ -10,6 +10,7 @@ import {
 } from '@shikijs/twoslash'
 import { type Transformer } from 'unified';
 import { visit } from "unist-util-visit"
+import type { ShikiTransformer } from "shiki";
 
 
 const CoverProperties = defineNestedType(() => ({
@@ -71,6 +72,16 @@ export const Post = defineDocumentType(() => ({
 	},
 }));
 
+
+function shikiCustom(): ShikiTransformer {
+	return {
+		name: '@vahor/skiki',
+		code(node) {
+			node.properties.__raw_source = this.source;
+		}
+	}
+}
+
 const highlightPlugin = () => {
 	return rehypePrettyCode({
 		theme: "catppuccin-mocha",
@@ -80,7 +91,8 @@ const highlightPlugin = () => {
 			transformerNotationDiff(),
 			transformerTwoslash({
 				explicitTrigger: true,
-			})
+			}),
+			shikiCustom(),
 		],
 	});
 };
