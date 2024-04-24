@@ -67,7 +67,7 @@ export const Post = defineDocumentType(() => ({
 			type: "string",
 			resolve: (post) => {
 				const filePath = post._raw.sourceFilePath;
-				return `https://github.com/vahor/vahor.fr/edit/main/src/posts/${filePath}`;
+				return `https://github.com/vahor/vahor.fr/edit/main/src/content/${filePath}`;
 			},
 		},
 		coverUrl: {
