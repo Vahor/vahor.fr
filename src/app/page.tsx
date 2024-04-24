@@ -1,4 +1,5 @@
 import { allPosts } from "contentlayer/generated";
+import Link from "next/link";
 
 export default function Home() {
 	return (
@@ -7,7 +8,7 @@ export default function Home() {
 				{allPosts.map((post) => (
 					<li key={post._raw.flattenedPath}>
 						<h2>{post.title}</h2>
-						<a href={post.url}>{post.url}</a>
+						<Link href={post.url}>{post.url}</Link>
 					</li>
 				))}
 			</ul>

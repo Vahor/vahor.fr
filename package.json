@@ -18,6 +18,8 @@
 		"@shikijs/transformers": "^1.3.0",
 		"@shikijs/twoslash": "^1.3.0",
 		"@t3-oss/env-nextjs": "^0.10.1",
+		"@vercel/analytics": "^1.2.2",
+		"@vercel/speed-insights": "^1.0.10",
 		"@xmldom/xmldom": "^0.8.10",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
