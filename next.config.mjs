@@ -4,6 +4,10 @@ import { withContentlayer } from "next-contentlayer2";
 const nextConfig = {
 	reactStrictMode: true,
 	swcMinify: true,
+
+	env: {
+		BUILD_TIME: new Date().toISOString(),
+	},
 };
 
 export default withContentlayer(nextConfig);
