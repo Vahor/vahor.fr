@@ -28,8 +28,8 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   }
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 60 9.1% 97.8%;
+    --background: 240 16.7% 7.06%;
+    --foreground: 0deg 0% 83.1%;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
@@ -64,5 +64,17 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv11", "salt", "ss01", "ss03", "cv01", "cv02",
       "cv03", "cv04", "cv05", "cv06", "cv07", "cv08", "cv09", "cv10";
+  }
+}
+
+@layer components {
+  .post-content {
+    @apply md:max-w-3xl flex-1;
+  }
+  .larger-post-content {
+    @apply md:-mx-12; 
+  }
+  p span:has(img) + em {
+    @apply text-center block text-sm larger-post-content mt-1;
   }
 }

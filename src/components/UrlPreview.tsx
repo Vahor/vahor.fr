@@ -11,17 +11,17 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 	return (
 		<a
 			href={url}
-			className="mt-6 border rounded-md !no-underline group relative md:-mx-8 grid h-32 grid-cols-3 bg-background"
+			className="mt-6 border rounded-md !no-underline group relative md:-mx-12 grid  grid-cols-3 bg-black"
 			aria-label={metadata.title}
 		>
 			<div className="absolute inset-0 transition duration-250 ease-in-out bg-black opacity-0 group-hover:opacity-10 dark:bg-white pointer-events-none rounded-md" />
 
 			<div className="flex flex-col justify-between col-span-3 p-4 text-sm md:col-span-2">
-				<div className="text-md">{metadata.title}</div>
-				<p className="font-light text-muted-foreground break-words h-[3em] overflow-hidden">
-					{metadata.description}
+				<div className="text-md text-white">{metadata.title}</div>
+				<p className="items-center flex py-1 font-light text-muted-foreground min-h-[3.5rem] break-words overflow-hidden">
+					{metadata.description.slice(0, 200)}
 				</p>
-				<div className="text-muted-foreground">
+				<div>
 					<Image
 						src={metadata.favicon}
 						alt={metadata.title}
@@ -33,7 +33,7 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 					{url}
 				</div>
 			</div>
-			<div className="relative hidden w-full h-32 md:block">
+			<div className="relative hidden w-full md:block">
 				<Image
 					src={metadata.image || metadata.favicon}
 					alt={metadata.title}

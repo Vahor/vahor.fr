@@ -9,6 +9,7 @@ import {
 	transformerRenderWhitespace,
 } from "@shikijs/transformers";
 import { transformerTwoslash } from "@shikijs/twoslash";
+// import remarkCustomHeaderId from 'remark-custom-header-id';
 import type { ShikiTransformer } from "shiki";
 import * as fs from "node:fs";
 
@@ -135,6 +136,9 @@ export default makeSource({
 	documentTypes: [Post],
 	mdx: {
 		rehypePlugins: [highlightPlugin, codeImport, rehypeSlug],
-		remarkPlugins: [remarkGfm],
+		remarkPlugins: [
+			//	remarkCustomHeaderId,  FIXME: not working with ContentLayer
+			remarkGfm
+		],
 	},
 });

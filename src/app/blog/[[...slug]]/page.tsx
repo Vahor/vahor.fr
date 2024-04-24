@@ -58,7 +58,7 @@ export default async function PostPage(props: PageProps) {
 	if (!post) notFound();
 
 	return (
-		<article className="container py-8" id="skip-nav">
+		<article className="container py-8 mx-auto post-content" id="skip-nav">
 			<JsonLd
 				jsonLd={articlePage({
 					headline: post.title,
@@ -85,7 +85,9 @@ export default async function PostPage(props: PageProps) {
 					blurDataURL={post.cover.image.blurhashDataUrl}
 				/>
 			</div>
-			<Mdx code={post.body.code} />
+			<div role="main">
+				<Mdx code={post.body.code} />
+			</div>
 			<CommentSection />
 		</article>
 	);

@@ -29,7 +29,7 @@ const mdxComponents: MDXComponents = {
 		<Link
 			href={href as string}
 			className={cn(
-				"font-medium underline underline-offset-4 has-[code]:no-underline",
+				"font-medium underline underline-offset-4 has-[code]:no-underline hover:text-primary transition-colors",
 				className,
 			)}
 		>
@@ -39,8 +39,6 @@ const mdxComponents: MDXComponents = {
 	code: ({ className, ...props }) => {
 		// @ts-ignore
 		const { __raw_source, ...rest } = props;
-		// @ts-ignore
-		const language = rest["data-language"];
 		return (
 			<>
 				<code
@@ -50,26 +48,33 @@ const mdxComponents: MDXComponents = {
 					)}
 					{...rest}
 				/>
-				<span className="absolute top-0 right-0 p-1 text-xs text-muted-foreground">
-					{language}
-				</span>
 				<CopyButton
 					value={__raw_source}
-					className="absolute top-4 right-8 opacity-0 group-hover:opacity-100"
+					className="absolute top-4 right-10 opacity-0 group-hover:opacity-100"
 				/>
 			</>
 		);
 	},
-	pre: ({ className, ...props }) => (
-		<pre
-			className={cn("rounded-lg py-4 mb-4 border relative group", className)}
-			{...props}
-		/>
-	),
+	pre: ({ className, ...props }) => {
+		// @ts-ignore
+		const { __raw_source, children, ...rest } = props;
+		// @ts-ignore
+		const language = rest["data-language"];
+		return (
+			<pre
+				className={cn("rounded-lg py-4 mb-4 border relative group", className)}
+				{...rest} >
+				{children}
+				<span className="absolute top-0 right-0 p-1 text-xs text-muted-foreground">
+					{language}
+				</span>
+			</pre>
+		);
+	},
 	h1: ({ className, id, children, ...props }) => (
 		<h1
 			className={cn(
-				"text-4xl mt-2 scroll-m-20 font-bold group flex gap-3 items-center",
+				"text-4xl mt-2 scroll-m-20 font-bold group flex gap-3 items-center text-white",
 				className,
 			)}
 			id={id}
@@ -82,7 +87,7 @@ const mdxComponents: MDXComponents = {
 	h2: ({ className, id, children, ...props }) => (
 		<h2
 			className={cn(
-				"mt-8 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight first:mt-0 flex items-center gap-2 group",
+				"mt-12 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 flex items-center gap-2 group text-white",
 				className,
 			)}
 			id={id}
@@ -95,7 +100,7 @@ const mdxComponents: MDXComponents = {
 	h3: ({ className, id, children, ...props }) => (
 		<h3
 			className={cn(
-				"mt-6 scroll-m-20 text-xl pb-2 font-semibold tracking-tight flex items-center gap-2 group",
+				"mt-6 scroll-m-20 text-2xl pb-2 font-semibold tracking-tight flex items-center gap-2 group text-white",
 				className,
 			)}
 			id={id}
@@ -108,7 +113,7 @@ const mdxComponents: MDXComponents = {
 	h4: ({ className, id, children, ...props }) => (
 		<h4
 			className={cn(
-				"font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight flex items-center gap-2 group",
+				"font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight flex items-center gap-2 group text-white",
 				className,
 			)}
 			id={id}
@@ -121,7 +126,7 @@ const mdxComponents: MDXComponents = {
 	h5: ({ className, id, children, ...props }) => (
 		<h5
 			className={cn(
-				"mt-8 scroll-m-20 text-lg font-semibold tracking-tight flex items-center gap-2 group",
+				"mt-8 scroll-m-20 text-lg font-semibold tracking-tight flex items-center gap-2 group text-white",
 				className,
 			)}
 			id={id}
@@ -151,12 +156,11 @@ const mdxComponents: MDXComponents = {
 	),
 	hr: ({ className }) => <hr className={cn("my-4 md:my-8", className)} />,
 	Vimeo: ({ id, title, muted = true }) => (
-		<div className="aspect-video rounded-md overflow-hidden mt-6 translate-z-0 md:-mx-8">
+		<div className="aspect-video rounded-md overflow-hidden mt-6 translate-z-0 larger-post-content">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
-					muted ? "&muted=1" : ""
-				}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
+					}`}
 				className="w-full h-full rounded-md scale-x-[1.02]"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -167,12 +171,14 @@ const mdxComponents: MDXComponents = {
 	img: ({ className, src = "", alt = "", ...props }) => {
 		const cleanSrc = src.replace(/^.*public\//, "/");
 		return (
-			<img
-				className={cn("rounded-md", className)}
-				src={cleanSrc}
-				{...props}
-				alt={alt}
-			/>
+			<span className="larger-post-content block">
+				<img
+					className={cn("rounded-md mx-auto", className)}
+					src={cleanSrc}
+					{...props}
+					alt={alt}
+				/>
+			</span>
 		);
 	},
 	UrlPreview,
