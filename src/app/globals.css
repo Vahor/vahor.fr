@@ -29,12 +29,14 @@
   }
   .dark {
     --background: 240 16.7% 7.06%;
+    --background-light: 240deg 19% 18.5%;
     --foreground: 0deg 0% 83.1%;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
     --primary: 37 93% 75%;
+    --primary-light: 37 93% 82%;
     --primary-foreground: 37 9.3% 7.5%;
     --secondary: 12 6.5% 15.1%;
     --secondary-foreground: 60 9.1% 97.8%;
@@ -72,7 +74,7 @@
     @apply md:max-w-3xl flex-1;
   }
   .larger-post-content {
-    @apply md:-mx-12; 
+    @apply lg:-mx-12 xl:-mx-16; 
   }
   p span:has(img) + em {
     @apply text-center block text-sm larger-post-content mt-1;

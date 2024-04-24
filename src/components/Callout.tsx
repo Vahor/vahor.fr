@@ -10,7 +10,7 @@ export function Callout({ icon, title, children: description }: CalloutProps) {
 	return (
 		<Alert className="mt-4 bg-black">
 			{icon}
-			<AlertTitle>{title}</AlertTitle>
+			{title && <AlertTitle>{title}</AlertTitle>}
 			<AlertDescription>{description}</AlertDescription>
 		</Alert>
 	);

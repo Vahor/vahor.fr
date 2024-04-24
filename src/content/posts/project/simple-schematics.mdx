@@ -5,6 +5,8 @@ datePublished: 2022-02-26
 cover: 
     image: ../../../../public/tmp.jpg
     size: large
+tags:
+ - minecraft
 ---
 
 <UrlPreview url="https://github.com/Vahor/SimpleSchematics"/>
@@ -37,7 +39,7 @@ Sauvegarde la sélection actuelle dans un fichier.
 /s schematic create trees.small test
 ```
 
-<Callout title="Résulat">
+<Callout>
     Cette commande va sauvegarder la sélection dans le fichier `test.schematics`.
     Ce fichier sera situé dans le dossier `small`, lui même dans le dossier `trees`. 
 
@@ -77,7 +79,7 @@ Alterne le mode de selection entre deux modes `mode sélection` et `mode créati
 
 #### Actions
 
-<Callout title="Information">
+<Callout>
     Les actions sont les éléments présent en dernière ligne sur l'inventaire en haut de l'image.<br/>
     Ils vont être présenté de gauche à droite.
 </Callout>
@@ -104,7 +106,7 @@ Permet de filtrer la liste: par ordre `alphabétique` ou par `date de création`
 
 ### Liste de schématics
 
-<Callout title="Information">
+<Callout>
     Similaire à une structure de fichier, il y a des dossiers et des schématics.
 
     Un dossier est représenté par un livre, un schématic par une carte.
@@ -115,7 +117,7 @@ Permet de filtrer la liste: par ordre `alphabétique` ou par `date de création`
 
 ## Configuration par dossier
 
-```yaml showLineNumbers
+```yaml showLineNumbers title="folder_data.yml"
 material: SKULL_ITEM
 data: 3
 skull_base64: <base64>
@@ -126,8 +128,8 @@ generate_thumbnail: false
 
 <small>Type: __boolean__</small>
 
-`true` Génère automatiquement les miniatures.\
-`false` Désactive la fonctionalité. 
+`true{:java}` Génère automatiquement les miniatures.\
+`false{:java}` Désactive la fonctionalité. 
 
 <Callout title="Remarque">
     Les miniatures fonctionnent mieux avec les éléments imposants comme les arbres.

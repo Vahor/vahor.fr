@@ -1,11 +1,12 @@
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer2/hooks";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { UrlPreview } from "@/components/UrlPreview";
 import { Callout } from "@/components/Callout";
 import { Link as IconLink } from "lucide-react";
 import { CopyButton } from "@/components/ui/copy-button";
+import Hr from "@/components/Hr";
+import A from "@/components/A";
 
 // Based on Tailwind prose css: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
 // And shadcn
@@ -25,20 +26,9 @@ const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 };
 
 const mdxComponents: MDXComponents = {
-	a: ({ href, children, className }) => (
-		<Link
-			href={href as string}
-			className={cn(
-				"font-medium underline underline-offset-4 has-[code]:no-underline hover:text-primary transition-colors",
-				className,
-			)}
-		>
-			{children}
-		</Link>
-	),
+	// @ts-expect-error next/link href is not a string
+	a: A,
 	code: ({ className, ...props }) => {
-		// @ts-ignore
-		const { __raw_source, ...rest } = props;
 		return (
 			<>
 				<code
@@ -46,11 +36,7 @@ const mdxComponents: MDXComponents = {
 						"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap overflow-x-auto",
 						className,
 					)}
-					{...rest}
-				/>
-				<CopyButton
-					value={__raw_source}
-					className="absolute top-4 right-10 opacity-0 group-hover:opacity-100"
+					{...props}
 				/>
 			</>
 		);
@@ -63,18 +49,23 @@ const mdxComponents: MDXComponents = {
 		return (
 			<pre
 				className={cn("rounded-lg py-4 mb-4 border relative group", className)}
-				{...rest} >
+				{...rest}
+			>
 				{children}
 				<span className="absolute top-0 right-0 p-1 text-xs text-muted-foreground">
 					{language}
 				</span>
+				<CopyButton
+					value={__raw_source}
+					className="absolute top-4 right-10 opacity-0 group-hover:opacity-100"
+				/>
 			</pre>
 		);
 	},
 	h1: ({ className, id, children, ...props }) => (
 		<h1
 			className={cn(
-				"text-4xl mt-2 scroll-m-20 font-bold group flex gap-3 items-center text-white",
+				"text-4xl mt-2 scroll-m-20 font-semibold group flex gap-3 items-center text-white",
 				className,
 			)}
 			id={id}
@@ -100,7 +91,7 @@ const mdxComponents: MDXComponents = {
 	h3: ({ className, id, children, ...props }) => (
 		<h3
 			className={cn(
-				"mt-6 scroll-m-20 text-2xl pb-2 font-semibold tracking-tight flex items-center gap-2 group text-white",
+				"mt-8 scroll-m-20 text-xl pb-2 font-medium tracking-tight flex items-center gap-2 group text-white",
 				className,
 			)}
 			id={id}
@@ -113,7 +104,7 @@ const mdxComponents: MDXComponents = {
 	h4: ({ className, id, children, ...props }) => (
 		<h4
 			className={cn(
-				"font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight flex items-center gap-2 group text-white",
+				"font-heading mt-8 scroll-m-20 text-lg font-medium tracking-tight flex items-center gap-2 group text-white",
 				className,
 			)}
 			id={id}
@@ -154,13 +145,14 @@ const mdxComponents: MDXComponents = {
 	li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
 		<li className={cn("mt-2 pl-1 md:pl-2", className)} {...props} />
 	),
-	hr: ({ className }) => <hr className={cn("my-4 md:my-8", className)} />,
+	hr: Hr,
 	Vimeo: ({ id, title, muted = true }) => (
 		<div className="aspect-video rounded-md overflow-hidden mt-6 translate-z-0 larger-post-content">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
-					}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
+					muted ? "&muted=1" : ""
+				}`}
 				className="w-full h-full rounded-md scale-x-[1.02]"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

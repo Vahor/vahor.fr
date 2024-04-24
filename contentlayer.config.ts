@@ -94,6 +94,15 @@ export const Post = defineDocumentType(() => ({
 				return firstSegment;
 			},
 		},
+		timeToRead: {
+			type: "number",
+			resolve: (post) => {
+				const content = post.body.raw;
+				const words = content.split(/\s+/).length;
+				const minutes = words / 200;
+				return Math.ceil(minutes);
+			},
+		},
 		dateModified: {
 			type: "date",
 			resolve: (post) => {
@@ -110,7 +119,7 @@ export const Post = defineDocumentType(() => ({
 function shikiCustom(): ShikiTransformer {
 	return {
 		name: "@vahor/skiki",
-		code(node) {
+		pre(node) {
 			node.properties.__raw_source = this.source;
 		},
 	};
@@ -138,7 +147,7 @@ export default makeSource({
 		rehypePlugins: [highlightPlugin, codeImport, rehypeSlug],
 		remarkPlugins: [
 			//	remarkCustomHeaderId,  FIXME: not working with ContentLayer
-			remarkGfm
+			remarkGfm,
 		],
 	},
 });

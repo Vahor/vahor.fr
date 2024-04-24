@@ -7,7 +7,7 @@ const config = {
 	theme: {
 		container: {
 			center: true,
-			padding: "2rem",
+			padding: "1.5rem",
 			screens: {
 				"2xl": "1400px",
 			},
@@ -20,11 +20,15 @@ const config = {
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
-				background: "hsl(var(--background))",
+				background: {
+					DEFAULT: "hsl(var(--background))",
+					light: "hsl(var(--background-light))",
+				},
 				foreground: "hsl(var(--foreground))",
 				primary: {
 					DEFAULT: "hsl(var(--primary))",
 					foreground: "hsl(var(--primary-foreground))",
+					light: "hsl(var(--primary-light))",
 				},
 				secondary: {
 					DEFAULT: "hsl(var(--secondary))",
