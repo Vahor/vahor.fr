@@ -11,10 +11,12 @@ export const metadata: Metadata = {
 	metadataBase: new URL("https://vahor.fr"),
 	creator: "Nathan David",
 	robots: "index, follow",
-	authors: [{
-		name: "Nathan David",
-		url: "https://vahor.fr",
-	}],
+	authors: [
+		{
+			name: "Nathan David",
+			url: "https://vahor.fr",
+		},
+	],
 	twitter: {
 		creator: "@vahor_",
 		card: "summary",
@@ -43,4 +45,3 @@ export default function RootLayout({
 		</html>
 	);
 }
-

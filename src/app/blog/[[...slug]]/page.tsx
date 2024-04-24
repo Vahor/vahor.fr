@@ -10,6 +10,8 @@ import { Mdx } from "@/lib/mdx";
 import Image from "next/image";
 import { fr } from "date-fns/locale";
 import CommentSection from "./comments";
+import { JsonLd } from "@/components/jsonld/profile-page";
+import { articlePage } from "@/lib/jsonld";
 
 export const generateStaticParams = async () =>
 	allPosts.map((post) => ({ slug: post.slug.split("/") }));
@@ -43,7 +45,9 @@ export const generateMetadata = async (
 		twitter: {
 			...parentMetadata.twitter,
 			// @ts-expect-error weird typing
-			card: post.ogImageUrl ? "summary_large_image" : parentMetadata.twitter?.card,
+			card: post.ogImageUrl
+				? "summary_large_image"
+				: parentMetadata.twitter?.card,
 			images: post.ogImageUrl || parentMetadata.twitter?.images,
 		},
 	};
@@ -55,9 +59,21 @@ export default async function PostPage(props: PageProps) {
 
 	return (
 		<article className="container py-8" id="skip-nav">
+			<JsonLd
+				jsonLd={articlePage({
+					headline: post.title,
+					datePublished: post.datePublished,
+					dateModified: post.dateModified,
+					image: post.ogImageUrl,
+					description: post.description,
+				})}
+			/>
 			<div className="mb-8 text-center">
-				<time dateTime={post.date} className="mb-1 text-xs text-gray-600">
-					{format(parseISO(post.date), "d MMMM yyyy", { locale: fr })}
+				<time
+					dateTime={post.datePublished}
+					className="mb-1 text-xs text-gray-600"
+				>
+					{format(parseISO(post.datePublished), "d MMMM yyyy", { locale: fr })}
 				</time>
 				<h1 className="text-3xl font-bold">{post.title}</h1>
 				<p>{post.blogType}</p>

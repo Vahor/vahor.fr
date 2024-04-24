@@ -10,6 +10,7 @@ import {
 } from "@shikijs/transformers";
 import { transformerTwoslash } from "@shikijs/twoslash";
 import type { ShikiTransformer } from "shiki";
+import * as fs from "node:fs";
 
 const CoverProperties = defineNestedType(() => ({
 	name: "CoverProperties",
@@ -35,16 +36,17 @@ const OGPProperties = defineNestedType(() => ({
 }));
 
 const postSlug = (path: string) => {
-	return path.split("blog/").splice(-1)[0];
+	const withoutPrefix = path.split("posts/").splice(-1)[0];
+	return withoutPrefix.split("blog/").splice(-1)[0];
 };
 
 export const Post = defineDocumentType(() => ({
 	name: "Post",
-	filePathPattern: "**/*.mdx",
+	filePathPattern: "posts/**/*.mdx",
 	contentType: "mdx",
 	fields: {
 		title: { type: "string", required: true },
-		date: { type: "date", required: true },
+		datePublished: { type: "date", required: true },
 		description: { type: "string", required: true },
 		tags: { type: "list", of: { type: "string" }, required: false },
 		cover: { type: "nested", of: CoverProperties, required: true },
@@ -85,10 +87,20 @@ export const Post = defineDocumentType(() => ({
 		blogType: {
 			type: "string",
 			resolve: (post) => {
-				const slug = post._raw.flattenedPath;
+				const slug = postSlug(post._raw.flattenedPath);
 				if (slug.indexOf("/") === -1) return "blog";
-				const firstSegment = post._raw.flattenedPath.split("/", 2)[0];
+				const firstSegment = slug.split("/")[0];
 				return firstSegment;
+			},
+		},
+		dateModified: {
+			type: "date",
+			resolve: (post) => {
+				const sourceFilePath = post._raw.sourceFilePath;
+				const prefix = "src/content/";
+				const stats = fs.statSync(prefix + sourceFilePath);
+				const date = stats.mtime;
+				return date;
 			},
 		},
 	},
@@ -119,7 +131,7 @@ const highlightPlugin = () => {
 };
 
 export default makeSource({
-	contentDirPath: "src/posts",
+	contentDirPath: "src/content",
 	documentTypes: [Post],
 	mdx: {
 		rehypePlugins: [highlightPlugin, codeImport, rehypeSlug],
