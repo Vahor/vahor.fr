@@ -43,7 +43,7 @@ const mdxComponents: MDXComponents = {
 			<>
 				<code
 					className={cn(
-						"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap",
+						"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap overflow-x-auto",
 						className,
 					)}
 					{...rest}
