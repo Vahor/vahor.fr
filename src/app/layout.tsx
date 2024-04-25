@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import { Header } from "@/components/header/header";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,9 +55,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="fr">
-			<body className={cn(inter.className, "dark")}>
-				{children}
+		<html lang="fr" suppressHydrationWarning>
+			<body className={cn(inter.className)}>
+				<Providers>
+					<Header />
+					{children}
+				</Providers>
 				<SpeedInsights />
 				<Analytics />
 			</body>

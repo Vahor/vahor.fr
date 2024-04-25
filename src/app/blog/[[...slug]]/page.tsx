@@ -7,7 +7,6 @@ import "@/app/code.css";
 import "@shikijs/twoslash/style-rich.css";
 import { absolutePath } from "@/lib/utils";
 import { Mdx } from "@/lib/mdx";
-import Image from "next/image";
 import { fr } from "date-fns/locale";
 import CommentSection from "./comments";
 import { JsonLd } from "@/components/jsonld/profile-page";
@@ -59,7 +58,7 @@ export const generateMetadata = async (
 const Tag = ({ tag, href }: { tag: string; href: string }) => (
 	<Link
 		href={href}
-		className="text-xs bg-background-light font-mono capitalize text-white px-2 py-1 rounded-md"
+		className="text-xs bg-background-light font-mono capitalize text-black dark:text-white px-2 py-1 rounded-md"
 	>
 		{tag}
 	</Link>
@@ -81,43 +80,32 @@ export default async function PostPage(props: PageProps) {
 				})}
 			/>
 
-			<header className="mb-10 text-center flex flex-col gap-6">
-				<h1 className="text-4xl font-semibold text-white text-balance">
+			<header className="mb-10 flex flex-col gap-6">
+				<h1 className="text-4xl font-semibold text-black dark:text-white text-balance">
 					{post.title}
 				</h1>
-				<p className="mx-4">{post.description}</p>
-				<div className="flex flex-row items-center gap-6 justify-center font-mono">
+				<p>{post.description}</p>
+				<div className="flex flex-row items-center gap-6 font-mono">
 					<div className="flex flex-row items-center gap-2">
 						<Clock className="size-4" />
 						<span className="text-xs">{post.timeToRead} min de lecture</span>
 					</div>
 					<div className="flex flex-row items-center gap-2">
 						<Calendar className="size-4" />
-						<time dateTime={post.datePublished} className="text-xs">
-							{format(parseISO(post.datePublished), "d MMMM yyyy", {
-								locale: fr,
-							})}
-						</time>
+						<span className="text-xs">
+							<time dateTime={post.datePublished}>
+								{format(parseISO(post.datePublished), "d MMMM yyyy", {
+									locale: fr,
+								})}
+							</time>
+						</span>
 					</div>
 				</div>
-				<div
-					className="flex flex-row items-center gap-2 justify-center"
-					id="tags"
-				>
+				<div className="flex flex-row items-center gap-2" id="tags">
 					<Tag tag={post.blogType} href={`/tag/${post.blogType}`} />
 					{post.tags?.map((tag) => (
 						<Tag key={tag} tag={tag} href={`/tag/${tag}`} />
 					))}
-				</div>
-				<div className="larger-post-content block mt-8">
-					<Image
-						className="rounded-md mx-auto"
-						src={post.coverUrl}
-						alt={post.cover.alt ?? post.title}
-						width={600}
-						height={600 / post.cover.image.aspectRatio}
-						blurDataURL={post.cover.image.blurhashDataUrl}
-					/>
 				</div>
 			</header>
 
@@ -138,7 +126,7 @@ export default async function PostPage(props: PageProps) {
 				</Link>
 			</footer>
 
-			<section id="comments" className="larger-post-content">
+			<section className="larger-post-content">
 				<CommentSection />
 			</section>
 		</main>

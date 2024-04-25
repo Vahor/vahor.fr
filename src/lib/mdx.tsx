@@ -65,7 +65,7 @@ const mdxComponents: MDXComponents = {
 	h1: ({ className, id, children, ...props }) => (
 		<h1
 			className={cn(
-				"text-4xl mt-2 scroll-m-20 font-semibold group flex gap-3 items-center text-white",
+				"text-4xl mt-12 scroll-m-20 font-semibold group flex gap-3 items-center text-black dark:text-white",
 				className,
 			)}
 			id={id}
@@ -78,7 +78,7 @@ const mdxComponents: MDXComponents = {
 	h2: ({ className, id, children, ...props }) => (
 		<h2
 			className={cn(
-				"mt-12 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 flex items-center gap-2 group text-white",
+				"mt-12 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 flex items-center gap-2 group text-black dark:text-white",
 				className,
 			)}
 			id={id}
@@ -91,7 +91,7 @@ const mdxComponents: MDXComponents = {
 	h3: ({ className, id, children, ...props }) => (
 		<h3
 			className={cn(
-				"mt-8 scroll-m-20 text-xl pb-2 font-medium tracking-tight flex items-center gap-2 group text-white",
+				"mt-8 scroll-m-20 text-xl pb-2 font-medium tracking-tight flex items-center gap-2 group text-black dark:text-white",
 				className,
 			)}
 			id={id}
@@ -104,7 +104,7 @@ const mdxComponents: MDXComponents = {
 	h4: ({ className, id, children, ...props }) => (
 		<h4
 			className={cn(
-				"font-heading mt-8 scroll-m-20 text-lg font-medium tracking-tight flex items-center gap-2 group text-white",
+				"font-heading mt-8 scroll-m-20 text-lg font-medium tracking-tight flex items-center gap-2 group text-black dark:text-white",
 				className,
 			)}
 			id={id}
@@ -117,7 +117,7 @@ const mdxComponents: MDXComponents = {
 	h5: ({ className, id, children, ...props }) => (
 		<h5
 			className={cn(
-				"mt-8 scroll-m-20 text-lg font-semibold tracking-tight flex items-center gap-2 group text-white",
+				"mt-8 scroll-m-20 text-lg font-semibold tracking-tight flex items-center gap-2 group text-black dark:text-white",
 				className,
 			)}
 			id={id}

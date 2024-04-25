@@ -127,7 +127,10 @@ function shikiCustom(): ShikiTransformer {
 
 const highlightPlugin = () => {
 	return rehypePrettyCode({
-		theme: "catppuccin-mocha",
+		theme: {
+			dark: "catppuccin-mocha",
+			light: "catppuccin-latte",
+		},
 		defaultLang: "plaintext",
 		transformers: [
 			transformerRenderWhitespace(),

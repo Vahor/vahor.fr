@@ -27,16 +27,19 @@ code .space {
 }
 
 code mark[data-highlighted-chars] {
-  border: 1px solid #6c6c7d;
-  background-color: rgba(60, 60, 70, 0.5);
+  background-color: rgba(0, 0, 0, 0.05);
   padding: 2px 3px;
   margin: -2px -3px;
   border-radius: var(--radius);
 }
-
-code mark[data-highlighted-chars][data-chars-id="e"] {
-  border-style: dashed;
+code mark[data-highlighted-chars] *{
+    background-color: inherit!important; 
 }
+.dark code mark[data-highlighted-chars] {
+  border-color: red; 
+  background-color: rgba(60, 60, 70, 0.5);
+}
+
 
 code span[data-highlighted-line] {
   background-color: #272738;
@@ -71,4 +74,22 @@ figure:has(pre) figcaption {
 
 figure pre {
   margin-top: 1rem
+}
+
+code[data-theme*=" "],
+code[data-theme*=" "] span,
+pre[data-theme*=" "]
+{
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+ 
+.dark {
+  code[data-theme*=" "],
+  code[data-theme*=" "] span,
+  pre[data-theme*=" "]
+  {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
 }

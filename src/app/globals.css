@@ -5,12 +5,13 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    --background-light: 0 0% 95%;
+    --foreground: 0 0% 16.9%;
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
-    --primary: 37 93% 75%;
+    --primary: 37 93% 46%;
     --primary-foreground: 37 9.3% 7.5%;
     --secondary: 60 4.8% 95.9%;
     --secondary-foreground: 24 9.8% 10%;
@@ -27,6 +28,7 @@
 
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   }
+
   .dark {
     --background: 240 16.7% 7.06%;
     --background-light: 240deg 19% 18.5%;
@@ -74,7 +76,7 @@
     @apply md:max-w-3xl flex-1;
   }
   .larger-post-content {
-    @apply lg:-mx-12 xl:-mx-16; 
+    @apply lg:-mx-24 xl:-mx-32; 
   }
   p span:has(img) + em {
     @apply text-center block text-sm larger-post-content mt-1;
