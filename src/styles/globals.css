@@ -5,8 +5,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --background-light: 0 0% 95%;
-    --foreground: 0 0% 16.9%;
+    --foreground: 0 0% 21.9%;
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
@@ -26,25 +25,25 @@
     --ring: 24.6 95% 53.1%;
     --radius: 0.5rem;
 
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
   }
 
   .dark {
     --background: 240 16.7% 7.06%;
-    --background-light: 240deg 19% 18.5%;
     --foreground: 0deg 0% 83.1%;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
-    --popover: 20 14.3% 4.1%;
+    --popover: 240 16.7% 7.06%; 
     --popover-foreground: 60 9.1% 97.8%;
     --primary: 37 93% 75%;
-    --primary-light: 37 93% 82%;
     --primary-foreground: 37 9.3% 7.5%;
     --secondary: 12 6.5% 15.1%;
     --secondary-foreground: 60 9.1% 97.8%;
     --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-    --accent: 12 6.5% 15.1%;
+    --muted-foreground: 0 0% 56%;
+    --accent: 240 19% 18.5%;
+    /* --accent: 12 6.5% 15.1%; */
     --accent-foreground: 60 9.1% 97.8%;
     --destructive: 0 72.2% 50.6%;
     --destructive-foreground: 60 9.1% 97.8%;
@@ -54,7 +53,6 @@
 
     color-scheme: dark;
   }
-
 }
 
 @layer base {
@@ -76,7 +74,7 @@
     @apply md:max-w-3xl flex-1;
   }
   .larger-post-content {
-    @apply lg:-mx-24 xl:-mx-32; 
+    @apply lg:-mx-24 xl:-mx-32;
   }
   p span:has(img) + em {
     @apply text-center block text-sm larger-post-content mt-1;

@@ -3,7 +3,7 @@ import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import type { Metadata, ResolvingMetadata } from "next";
 import "@catppuccin/highlightjs/css/catppuccin-mocha.css";
-import "@/app/code.css";
+import "@/styles/code.css";
 import "@shikijs/twoslash/style-rich.css";
 import { absolutePath } from "@/lib/utils";
 import { Mdx } from "@/lib/mdx";
@@ -58,7 +58,7 @@ export const generateMetadata = async (
 const Tag = ({ tag, href }: { tag: string; href: string }) => (
 	<Link
 		href={href}
-		className="text-xs bg-background-light font-mono capitalize text-black dark:text-white px-2 py-1 rounded-md"
+		className="text-xs bg-accent font-mono capitalize text-black dark:text-white px-2 py-1 rounded-md"
 	>
 		{tag}
 	</Link>
@@ -119,7 +119,7 @@ export default async function PostPage(props: PageProps) {
 				<Link
 					href={post.githubEditUrl}
 					prefetch={false}
-					className="flex flex-row items-center gap-2 font-mono text-sm hover:text-primary w-max"
+					className="flex flex-row items-center gap-2 font-mono text-sm hover:text-black dark:hover:text-white w-max"
 				>
 					<Pencil className="size-3" />
 					<span>Suggérer une modification</span>

@@ -58,11 +58,9 @@ export function ThemeSwitcher() {
 		setMounted(true);
 	}, []);
 
-	if (!mounted) return null;
-
 	return (
 		<Button variant="ghost" size="icon" onClick={updateTheme}>
-			{theme === "dark" ? <MoonIcon /> : <SunIcon />}
+			{mounted && (theme === "dark" ? <MoonIcon /> : <SunIcon />)}
 		</Button>
 	);
 }

@@ -22,13 +22,11 @@ const config = {
 				ring: "hsl(var(--ring))",
 				background: {
 					DEFAULT: "hsl(var(--background))",
-					light: "hsl(var(--background-light))",
 				},
 				foreground: "hsl(var(--foreground))",
 				primary: {
 					DEFAULT: "hsl(var(--primary))",
 					foreground: "hsl(var(--primary-foreground))",
-					light: "hsl(var(--primary-light))",
 				},
 				secondary: {
 					DEFAULT: "hsl(var(--secondary))",

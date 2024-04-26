@@ -9,7 +9,7 @@ export default function A({
 	return (
 		<Link
 			className={cn(
-				"font-medium underline decoration-dashed has-[code]:no-underline text-primary hover:text-primary-light transition-colors duration-200 group inline-flex items-center gap-2 w-max",
+				"font-medium underline decoration-dashed has-[code]:no-underline text-primary hover:text-primary transition-colors duration-200 group inline-flex items-center gap-2 w-max",
 				className,
 			)}
 			{...props}

@@ -28,19 +28,15 @@ const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 const mdxComponents: MDXComponents = {
 	// @ts-expect-error next/link href is not a string
 	a: A,
-	code: ({ className, ...props }) => {
-		return (
-			<>
-				<code
-					className={cn(
-						"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap overflow-x-auto",
-						className,
-					)}
-					{...props}
-				/>
-			</>
-		);
-	},
+	code: ({ className, ...props }) => (
+		<code
+			className={cn(
+				"relative rounded py-[0.2rem] font-mono text-sm whitespace-nowrap overflow-x-auto",
+				className,
+			)}
+			{...props}
+		/>
+	),
 	pre: ({ className, ...props }) => {
 		// @ts-ignore
 		const { __raw_source, children, ...rest } = props;
