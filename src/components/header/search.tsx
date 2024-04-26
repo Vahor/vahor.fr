@@ -60,16 +60,16 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 
 	return (
 		<>
-			<label className="flex items-center">
+			<label className="flex items-center relative">
 				<Search className="mr-2 size-4 shrink-0 opacity-50" />
 				<input
 					type="text"
-					className="flex h-11 rounded-md bg-transparent py-3 text-sm outline-none w-48"
+					className="flex rounded-md bg-transparent text-sm outline-none w-48"
 					name="search"
 					placeholder="Chercher une page..."
 					onFocus={() => setOpen(true)}
 				/>
-				<kbd className="text-muted-foreground absolute right-8 select-none pointer-events-none h-5 gap-1.5 border hidden sm:flex items-center px-1.5 rounded-md text-sm">
+				<kbd className="text-muted-foreground absolute right-0 inset-y-0 select-none pointer-events-none h-5 gap-1.5 border hidden sm:flex items-center px-1.5 rounded-md text-sm">
 					<span className="text-base mt-px">⌘</span>
 					<span>K</span>
 				</kbd>
