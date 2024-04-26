@@ -85,7 +85,7 @@ export const Post = defineDocumentType(() => ({
 				return relativeFilePath.replace(/^.*public\//, "/");
 			},
 		},
-		blogType: {
+		pageType: {
 			type: "string",
 			resolve: (post) => {
 				const slug = postSlug(post._raw.flattenedPath);

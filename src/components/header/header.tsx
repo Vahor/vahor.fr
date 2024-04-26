@@ -1,17 +1,7 @@
 import Link from "next/link";
 import { ThemeSwitcher } from "./theme-switcher";
 import { SearchMenu } from "./search";
-
-const simpleLinks = [
-	{
-		label: "Accueil",
-		href: "/",
-	},
-	{
-		label: "Presentation",
-		href: "/about",
-	},
-];
+import { HEADER_LINKS } from "@/lib/constants";
 
 export function Header() {
 	return (
@@ -19,7 +9,7 @@ export function Header() {
 			<div id="maybe-a-logo-one-day" />
 			<div className="flex justify-end gap-3 items-center">
 				<nav className="flex gap-3 text-sm">
-					{simpleLinks.map(({ label, href }) => (
+					{HEADER_LINKS.map(({ label, href }) => (
 						<Link
 							href={href}
 							key={label}
