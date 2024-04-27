@@ -2,7 +2,6 @@ import { format, parseISO } from "date-fns";
 import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import type { Metadata, ResolvingMetadata } from "next";
-import "@catppuccin/highlightjs/css/catppuccin-mocha.css";
 import "@/styles/code.css";
 import "@shikijs/twoslash/style-rich.css";
 import { absolutePath } from "@/lib/utils";

@@ -15,8 +15,9 @@ export function CopyButton({ value, className, ...props }: CopyButtonProps) {
 	const handleClick = () => {
 		if (hasCopied) return;
 
-		navigator.clipboard.writeText(value);
-
+		if (navigator.clipboard) {
+			navigator.clipboard.writeText(value);
+		}
 		setHasCopied(true);
 
 		setTimeout(() => {

@@ -11,11 +11,10 @@ import {
 } from "@/components/ui/command";
 import { Search } from "lucide-react";
 import { INITIAL_DATA, SEARCH_INDEX } from "@/lib/search";
-import { useDebounceCallback } from "usehooks-ts";
+import { useDebounceCallback, useIsMounted, useMediaQuery } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { create, useStore } from "zustand";
-import { BASE_URL } from "@/lib/constants";
 
 const openStore = create<{
 	open: boolean;
@@ -45,6 +44,8 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 	const toggle = useStore(openStore, (state) => state.toogleOpen);
 	const setOpen = useStore(openStore, (state) => state.setOpen);
 	const open = useStore(openStore, (state) => state.open);
+	const md = useMediaQuery("(min-width: 640px)", { defaultValue: true });
+	const isMounted = useIsMounted();
 
 	useEffect(() => {
 		console.log("useEffect");
@@ -64,9 +65,11 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 				<Search className="mr-2 size-4 shrink-0 opacity-50" />
 				<input
 					type="text"
-					className="flex rounded-md bg-transparent text-sm outline-none w-48"
+					className="flex rounded-md bg-transparent text-sm outline-none w-24 sm:w-48"
 					name="search"
-					placeholder="Chercher une page..."
+					placeholder={
+						isMounted() && md ? "Chercher une page..." : "Chercher..."
+					}
 					onFocus={() => setOpen(true)}
 				/>
 				<kbd className="text-muted-foreground absolute right-0 inset-y-0 select-none pointer-events-none h-5 gap-1.5 border hidden sm:flex items-center px-1.5 rounded-md text-sm">
