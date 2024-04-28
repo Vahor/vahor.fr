@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useTransition } from "react";
 import {
 	CommandDialog,
 	CommandEmpty,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/command";
 import { Search } from "lucide-react";
 import { INITIAL_DATA, SEARCH_INDEX } from "@/lib/search";
-import { useDebounceCallback, useIsMounted, useMediaQuery } from "usehooks-ts";
+import { useIsMounted, useMediaQuery } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { create, useStore } from "zustand";
@@ -48,7 +48,6 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 	const isMounted = useIsMounted();
 
 	useEffect(() => {
-		console.log("useEffect");
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
@@ -138,17 +137,16 @@ function SearchInput() {
 
 	const [query, setQuery] = React.useState("");
 	const router = useRouter();
+	const [_, startTransition] = useTransition();
 
 	const [results, setResults] = React.useState(() => groupByType(INITIAL_DATA));
 
-	const debouncedFilters = useDebounceCallback((value) => {
-		if (!value) return setResults(groupByType(INITIAL_DATA));
-		return setResults(groupByType(filterResults(value)));
-	}, 100);
-
 	const handleQueryChange = (query: string) => {
-		setQuery(query);
-		debouncedFilters(query);
+		startTransition(() => {
+			setQuery(query);
+			if (!query) return setResults(groupByType(INITIAL_DATA));
+			return setResults(groupByType(filterResults(query)));
+		});
 	};
 
 	return (
@@ -159,13 +157,13 @@ function SearchInput() {
 				onValueChange={handleQueryChange}
 			/>
 			<CommandList>
-				<CommandEmpty>Aucun résultat</CommandEmpty>
-
+				<CommandEmpty>Aucun résultat pour <span className="text-foreground">{query}</span> </CommandEmpty>
 				{Object.entries(results).map(([type, data]) => (
 					<CommandGroup key={type} heading={type}>
 						{data.map((item) => (
 							<Link href={item.item.url} key={item.refIndex}>
 								<CommandItem
+									value={item.item.title}
 									onSelect={() => {
 										router.push(item.item.url);
 										setOpen(false);
@@ -177,7 +175,7 @@ function SearchInput() {
 						))}
 					</CommandGroup>
 				))}
-			</CommandList>
+			</CommandList >
 		</>
 	);
 }

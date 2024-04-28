@@ -8,7 +8,7 @@ export function Header() {
 		<header className="py-8 px-8 max-w-screen-xl mx-auto">
 			<div id="maybe-a-logo-one-day" />
 			<div className="flex justify-end gap-3 items-center">
-				<nav className="flex gap-3 text-xs sm:text-sm">
+				<nav className="flex gap-6 text-xs sm:text-sm">
 					{HEADER_LINKS.map(({ label, href }) => (
 						<Link
 							href={href}
