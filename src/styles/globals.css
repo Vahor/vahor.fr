@@ -27,6 +27,8 @@
 
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
       "Liberation Mono", "Courier New", monospace;
+
+      color-scheme: light dark;
   }
 
   .dark {
@@ -65,6 +67,11 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv11", "salt", "ss01", "ss03", "cv01", "cv02",
       "cv03", "cv04", "cv05", "cv06", "cv07", "cv08", "cv09", "cv10";
+  }
+  html,
+  body,
+  div#__next {
+    @apply h-full;
   }
 }
 

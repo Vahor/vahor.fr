@@ -9,22 +9,13 @@ import {
 	CommandList,
 } from "@/components/ui/command";
 import { INITIAL_DATA, SEARCH_INDEX } from "@/lib/search";
+import { searchStore } from "@/stores/search.store";
 import { Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useTransition } from "react";
 import { useIsMounted, useMediaQuery } from "usehooks-ts";
-import { create, useStore } from "zustand";
-
-const openStore = create<{
-	open: boolean;
-	toogleOpen: () => void;
-	setOpen: (open: boolean) => void;
-}>((set) => ({
-	open: false,
-	toogleOpen: () => set((state) => ({ open: !state.open })),
-	setOpen: (open) => set({ open }),
-}));
+import { useStore } from "zustand";
 
 const commandProps: CommandDialogProps["commandProps"] = {
 	loop: false,
@@ -41,9 +32,9 @@ export function SearchMenu() {
 }
 
 function SearchWrapper({ children }: React.PropsWithChildren) {
-	const toggle = useStore(openStore, (state) => state.toogleOpen);
-	const setOpen = useStore(openStore, (state) => state.setOpen);
-	const open = useStore(openStore, (state) => state.open);
+	const toggle = useStore(searchStore, (state) => state.toogleOpen);
+	const setOpen = useStore(searchStore, (state) => state.setOpen);
+	const open = useStore(searchStore, (state) => state.open);
 	const md = useMediaQuery("(min-width: 640px)", { defaultValue: true });
 	const isMounted = useIsMounted();
 
@@ -133,7 +124,7 @@ const groupByType = (results: typeof INITIAL_DATA) => {
 };
 
 function SearchInput() {
-	const setOpen = useStore(openStore, (state) => state.setOpen);
+	const setOpen = useStore(searchStore, (state) => state.setOpen);
 
 	const [query, setQuery] = React.useState("");
 	const router = useRouter();
