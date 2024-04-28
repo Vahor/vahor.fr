@@ -6,12 +6,13 @@ interface TocProps {
 }
 
 export function Toc({ prefix }: TocProps) {
-
-	const matchingPosts = allPosts.filter((post) => post._raw.sourceFilePath.startsWith(prefix)).toSorted((a, b) => {
-		const aOrder = a.toc?.order || new Date(a.datePublished).getTime();
-		const bOrder = b.toc?.order || new Date(b.datePublished).getTime();
-		return aOrder - bOrder;
-	});
+	const matchingPosts = allPosts
+		.filter((post) => post._raw.sourceFilePath.startsWith(prefix))
+		.toSorted((a, b) => {
+			const aOrder = a.toc?.order || new Date(a.datePublished).getTime();
+			const bOrder = b.toc?.order || new Date(b.datePublished).getTime();
+			return aOrder - bOrder;
+		});
 
 	return (
 		<div className="sticky top-20">

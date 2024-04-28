@@ -1,8 +1,8 @@
 "use server";
 
-import * as xpath from "xpath";
 import { DOMParser } from "@xmldom/xmldom";
 import cache from "memory-cache";
+import * as xpath from "xpath";
 
 const xpaths = {
 	// title is either the first <title> or og:title

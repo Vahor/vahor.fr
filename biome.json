@@ -10,6 +10,6 @@
 		}
 	},
 	"files": {
-		"ignore": ["./.next/**", "./dist/**", "./node_modules/**"]
+		"ignore": ["./.next/**", "./dist/**", "./node_modules/**", ".contentlayer"]
 	}
 }

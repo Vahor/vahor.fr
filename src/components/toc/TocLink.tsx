@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "../ui/button";
 import type { Post } from "contentlayer/generated";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 export function TocLink({ post }: { post: Post }) {
 	const pathname = usePathname();
@@ -16,9 +16,10 @@ export function TocLink({ post }: { post: Post }) {
 				size="sm"
 				disabled={active}
 				className="capitalize w-full justify-start"
-				variant="ghost">
+				variant="ghost"
+			>
 				{post.title}
 			</Button>
 		</Link>
-	)
+	);
 }

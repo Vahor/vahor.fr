@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import type { Person, ProfilePage, WithContext, Article } from "schema-dts";
+import type { Article, Person, ProfilePage, WithContext } from "schema-dts";
 import {
 	AVATAR_URL,
 	GITHUB_PROFILE,

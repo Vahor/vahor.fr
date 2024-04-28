@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { ThemeSwitcher } from "./theme-switcher";
-import { SearchMenu } from "./search";
 import { HEADER_LINKS } from "@/lib/constants";
+import Link from "next/link";
+import { SearchMenu } from "./search";
+import { ThemeSwitcher } from "./theme-switcher";
 
 export function Header() {
 	return (

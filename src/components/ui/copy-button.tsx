@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Button, type ButtonProps } from "./button";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ClipboardIcon } from "lucide-react";
+import { useState } from "react";
+import { Button, type ButtonProps } from "./button";
 
 interface CopyButtonProps extends ButtonProps {
 	value: string;

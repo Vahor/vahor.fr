@@ -1,19 +1,19 @@
 "use client";
-import React, { useEffect, useTransition } from "react";
 import {
 	CommandDialog,
+	type CommandDialogProps,
 	CommandEmpty,
 	CommandGroup,
 	CommandInput,
 	CommandItem,
 	CommandList,
-	type CommandDialogProps,
 } from "@/components/ui/command";
-import { Search } from "lucide-react";
 import { INITIAL_DATA, SEARCH_INDEX } from "@/lib/search";
-import { useIsMounted, useMediaQuery } from "usehooks-ts";
-import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useTransition } from "react";
+import { useIsMounted, useMediaQuery } from "usehooks-ts";
 import { create, useStore } from "zustand";
 
 const openStore = create<{
@@ -157,7 +157,11 @@ function SearchInput() {
 				onValueChange={handleQueryChange}
 			/>
 			<CommandList>
-				<CommandEmpty>Aucun résultat pour <span className="text-foreground">{query}</span> </CommandEmpty>
+				<CommandEmpty>
+					Aucun résultat pour <span className="text-foreground">
+						{query}
+					</span>{" "}
+				</CommandEmpty>
 				{Object.entries(results).map(([type, data]) => (
 					<CommandGroup key={type} heading={type}>
 						{data.map((item) => (
@@ -175,7 +179,7 @@ function SearchInput() {
 						))}
 					</CommandGroup>
 				))}
-			</CommandList >
+			</CommandList>
 		</>
 	);
 }

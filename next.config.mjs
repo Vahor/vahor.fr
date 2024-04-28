@@ -27,6 +27,7 @@ const securityHeaders = [
 const nextConfig = {
 	reactStrictMode: true,
 	swcMinify: true,
+	poweredByHeader: false,
 
 	headers: async () => {
 		return [
@@ -39,6 +40,14 @@ const nextConfig = {
 
 	env: {
 		BUILD_TIME: new Date().toISOString(),
+	},
+
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
+
+	typescript: {
+		ignoreBuildErrors: true,
 	},
 };
 

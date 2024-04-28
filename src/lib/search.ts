@@ -1,7 +1,13 @@
-import Fuse from "fuse.js";
-import { allPosts } from "contentlayer/generated";
 import { env } from "@/env";
-import { EMAIL, GITHUB_PROFILE, HEADER_LINKS, LINKEDIN_PROFILE, TWITTER_PROFILE } from "./constants";
+import { allPosts } from "contentlayer/generated";
+import Fuse from "fuse.js";
+import {
+	EMAIL,
+	GITHUB_PROFILE,
+	HEADER_LINKS,
+	LINKEDIN_PROFILE,
+	TWITTER_PROFILE,
+} from "./constants";
 
 // TODO: search in content
 
@@ -25,7 +31,7 @@ const contact_links = [
 		label: "Email",
 		href: `mailto:${EMAIL}`,
 		extrnal: true,
-	}
+	},
 ];
 
 const search_content = [
@@ -66,7 +72,7 @@ export const SEARCH_INDEX = new Fuse(search_content, {
 		{
 			name: "pageType",
 			weight: 0.1,
-		}
+		},
 	],
 	includeMatches: true,
 	includeScore: true,

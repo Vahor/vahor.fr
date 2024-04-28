@@ -1,17 +1,17 @@
-import { defineDocumentType, makeSource } from "contentlayer2/source-files";
-import remarkGfm from "remark-gfm";
-import rehypePrettyCode from "rehype-pretty-code";
-import codeImport from "remark-code-import";
-import rehypeSlug from "rehype-slug";
-import { defineNestedType } from "contentlayer2/source-files";
+import * as fs from "node:fs";
 import {
 	transformerNotationDiff,
 	transformerRenderWhitespace,
 } from "@shikijs/transformers";
 import { transformerTwoslash } from "@shikijs/twoslash";
+import { defineDocumentType, makeSource } from "contentlayer2/source-files";
+import { defineNestedType } from "contentlayer2/source-files";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import codeImport from "remark-code-import";
+import remarkGfm from "remark-gfm";
 // import remarkCustomHeaderId from 'remark-custom-header-id';
 import type { ShikiTransformer } from "shiki";
-import * as fs from "node:fs";
 
 const CoverProperties = defineNestedType(() => ({
 	name: "CoverProperties",
@@ -46,7 +46,7 @@ const pageType = (path: string) => {
 	if (slug.indexOf("/") === -1) return "blog";
 	const firstSegment = slug.split("/")[0];
 	return firstSegment;
-}
+};
 
 export const Post = defineDocumentType(() => ({
 	name: "Post",

@@ -13,14 +13,16 @@ export const getPosts = (): MetadataRoute.Sitemap => {
 };
 
 export const getAllTags = (): MetadataRoute.Sitemap => {
-	const allTags = Array.from(new Set(allPosts.flatMap((post) => post.fullTags)));
+	const allTags = Array.from(
+		new Set(allPosts.flatMap((post) => post.fullTags)),
+	);
 	return allTags.map((tag) => ({
 		url: `${BASE_URL}/tag/${tag}`,
 		lastModified: env.BUILD_TIME,
 		changeFrequency: "monthly",
 		priority: 0.5,
 	}));
-}
+};
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	return [

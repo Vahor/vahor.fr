@@ -1,18 +1,18 @@
-import { format, parseISO } from "date-fns";
-import { allPosts } from "contentlayer/generated";
-import { notFound } from "next/navigation";
-import type { Metadata, ResolvingMetadata } from "next";
-import "@/styles/code.css";
-import "@shikijs/twoslash/style-rich.css";
-import { absolutePath } from "@/lib/utils";
-import { Mdx } from "@/lib/mdx";
-import { fr } from "date-fns/locale";
-import CommentSection from "./comments";
+import Hr from "@/components/Hr";
 import { JsonLd } from "@/components/jsonld/profile-page";
 import { articlePage } from "@/lib/jsonld";
+import { Mdx } from "@/lib/mdx";
+import { absolutePath } from "@/lib/utils";
+import "@/styles/code.css";
+import "@shikijs/twoslash/style-rich.css";
+import { allPosts } from "contentlayer/generated";
+import { format, parseISO } from "date-fns";
+import { fr } from "date-fns/locale";
 import { Calendar, Clock, Pencil } from "lucide-react";
+import type { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
-import Hr from "@/components/Hr";
+import { notFound } from "next/navigation";
+import CommentSection from "./comments";
 
 export const generateStaticParams = async () =>
 	allPosts.map((post) => ({ slug: post.slug.split("/") }));
