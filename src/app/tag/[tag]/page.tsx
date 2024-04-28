@@ -47,7 +47,7 @@ export default function TagPage({ params }: PageProps) {
 				<h1 className="text-3xl font-semibold text-black dark:text-white capitalize">
 					{params.tag}
 				</h1>
-				<ul className="divide-y space-y-4">
+				<ul className="divide-y space-y-4 mt-8">
 					{filteredPosts.map((post) => (
 						<li key={post.url}>
 							<PostEntry post={post} />
@@ -61,9 +61,12 @@ export default function TagPage({ params }: PageProps) {
 
 const PostEntry = ({ post }: { post: Post }) => {
 	return (
-		<div className="mt-4 space-y-1">
+		<div className="mt-4 space-y-1 group">
 			<div className="flex gap-2 justify-between">
-				<Link href={post.url} className="text-black dark:text-white">
+				<Link
+					href={post.url}
+					className="group-hover:text-black group-hover:dark:text-white"
+				>
 					<h2>{post.title}</h2>
 				</Link>
 				<time
@@ -75,7 +78,7 @@ const PostEntry = ({ post }: { post: Post }) => {
 					})}
 				</time>
 			</div>
-			<p>{post.description}</p>
+			<p className="text-muted-foreground">{post.description}</p>
 		</div>
 	);
 };

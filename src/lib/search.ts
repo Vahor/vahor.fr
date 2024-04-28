@@ -46,6 +46,13 @@ const search_content = [
 		pageType: "app",
 		external: false,
 	})),
+	{
+		title: "Liste des articles",
+		datePublished: env.NEXT_PUBLIC_BUILD_TIME,
+		url: "/tag/project",
+		pageType: "app",
+		external: false,
+	},
 	...contact_links.map((l) => ({
 		title: l.label,
 		datePublished: env.NEXT_PUBLIC_BUILD_TIME,
