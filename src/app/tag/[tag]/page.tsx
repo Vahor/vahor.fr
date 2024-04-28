@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { allPosts } from "contentlayer/generated";
+import { type Post, allPosts } from "contentlayer/generated";
+import { format, parseISO } from "date-fns";
+import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -18,13 +20,13 @@ interface PageProps {
 export default function TagPage({ params }: PageProps) {
 	if (!allTags.includes(params.tag)) notFound();
 
-	const filteredPosts = allPosts.filter((post) =>
-		post.fullTags.includes(params.tag),
-	);
+	const filteredPosts = allPosts
+		.filter((post) => post.fullTags.includes(params.tag))
+		.toSorted((a, b) => b.datePublished.localeCompare(a.datePublished));
 
 	return (
 		<div className="grid sm:grid-cols-4 gap-4 container">
-			<aside className="flex gap-2 flex-col col-span-4 sm:col-span-1 max-h-64 sm:max-h-none overflow-y-auto">
+			<nav className="flex gap-2 flex-col col-span-4 sm:col-span-1 max-h-64 sm:max-h-none overflow-y-auto">
 				{allTags.map((tag) => {
 					const active = tag === params.tag;
 					return (
@@ -39,16 +41,16 @@ export default function TagPage({ params }: PageProps) {
 						</Link>
 					);
 				})}
-			</aside>
+			</nav>
 
 			<main className="col-span-4 sm:col-span-3 px-3">
 				<h1 className="text-3xl font-semibold text-black dark:text-white capitalize">
 					{params.tag}
 				</h1>
-				<ul>
+				<ul className="divide-y space-y-4">
 					{filteredPosts.map((post) => (
 						<li key={post.url}>
-							<Link href={post.url}>{post.title}</Link>
+							<PostEntry post={post} />
 						</li>
 					))}
 				</ul>
@@ -56,3 +58,24 @@ export default function TagPage({ params }: PageProps) {
 		</div>
 	);
 }
+
+const PostEntry = ({ post }: { post: Post }) => {
+	return (
+		<div className="mt-4 space-y-1">
+			<div className="flex gap-2 justify-between">
+				<Link href={post.url} className="text-black dark:text-white">
+					<h2>{post.title}</h2>
+				</Link>
+				<time
+					dateTime={post.datePublished}
+					className="text-muted-foreground text-sm"
+				>
+					{format(parseISO(post.datePublished), "d MMMM yyyy", {
+						locale: fr,
+					})}
+				</time>
+			</div>
+			<p>{post.description}</p>
+		</div>
+	);
+};

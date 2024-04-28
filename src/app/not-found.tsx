@@ -7,7 +7,12 @@ import whereAmI from "../../public/where-am-i.gif";
 export default function NotFound() {
 	return (
 		<div className="sm:h-full w-full flex flex-col lg:flex-row gap-8 md:gap-12 items-center sm:justify-center md:mt-[-105px] container">
-			<Image src={whereAmI} alt="Where am I?" className="rounded-md shadow" unoptimized />
+			<Image
+				src={whereAmI}
+				alt="Where am I?"
+				className="rounded-md shadow"
+				unoptimized
+			/>
 			<main className="flex flex-col gap-4">
 				<h1 className="font-semibold text-6xl text-black dark:text-white">
 					Oops !
