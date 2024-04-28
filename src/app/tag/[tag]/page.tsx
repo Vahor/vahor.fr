@@ -39,8 +39,8 @@ export default function TagPage({ params }: PageProps) {
 				<h1 className="text-3xl font-semibold text-black dark:text-white capitalize">{params.tag}</h1>
 				<ul>
 					{filteredPosts.map((post) => (
-						<li key={post.slug}>
-							<Link href={`/blog/${post.slug}`}>
+						<li key={post.url}>
+							<Link href={post.url}>
 								{post.title}
 							</Link>
 						</li>

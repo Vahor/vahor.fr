@@ -22,6 +22,7 @@ interface PageProps {
 }
 
 const getPost = ({ params }: PageProps) => {
+	if (!params.slug) return null;
 	const slug = params.slug.join("/");
 	return allPosts.find((post) => post.slug === slug);
 };

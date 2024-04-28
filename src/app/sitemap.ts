@@ -5,7 +5,7 @@ import type { MetadataRoute } from "next";
 
 export const getPosts = (): MetadataRoute.Sitemap => {
 	return allPosts.map((post) => ({
-		url: `${BASE_URL}/blog/${post.slug}`,
+		url: `${BASE_URL}${post.url}`,
 		lastModified: post.dateModified,
 		changeFrequency: "monthly" as const,
 		priority: 0.6,

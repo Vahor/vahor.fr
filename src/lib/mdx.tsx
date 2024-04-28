@@ -7,6 +7,7 @@ import { Link as IconLink } from "lucide-react";
 import { CopyButton } from "@/components/ui/copy-button";
 import Hr from "@/components/Hr";
 import A from "@/components/A";
+import { Toc } from "@/components/toc/Toc";
 
 // Based on Tailwind prose css: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
 // And shadcn
@@ -146,9 +147,8 @@ const mdxComponents: MDXComponents = {
 		<div className="aspect-video rounded-md overflow-hidden mt-6 translate-z-0 larger-post-content">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
-					muted ? "&muted=1" : ""
-				}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
+					}`}
 				className="w-full h-full rounded-md scale-x-[1.02]"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -169,6 +169,7 @@ const mdxComponents: MDXComponents = {
 			</span>
 		);
 	},
+	Toc,
 	UrlPreview,
 	Callout,
 };

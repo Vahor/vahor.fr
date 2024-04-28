@@ -60,7 +60,7 @@ export const SEARCH_INDEX = new Fuse(search_content, {
 			weight: 0.3,
 		},
 		{
-			name: "tags",
+			name: "fullTags",
 			weight: 0.2,
 		},
 		{
