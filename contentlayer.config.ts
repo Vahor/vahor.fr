@@ -41,6 +41,13 @@ const postSlug = (path: string) => {
 	return withoutPrefix.split("blog/").splice(-1)[0];
 };
 
+const pageType = (path: string) => {
+	const slug = postSlug(path);
+	if (slug.indexOf("/") === -1) return "blog";
+	const firstSegment = slug.split("/")[0];
+	return firstSegment;
+}
+
 export const Post = defineDocumentType(() => ({
 	name: "Post",
 	filePathPattern: "posts/**/*.mdx",
@@ -77,6 +84,17 @@ export const Post = defineDocumentType(() => ({
 				return relativeFilePath.replace(/^.*public\//, "/");
 			},
 		},
+		fullTags: {
+			type: "list",
+			of: { type: "string" },
+			resolve: (post) => {
+				const tags = post.tags ?? [];
+				// append page type and year
+				const type = pageType(post._raw.flattenedPath);
+				const year = new Date(post.datePublished).getFullYear();
+				return [type, ...tags, year.toString()];
+			},
+		},
 		ogImageUrl: {
 			type: "string",
 			resolve: (post) => {
@@ -88,10 +106,7 @@ export const Post = defineDocumentType(() => ({
 		pageType: {
 			type: "string",
 			resolve: (post) => {
-				const slug = postSlug(post._raw.flattenedPath);
-				if (slug.indexOf("/") === -1) return "blog";
-				const firstSegment = slug.split("/")[0];
-				return firstSegment;
+				return pageType(post._raw.flattenedPath);
 			},
 		},
 		timeToRead: {

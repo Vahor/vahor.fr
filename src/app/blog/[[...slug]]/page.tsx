@@ -101,8 +101,7 @@ export default async function PostPage(props: PageProps) {
 					</div>
 				</div>
 				<div className="flex flex-row items-center gap-2" id="tags">
-					<Tag tag={post.pageType} href={`/tag/${post.pageType}`} />
-					{post.tags?.map((tag) => (
+					{post.fullTags.map((tag: string) => (
 						<Tag key={tag} tag={tag} href={`/tag/${tag}`} />
 					))}
 				</div>
