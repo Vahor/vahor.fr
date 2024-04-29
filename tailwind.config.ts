@@ -11,9 +11,6 @@ const config = {
 				DEFAULT: "1rem",
 				md: "4rem",
 			},
-			screens: {
-				"2xl": "1400px",
-			},
 		},
 		fontFamily: {
 			mono: ["var(--font-mono)"],

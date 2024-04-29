@@ -40,6 +40,12 @@ export const metadata: Metadata = {
 		locale: "fr_FR",
 		siteName: "Vahor",
 	},
+	icons: [
+		{ rel: "icon", url: "/favicon.ico" },
+		{ rel: "apple-touch-icon", url: "/apple-icon.png" },
+		{ rel: "icon", sizes: "192x192", url: "/android-chrome-192x192.png" },
+		{ rel: "icon", sizes: "512x512", url: "/android-chrome-512x512.png" },
+	],
 };
 
 export const viewport: Viewport = {

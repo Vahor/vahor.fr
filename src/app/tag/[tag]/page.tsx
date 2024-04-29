@@ -25,12 +25,12 @@ export default function TagPage({ params }: PageProps) {
 		.toSorted((a, b) => b.datePublished.localeCompare(a.datePublished));
 
 	return (
-		<div className="grid sm:grid-cols-4 gap-4 container">
-			<nav className="flex gap-2 flex-col col-span-4 sm:col-span-1 max-h-64 sm:max-h-none overflow-y-auto">
+		<div className="grid md:grid-cols-4 gap-4 container">
+			<nav className="flex gap-2 flex-col col-span-4 md:col-span-1 max-h-64 md:max-h-none overflow-y-auto">
 				{allTags.map((tag) => {
 					const active = tag === params.tag;
 					return (
-						<Link key={tag} href={`/tag/${tag}`} className="w-full sm:w-max ">
+						<Link key={tag} href={`/tag/${tag}`} className="w-full md:w-max ">
 							<Button
 								disabled={active}
 								className="capitalize w-full justify-start"
@@ -43,7 +43,7 @@ export default function TagPage({ params }: PageProps) {
 				})}
 			</nav>
 
-			<main className="col-span-4 sm:col-span-3 px-3">
+			<main className="col-span-4 md:col-span-3">
 				<h1 className="text-3xl font-semibold text-black dark:text-white capitalize">
 					{params.tag}
 				</h1>
