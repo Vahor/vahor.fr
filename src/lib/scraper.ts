@@ -36,7 +36,7 @@ const domParser = new DOMParser({
 	errorHandler: {
 		warning: () => {},
 		error: () => {},
-		fatalError: console.error,
+		fatalError: console.warn,
 	},
 });
 
@@ -76,7 +76,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 };
 
 const EMPTY_BASE64_IMAGE =
-	"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII=";
+	"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
 const imageToBase64 = async (url: string) => {
 	if (!url) return EMPTY_BASE64_IMAGE;

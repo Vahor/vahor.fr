@@ -125,10 +125,7 @@ const mdxComponents: MDXComponents = {
 		</h5>
 	),
 	p: ({ className, ...props }) => (
-		<p
-			className={cn("leading-7 [&:not(:first-child)]:mt-4", className)}
-			{...props}
-		/>
+		<p className={cn("[&:not(:first-child)]:mt-4", className)} {...props} />
 	),
 	ul: ({ className, ...props }) => (
 		<ul className={cn("mt-4 pl-4 md:pl-8 list-disc", className)} {...props} />
