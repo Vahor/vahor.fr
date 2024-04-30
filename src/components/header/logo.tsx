@@ -21,7 +21,7 @@ export function Logo() {
 				src={mounted && theme === "dark" ? darkLogo : whiteLogo}
 				alt="Logo"
 				width={24}
-				className="transform hover:rotate-12 transition-transform -ml-2 w-[24px] h-[24px]"
+				className="transform hover:rotate-12 transition-transform w-[24px] h-[24px]"
 			/>
 			<span className="hidden sm:inline text-dark dark:text-white font-semibold text-lg">
 				Vahor

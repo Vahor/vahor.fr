@@ -6,7 +6,7 @@ import { ThemeSwitcher } from "./theme-switcher";
 
 export function Header() {
 	return (
-		<header className="py-4 sm:py-8 px-8 max-w-screen-xl mx-auto flex items-center justify-between">
+		<header className="py-4 sm:py-8 px-8 sm:px-12 max-w-screen-xl mx-auto flex items-center justify-between">
 			<Logo />
 			<div className="flex justify-end gap-3 items-center">
 				<nav className="flex gap-6">

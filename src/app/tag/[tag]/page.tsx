@@ -5,9 +5,12 @@ import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+const ALL_TAG = "all";
+
 const allTags = Array.from(
 	new Set(allPosts.flatMap((post) => post.fullTags)),
 ).toSorted((a, b) => b.localeCompare(a));
+allTags.unshift(ALL_TAG);
 
 export const generateStaticParams = async () => {
 	return allTags.map((tag) => ({ tag }));
@@ -21,7 +24,9 @@ export default function TagPage({ params }: PageProps) {
 	if (!allTags.includes(params.tag)) notFound();
 
 	const filteredPosts = allPosts
-		.filter((post) => post.fullTags.includes(params.tag))
+		.filter(
+			(post) => params.tag === ALL_TAG || post.fullTags.includes(params.tag),
+		)
 		.toSorted((a, b) => b.datePublished.localeCompare(a.datePublished));
 
 	return (
@@ -30,7 +35,7 @@ export default function TagPage({ params }: PageProps) {
 				{allTags.map((tag) => {
 					const active = tag === params.tag;
 					return (
-						<Link key={tag} href={`/tag/${tag}`} className="w-full md:w-max ">
+						<Link key={tag} href={`/tag/${tag}`} className="w-full md:w-max">
 							<Button
 								disabled={active}
 								className="capitalize w-full justify-start"
@@ -43,7 +48,9 @@ export default function TagPage({ params }: PageProps) {
 				})}
 			</nav>
 
-			<main className="col-span-4 md:col-span-3">
+			<hr className="col-span-4 md:hidden" />
+
+			<main className="col-span-4 md:col-span-3 px-4 md:px-0">
 				<h1 className="text-3xl font-semibold text-black dark:text-white capitalize">
 					{params.tag}
 				</h1>

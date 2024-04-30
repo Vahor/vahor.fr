@@ -13,11 +13,7 @@ export const AVATAR_URL = "https://avatars.githubusercontent.com/u/17593209";
 
 export const HEADER_LINKS = [
 	{
-		label: "Accueil",
-		href: "/",
-	},
-	{
-		label: "Presentation",
-		href: "/about",
+		label: "Blog",
+		href: "/tag/all",
 	},
 ];

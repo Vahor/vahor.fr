@@ -16,6 +16,7 @@ export const getAllTags = (): MetadataRoute.Sitemap => {
 	const allTags = Array.from(
 		new Set(allPosts.flatMap((post) => post.fullTags)),
 	);
+	allTags.push("all");
 	return allTags.map((tag) => ({
 		url: `${BASE_URL}/tag/${tag}`,
 		lastModified: env.BUILD_TIME,
