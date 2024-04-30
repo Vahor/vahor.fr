@@ -23,16 +23,16 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 				<p className="items-center flex py-1 font-light text-muted-foreground min-h-[3.5rem] break-words overflow-hidden">
 					{metadata.description.slice(0, 200)}
 				</p>
-				<div>
+				<div className="whitespace-nowrap space-x-2 overflow-ellipsis overflow-hidden">
 					<Image
 						src={metadata.favicon}
 						alt={metadata.title}
 						width={16}
 						height={16}
 						unoptimized={true}
-						className="inline-block mr-2 rounded-lg"
+						className="inline-block rounded-lg"
 					/>
-					{url}
+					<span>{url}</span>
 				</div>
 			</div>
 			<div className="relative hidden w-full md:block">
