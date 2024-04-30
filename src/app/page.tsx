@@ -1,9 +1,12 @@
+import { JsonLd } from "@/components/jsonld/profile-page";
+import { author } from "@/lib/jsonld";
 import { allPosts } from "contentlayer/generated";
 import Link from "next/link";
 
 export default function Home() {
 	return (
 		<div>
+			<JsonLd jsonLd={author} />
 			<ul>
 				{allPosts.map((post) => (
 					<li key={post._raw.flattenedPath}>

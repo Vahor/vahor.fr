@@ -13,26 +13,10 @@ import remarkGfm from "remark-gfm";
 // import remarkCustomHeaderId from 'remark-custom-header-id';
 import type { ShikiTransformer } from "shiki";
 
-const CoverProperties = defineNestedType(() => ({
-	name: "CoverProperties",
-	fields: {
-		image: { type: "image", required: true },
-		alt: { type: "string", required: false },
-		size: { type: "enum", options: ["small", "large"], required: true },
-	},
-}));
-
 const TocProperties = defineNestedType(() => ({
 	name: "TocProperties",
 	fields: {
 		order: { type: "number", required: true },
-	},
-}));
-
-const OGPProperties = defineNestedType(() => ({
-	name: "OGPProperties",
-	fields: {
-		image: { type: "image", required: true },
 	},
 }));
 
@@ -57,8 +41,6 @@ export const Post = defineDocumentType(() => ({
 		datePublished: { type: "date", required: true },
 		description: { type: "string", required: true },
 		tags: { type: "list", of: { type: "string" }, required: false },
-		cover: { type: "nested", of: CoverProperties, required: true },
-		og: { type: "nested", of: OGPProperties, required: false },
 		toc: { type: "nested", of: TocProperties, required: false },
 	},
 	computedFields: {
@@ -77,13 +59,6 @@ export const Post = defineDocumentType(() => ({
 				return `https://github.com/vahor/vahor.fr/edit/main/src/content/${filePath}`;
 			},
 		},
-		coverUrl: {
-			type: "string",
-			resolve: (post) => {
-				const relativeFilePath = post.cover.image.relativeFilePath;
-				return relativeFilePath.replace(/^.*public\//, "/");
-			},
-		},
 		fullTags: {
 			type: "list",
 			of: { type: "string" },
@@ -93,14 +68,6 @@ export const Post = defineDocumentType(() => ({
 				const type = pageType(post._raw.flattenedPath);
 				const year = new Date(post.datePublished).getFullYear();
 				return [type, ...tags, year.toString()];
-			},
-		},
-		ogImageUrl: {
-			type: "string",
-			resolve: (post) => {
-				if (!post.og?.image) return "";
-				const relativeFilePath = post.og.image.relativeFilePath;
-				return relativeFilePath.replace(/^.*public\//, "/");
 			},
 		},
 		pageType: {

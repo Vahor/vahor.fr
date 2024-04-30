@@ -1,5 +1,6 @@
 import Hr from "@/components/Hr";
 import { JsonLd } from "@/components/jsonld/profile-page";
+import { BASE_URL } from "@/lib/constants";
 import { articlePage } from "@/lib/jsonld";
 import { Mdx } from "@/lib/mdx";
 import { absolutePath } from "@/lib/utils";
@@ -35,6 +36,17 @@ export const generateMetadata = async (
 	if (!post) notFound();
 
 	const parentMetadata = await parent;
+
+	const ogImages = [
+		{
+			alt: post.title,
+			type: "image/png",
+			width: 1200,
+			height: 630,
+			url: `${BASE_URL}/og/${post.slug}`,
+		},
+	];
+
 	return {
 		title: post.title,
 		description: post.description,
@@ -42,15 +54,13 @@ export const generateMetadata = async (
 			...parentMetadata.openGraph,
 			type: "article",
 			url: absolutePath(post.url),
-			images: post.ogImageUrl || parentMetadata.openGraph?.images,
+			images: ogImages,
 		},
 		twitter: {
 			...parentMetadata.twitter,
-			// @ts-expect-error weird typing
-			card: post.ogImageUrl
-				? "summary_large_image"
-				: parentMetadata.twitter?.card,
-			images: post.ogImageUrl || parentMetadata.twitter?.images,
+			// @ts-expect-error wrong type
+			card: "summary_large_image",
+			images: ogImages,
 		},
 	};
 };
@@ -75,7 +85,7 @@ export default async function PostPage(props: PageProps) {
 					headline: post.title,
 					datePublished: post.datePublished,
 					dateModified: post.dateModified,
-					image: post.ogImageUrl,
+					image: `${BASE_URL}/og/${post.slug}`,
 					description: post.description,
 				})}
 			/>
