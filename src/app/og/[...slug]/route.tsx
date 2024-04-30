@@ -17,34 +17,76 @@ export async function GET(_: NextRequest, params: BlogPageProps) {
 	}
 
 	// Font
-	const interSemiBold = fetch(
-		`${BASE_URL}/fonts/Inter-SemiBold.ttf`,
-	).then((res) => res.arrayBuffer())
+	const interSemiBold = fetch(`${BASE_URL}/fonts/Inter-SemiBold.ttf`).then(
+		(res) => res.arrayBuffer(),
+	);
 
 	return new ImageResponse(
 		<div
 			style={{
-				fontSize: 48,
-				background: "white",
-				width: "100%",
 				height: "100%",
+				width: "100%",
 				display: "flex",
-				alignItems: "center",
+				flexDirection: "column",
+				alignItems: "flex-start",
 				justifyContent: "center",
+				backgroundImage: `url(${BASE_URL}/og-bg.jpg)`,
 			}}
 		>
-			{post.title}
+			<div
+				style={{
+					padding: "0 90px",
+					marginTop: -50,
+					display: "flex",
+					fontSize: 110,
+					fontFamily: "Inter",
+					letterSpacing: "-0.05em",
+					fontStyle: "normal",
+					lineHeight: "105px",
+					color: "white",
+					whiteSpace: "pre-wrap",
+				}}
+			>
+				{post.title}
+			</div>
+
+			<div
+				style={{
+					position: "absolute",
+					bottom: 90,
+					left: 100,
+					display: "flex",
+					fontSize: 24,
+					fontFamily: "Inter",
+					letterSpacing: "-0.05em",
+					fontStyle: "normal",
+					color: "white",
+					whiteSpace: "pre-wrap",
+				}}
+			>
+				<img
+					src={`${BASE_URL}/logo-dark.svg`}
+					style={{
+						width: 40,
+						height: 40,
+						marginTop: -5,
+						marginRight: 15,
+					}}
+					alt=""
+				/>
+				<span>Nathan David</span>
+			</div>
 		</div>,
 		{
 			...size,
 			fonts: [
 				{
-					name: 'Inter',
+					name: "Inter",
 					data: await interSemiBold,
-					style: 'normal',
+					style: "normal",
 					weight: 400,
 				},
-			]
+			],
 		},
 	);
 }
