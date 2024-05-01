@@ -1,9 +1,11 @@
 import { env } from "@/env";
 
-const PROTOCOL = env.NEXT_PUBLIC_VERCEL_URL.includes("localhost")
-	? "http"
-	: "https";
-export const BASE_URL = `${PROTOCOL}://${env.NEXT_PUBLIC_VERCEL_URL}`;
+const HOSTNAME =
+	env.NEXT_PUBLIC_VERCEL_ENV === "production"
+		? "vahor.fr"
+		: env.NEXT_PUBLIC_VERCEL_URL;
+const PROTOCOL = HOSTNAME.includes("localhost") ? "http" : "https";
+export const BASE_URL = `${PROTOCOL}://${HOSTNAME}`;
 export const GITHUB_PROFILE = "https://github.com/vahor";
 export const GITHUB_REPOSITORY = `${GITHUB_PROFILE}/vahor.fr`;
 export const TWITTER_PROFILE = "https://twitter.com/vahor_";
