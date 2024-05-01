@@ -47,9 +47,9 @@ export async function getSpotifyAccessToken() {
 	}
 
 	const data = await response.json();
-	const { access_token, expires_in, refresh_token } = data;
+	console.log(data);
+	const { access_token, expires_in } = data;
 	kv.set(cacheKeyAccessToken, access_token, { ex: expires_in });
-	kv.set(cacheKeyRefreshToken, refresh_token);
 
 	console.log("Spotify access token refreshed");
 
