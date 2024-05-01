@@ -1,0 +1,97 @@
+---
+title: Deploiement automatique à l'aide de webhooks 
+description: Première version d'un déploiment automatique. 
+datePublished: 2022-05-13
+---
+
+# Installation
+
+```sh
+sudo apt install webhook
+```
+
+# Mise en place
+
+Création d'un endpoint:
+
+```json /name/1#e /deploy.sh/ /working directory/ /github secret/ title="rules.json" 
+[
+  {
+    "id": name, 
+    "execute-command": deploy.sh, 
+    "command-working-directory": working directory,
+    "pass-arguments-to-command": [
+      {
+        "source": "payload",
+        "name": "head_commit.message"
+      },
+      {
+        "source": "payload",
+        "name": "pusher.name"
+      },
+      {
+        "source": "payload",
+        "name": "head_commit.id"
+      }
+    ],
+    "trigger-rule": {
+      "and": [
+        {
+          "match": {
+            "type": "payload-hash-sha1",
+            "secret": github secret,
+            "parameter": {
+              "source": "header",
+              "name": "X-Hub-Signature"
+            }
+          }
+        },
+        {
+          "match": {
+            "type": "value",
+            "value": "refs/heads/main",
+            "parameter": {
+              "source": "payload",
+              "name": "ref"
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+
+Création du script d'automatisation:
+
+```sh /branch/ /appname/ title="deploy.sh" 
+#!/bin/sh
+
+git pull -f origin branch
+
+npm install
+npm run build
+
+pm2 restart appname
+```
+
+Lancement du serveur webhook
+
+```sh /port/2
+webhook -hooks hooks.json -port port
+```
+
+```sh /server_name/2 /port/ title="nging/site-enabled/server_name"
+server {
+
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+
+        server_name server_name 
+
+        location /hooks/ {
+                proxy_pass http://localhost:port/hooks/;
+        }
+}
+```
