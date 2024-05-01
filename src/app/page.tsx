@@ -6,7 +6,7 @@ import { UrlBadge } from "@/components/UrlBadge";
 import { GithubIcon } from "@/components/icons/Github";
 import { JsonLd } from "@/components/jsonld/profile-page";
 import { TWITTER_PROFILE } from "@/lib/constants";
-import { author } from "@/lib/jsonld";
+import { profilePage } from "@/lib/jsonld";
 import { allPosts } from "contentlayer/generated";
 
 const postCount = allPosts.length;
@@ -14,7 +14,7 @@ const postCount = allPosts.length;
 export default function Home() {
 	return (
 		<main className="py-16 mx-auto container post-content">
-			<JsonLd jsonLd={author} />
+			<JsonLd jsonLd={profilePage} />
 			<h1 className="text-2xl text-black dark:text-white font-semibold mb-8">
 				Nathan David
 			</h1>
@@ -72,7 +72,7 @@ export default function Home() {
 
 			<section className="mt-8">
 				<p>
-					Vous pouvez me retrouver sur {/* TODO Download SVG and use it here */}
+					Vous pouvez me retrouver sur
 					<GithubIcon />{" "}
 					<UrlBadge
 						url={TWITTER_PROFILE}

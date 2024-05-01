@@ -7,8 +7,6 @@ import {
 	TWITTER_PROFILE,
 } from "./constants";
 
-// TODO: use them
-
 export const author: Person = {
 	"@type": "Person",
 	name: "Nathan David",

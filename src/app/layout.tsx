@@ -33,10 +33,8 @@ export const metadata: Metadata = {
 	twitter: {
 		creator: "@vahor_",
 		card: "summary",
-		images: ["https://google.com"], // TODO
 	},
 	openGraph: {
-		images: ["https://google.com"], // TODO
 		locale: "fr_FR",
 		siteName: "Vahor",
 	},
