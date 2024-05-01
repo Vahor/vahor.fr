@@ -1,10 +1,12 @@
 import { env } from "@/env";
 import { kv } from "@vercel/kv";
 
-const cacheKey = "spotify:accessToken";
+const cacheKey = (key: string) => `spotify:${key}`;
+const cacheKeyAccessToken = cacheKey("accessToken");
+const cacheKeyRefreshToken = cacheKey("refreshToken");
 
 const getCachedAccessToken = async () => {
-	const cachedToken = await kv.get(cacheKey);
+	const cachedToken = await kv.get(cacheKeyAccessToken);
 	if (cachedToken) {
 		return cachedToken;
 	}
@@ -17,6 +19,12 @@ export async function getSpotifyAccessToken() {
 		return cachedToken;
 	}
 
+	const refreshToken = await kv.get<string>(cacheKeyRefreshToken);
+	if (!refreshToken) {
+		console.error("Spotify refresh token not found");
+		throw new Error("Spotify refresh token not found");
+	}
+
 	const response = await fetch("https://accounts.spotify.com/api/token", {
 		method: "POST",
 		headers: {
@@ -26,7 +34,7 @@ export async function getSpotifyAccessToken() {
 			grant_type: "refresh_token",
 			client_id: env.SPOTIFY_CLIENT_ID,
 			client_secret: env.SPOTIFY_CLIENT_SECRET,
-			refresh_token: env.SPOTIFY_REFRESH_TOKEN,
+			refresh_token: refreshToken,
 		}),
 	});
 
@@ -39,8 +47,9 @@ export async function getSpotifyAccessToken() {
 	}
 
 	const data = await response.json();
-	const { access_token, expires_in } = data;
-	kv.set(cacheKey, access_token, { ex: expires_in * 1000 });
+	const { access_token, expires_in, refresh_token } = data;
+	kv.set(cacheKeyAccessToken, access_token, { ex: expires_in * 1000 });
+	kv.set(cacheKeyRefreshToken, refresh_token);
 
 	console.log("Spotify access token refreshed");
 
