@@ -78,7 +78,7 @@
 @layer components {
   .post-content {
     @apply md:max-w-3xl flex-1;
-    line-height: 1.75;
+    line-height: 1.9;
   }
   .larger-post-content {
     @apply lg:-mx-24 xl:-mx-32;

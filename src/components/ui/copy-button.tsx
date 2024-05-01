@@ -1,8 +1,8 @@
 "use client";
 
+import { useCopy } from "@/lib/useCopy";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ClipboardIcon } from "lucide-react";
-import { useState } from "react";
 import { Button, type ButtonProps } from "./button";
 
 interface CopyButtonProps extends ButtonProps {
@@ -10,20 +10,7 @@ interface CopyButtonProps extends ButtonProps {
 }
 
 export function CopyButton({ value, className, ...props }: CopyButtonProps) {
-	const [hasCopied, setHasCopied] = useState(false);
-
-	const handleClick = () => {
-		if (hasCopied) return;
-
-		if (navigator.clipboard) {
-			navigator.clipboard.writeText(value);
-		}
-		setHasCopied(true);
-
-		setTimeout(() => {
-			setHasCopied(false);
-		}, 2000);
-	};
+	const { hasCopied, handleClick } = useCopy(value);
 
 	return (
 		<Button

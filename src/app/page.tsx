@@ -1,9 +1,11 @@
 import A from "@/components/A";
+import { CopyMailBadge } from "@/components/CopyMailBadge";
 import { CurrentlyListeningSvg } from "@/components/CurrentlyListeningSvg";
 import { SpotifyTopTrackBadge } from "@/components/SpotifyTopArtist";
 import { UrlBadge } from "@/components/UrlBadge";
+import { GithubIcon } from "@/components/icons/Github";
 import { JsonLd } from "@/components/jsonld/profile-page";
-import { GITHUB_PROFILE, TWITTER_PROFILE } from "@/lib/constants";
+import { TWITTER_PROFILE } from "@/lib/constants";
 import { author } from "@/lib/jsonld";
 import { allPosts } from "contentlayer/generated";
 
@@ -18,11 +20,11 @@ export default function Home() {
 			</h1>
 			<section>
 				<p>
-					<span>Hello 👋🏻</span>
+					Hello <span className="inline-block hover:animate-wiggle">👋🏻</span>
 					<span>
 						{" "}
 						Je suis un développeur fullstack passioné par les automatisations,
-						la performance et la simplicité.
+						la performance et l'open-source.
 					</span>
 				</p>
 			</section>
@@ -44,9 +46,10 @@ export default function Home() {
 					page <A href="/tag/all">blog</A>.
 				</p>
 				<p className="mt-2">
-					Pour l'instant, j'essaie d'apprendre{" "}
+					Par exemple, j'essaie d'apprendre{" "}
 					<UrlBadge url="https://www.rust-lang.org/" title="Rust" /> et{" "}
-					<UrlBadge url="https://go.dev/" title="Go" />.
+					<UrlBadge url="https://go.dev/" title="Go" />. Et je réalise un projet
+					open-source <UrlBadge url="https://pedaki.fr" title="Pedaki" />.
 				</p>
 			</section>
 
@@ -70,8 +73,15 @@ export default function Home() {
 			<section className="mt-8">
 				<p>
 					Vous pouvez me retrouver sur {/* TODO Download SVG and use it here */}
-					<UrlBadge url={GITHUB_PROFILE} title="GitHub" />{" "}
-					<UrlBadge url={TWITTER_PROFILE} title="Twitter" />
+					<GithubIcon />{" "}
+					<UrlBadge
+						url={TWITTER_PROFILE}
+						title="Twitter"
+						favicon="/icons/twitter.svg"
+					/>
+				</p>
+				<p className="mt-2">
+					Ou me contacter par mail: <CopyMailBadge title="me@vahor.fr" />
 				</p>
 			</section>
 		</main>
