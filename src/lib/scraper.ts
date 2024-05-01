@@ -1,7 +1,7 @@
 "use server";
 
+import { kv } from "@vercel/kv";
 import { DOMParser } from "@xmldom/xmldom";
-import cache from "memory-cache";
 import * as xpath from "xpath";
 
 const xpaths = {
@@ -42,10 +42,12 @@ const domParser = new DOMParser({
 
 type MetaTags = Record<XPathsKeys, string>;
 
+const cacheKey = (url: string) => `meta:${url}`;
+
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
-	const cached = cache.get(cleanUrl);
-	if (cached) return cached as MetaTags;
+	const cached = await kv.get<MetaTags>(cacheKey(cleanUrl));
+	if (cached) return cached;
 
 	console.log(`Fetching ${url}`);
 
@@ -70,7 +72,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	properties.favicon = await imageToBase64(favicon);
 	properties.image = image ? await imageToBase64(image) : properties.favicon;
 
-	cache.put(cleanUrl, properties);
+	kv.set(cacheKey(cleanUrl), properties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
 
 	return properties as MetaTags;
 };

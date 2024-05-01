@@ -1,8 +1,10 @@
 import { env } from "@/env";
-import cache from "memory-cache";
+import { kv } from "@vercel/kv";
 
-const getCachedAccessToken = () => {
-	const cachedToken = cache.get("spotifyAccessToken");
+const cacheKey = "spotify:accessToken";
+
+const getCachedAccessToken = async () => {
+	const cachedToken = await kv.get(cacheKey);
 	if (cachedToken) {
 		return cachedToken;
 	}
@@ -10,7 +12,7 @@ const getCachedAccessToken = () => {
 };
 
 export async function getSpotifyAccessToken() {
-	const cachedToken = getCachedAccessToken();
+	const cachedToken = await getCachedAccessToken();
 	if (cachedToken) {
 		return cachedToken;
 	}
@@ -38,7 +40,7 @@ export async function getSpotifyAccessToken() {
 
 	const data = await response.json();
 	const { access_token, expires_in } = data;
-	cache.put("spotifyAccessToken", access_token, expires_in * 1000);
+	kv.set(cacheKey, access_token, { ex: expires_in * 1000 });
 
 	console.log("Spotify access token refreshed");
 
