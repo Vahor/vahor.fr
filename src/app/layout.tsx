@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 		default: "Vahor",
 		template: "%s | Vahor",
 	},
-	description: "yey",
+	description: "Développeur full-stack",
 	metadataBase: new URL("https://vahor.fr"),
 	creator: "Nathan David",
 	robots: {
@@ -33,10 +33,26 @@ export const metadata: Metadata = {
 	twitter: {
 		creator: "@vahor_",
 		card: "summary",
+		images: [
+			{
+				url: "/android-chrome-512x512.png",
+				alt: "Vahor",
+				width: 512,
+				height: 512,
+			},
+		],
 	},
 	openGraph: {
 		locale: "fr_FR",
 		siteName: "Vahor",
+		images: [
+			{
+				url: "/android-chrome-512x512.png",
+				alt: "Vahor",
+				width: 512,
+				height: 512,
+			},
+		],
 	},
 	icons: [
 		{ rel: "icon", url: "/favicon.ico" },
