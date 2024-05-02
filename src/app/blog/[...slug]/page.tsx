@@ -1,5 +1,11 @@
 import Hr from "@/components/Hr";
 import { JsonLd } from "@/components/jsonld/profile-page";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { BASE_URL } from "@/lib/constants";
 import { articlePage } from "@/lib/jsonld";
 import { Mdx } from "@/lib/mdx";
@@ -74,6 +80,9 @@ const Tag = ({ tag, href }: { tag: string; href: string }) => (
 	</Link>
 );
 
+const formatDateTime = (date: string) =>
+	format(parseISO(date), "d MMMM yyyy", { locale: fr });
+
 export default async function PostPage(props: PageProps) {
 	const post = getPost(props);
 	if (!post) notFound();
@@ -100,16 +109,26 @@ export default async function PostPage(props: PageProps) {
 						<Clock className="size-4" />
 						<span className="text-xs">{post.timeToRead} min de lecture</span>
 					</div>
-					<div className="flex flex-row items-center gap-2">
-						<Calendar className="size-4" />
-						<span className="text-xs">
-							<time dateTime={post.datePublished}>
-								{format(parseISO(post.datePublished), "d MMMM yyyy", {
-									locale: fr,
-								})}
-							</time>
-						</span>
-					</div>
+					<TooltipProvider delayDuration={50}>
+						<Tooltip>
+							<TooltipTrigger>
+								<div className="flex flex-row items-center gap-2">
+									<Calendar className="size-4" />
+									<span className="text-xs">
+										<time dateTime={post.datePublished}>
+											{formatDateTime(post.datePublished)}
+										</time>
+									</span>
+								</div>
+							</TooltipTrigger>
+							<TooltipContent align="start">
+								Dernière modification le{" "}
+								<time dateTime={post.dateModified}>
+									{formatDateTime(post.dateModified)}
+								</time>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</div>
 				<div className="flex flex-row items-center gap-2" id="tags">
 					{post.fullTags.map((tag: string) => (
