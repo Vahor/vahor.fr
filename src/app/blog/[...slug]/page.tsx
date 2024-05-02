@@ -100,7 +100,7 @@ export default async function PostPage(props: PageProps) {
 			/>
 
 			<header className="mb-10 flex flex-col gap-6">
-				<h1 className="text-4xl font-semibold text-black dark:text-white text-balance">
+				<h1 className="text-3xl font-semibold text-black dark:text-white text-balance">
 					{post.title}
 				</h1>
 				<p>{post.description}</p>
