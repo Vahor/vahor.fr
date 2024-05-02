@@ -19,7 +19,7 @@ export const author: Person = {
 export const profilePage: WithContext<ProfilePage> = {
 	"@context": "https://schema.org",
 	"@type": "ProfilePage",
-	dateCreated: "2021-09-17",
+	dateCreated: "2021-09-17T00:00:00.000Z",
 	dateModified: env.BUILD_TIME,
 	mainEntity: author,
 };
