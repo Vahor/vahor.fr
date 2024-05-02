@@ -138,15 +138,16 @@ const mdxComponents: MDXComponents = {
 		/>
 	),
 	li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-		<li className={cn("mt-2 pl-1 md:pl-2", className)} {...props} />
+		<li className={cn("mt-2 pl-1 md:pl-2 [&>ul]:mt-2", className)} {...props} />
 	),
 	hr: Hr,
 	Vimeo: ({ id, title, muted = true }) => (
 		<div className="aspect-video rounded-md overflow-hidden mt-6 translate-z-0 larger-post-content">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
-					}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
+					muted ? "&muted=1" : ""
+				}`}
 				className="w-full h-full rounded-md scale-x-[1.02]"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

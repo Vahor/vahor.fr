@@ -1,4 +1,9 @@
-import { Alert, AlertDescription, AlertTitle, type Variant } from "@/components/ui/alert";
+import {
+	Alert,
+	AlertDescription,
+	AlertTitle,
+	type Variant,
+} from "@/components/ui/alert";
 import { TriangleAlertIcon } from "lucide-react";
 
 interface CalloutProps {
@@ -9,10 +14,13 @@ interface CalloutProps {
 
 const icon = {
 	warning: <TriangleAlertIcon aria-label="Warning" size={16} />,
-}
+};
 
-
-export function Callout({ title, variant, children: description }: CalloutProps) {
+export function Callout({
+	title,
+	variant,
+	children: description,
+}: CalloutProps) {
 	const Icon = variant && icon[variant as keyof typeof icon];
 	return (
 		<Alert className="mt-4" variant={variant}>
