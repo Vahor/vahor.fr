@@ -2,6 +2,7 @@ import A from "@/components/A";
 import { Callout } from "@/components/Callout";
 import Hr from "@/components/Hr";
 import { UrlPreview } from "@/components/UrlPreview";
+import { Wip } from "@/components/Wip";
 import { Toc } from "@/components/toc/Toc";
 import { CopyButton } from "@/components/ui/copy-button";
 import { cn } from "@/lib/utils";
@@ -137,7 +138,7 @@ const mdxComponents: MDXComponents = {
 		/>
 	),
 	li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-		<li className={cn("mt-2 pl-1 md:pl-2", className)} {...props} />
+		<li className={cn("mt-2 pl-1 md:pl-2 [&>ul]:mt-2", className)} {...props} />
 	),
 	hr: Hr,
 	Vimeo: ({ id, title, muted = true }) => (
@@ -170,6 +171,7 @@ const mdxComponents: MDXComponents = {
 	Toc,
 	UrlPreview,
 	Callout,
+	Wip,
 };
 
 interface MdxProps {

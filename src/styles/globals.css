@@ -73,6 +73,10 @@
   div#__next {
     @apply h-full;
   }
+
+  img[alt=""] {
+    @apply sr-only;
+  }
 }
 
 @layer components {
