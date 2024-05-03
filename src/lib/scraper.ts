@@ -35,8 +35,8 @@ const mapProperties = (paths: typeof xpaths, document: Document) => {
 const domParser = new DOMParser({
 	locator: {},
 	errorHandler: {
-		warning: () => { },
-		error: () => { },
+		warning: () => {},
+		error: () => {},
 		fatalError: console.warn,
 	},
 });
@@ -91,10 +91,24 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 			Accept: "image/*",
 		},
 	});
-	const blob = await response.arrayBuffer();
-	const resized = await sharp(blob)
-		.resize(width, height, { withoutEnlargement: true })
-		.toBuffer();
-	const base64 = resized.toString("base64");
-	return `data:${response.headers.get("content-type")};base64,${base64}`;
+
+	if (!response.ok) return EMPTY_BASE64_IMAGE;
+
+	try {
+		const contentType = response.headers.get("content-type");
+		if (!contentType || !contentType.startsWith("image")) {
+			throw new Error("Invalid content type");
+		}
+
+		const blob = await response.arrayBuffer();
+		const buffer = Buffer.from(blob);
+		const resized = await sharp(buffer)
+			.resize(width, height, { withoutEnlargement: true })
+			.toBuffer();
+		const base64 = resized.toString("base64");
+		return `data:${response.headers.get("content-type")};base64,${base64}`;
+	} catch (error) {
+		console.error(`Failed to convert image to base64 url: ${url}`, error);
+		return EMPTY_BASE64_IMAGE;
+	}
 };
