@@ -38,6 +38,17 @@ const nextConfig = {
 		];
 	},
 
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "i.scdn.co",
+				port: "",
+				pathname: "/image/*",
+			},
+		],
+	},
+
 	env: {
 		BUILD_TIME: new Date().toISOString(),
 	},

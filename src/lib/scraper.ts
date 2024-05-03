@@ -14,8 +14,7 @@ const xpaths = {
 	// image is og:image (either name or property)
 	image:
 		'string(//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content)',
-	favicon:
-		'string(//link[@rel="apple-touch-icon" or @rel="icon" or @rel="shortcut icon"]/@href)',
+	favicon: 'string(//link[@rel="icon" or @rel="shortcut icon"]/@href)',
 } as const;
 type XPaths = typeof xpaths;
 type XPathsKeys = keyof XPaths;
@@ -72,7 +71,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 
 	const image = properties.image?.toString() ?? "";
 
-	properties.favicon = await imageToBase64(favicon, 32, 32);
+	properties.favicon = await imageToBase64(favicon, 16, 16);
 	properties.image = image
 		? await imageToBase64(image)
 		: await imageToBase64(favicon); // fallback to favicon
