@@ -9,10 +9,17 @@ interface UrlBadgeProps {
 }
 
 export const UrlBadge = async ({ url, title, favicon }: UrlBadgeProps) => {
-	const metadata = favicon ? { favicon, title } : await extractMetaTags(url);
+	const metadata = favicon
+		? { favicon, title, ariaLabel: title }
+		: await extractMetaTags(url);
 
 	return (
-		<UrlBadgeWithMetadata url={url} title={title} favicon={metadata.favicon} />
+		<UrlBadgeWithMetadata
+			url={url}
+			title={title}
+			ariaLabel={metadata.title}
+			favicon={metadata.favicon}
+		/>
 	);
 };
 
@@ -20,18 +27,14 @@ export const UrlBadgeWithMetadata = ({
 	url,
 	title,
 	favicon,
-}: UrlBadgeProps & { favicon: string }) => {
+	ariaLabel,
+}: UrlBadgeProps & { favicon: string; ariaLabel?: string }) => {
 	return (
 		<Badge asChild>
-			<a
-				href={url}
-				aria-label={title}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
+			<a href={url} target="_blank" rel="noopener noreferrer">
 				<Image
 					src={favicon}
-					alt={title}
+					alt={ariaLabel || title}
 					width={16}
 					height={16}
 					unoptimized={true}
