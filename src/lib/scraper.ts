@@ -2,6 +2,7 @@
 
 import { kv } from "@vercel/kv";
 import { DOMParser } from "@xmldom/xmldom";
+import sharp from "sharp";
 import * as xpath from "xpath";
 
 const xpaths = {
@@ -13,7 +14,8 @@ const xpaths = {
 	// image is og:image (either name or property)
 	image:
 		'string(//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content)',
-	favicon: 'string(//link[@rel="icon" or @rel="shortcut icon"]/@href)',
+	favicon:
+		'string(//link[@rel="apple-touch-icon" or @rel="icon" or @rel="shortcut icon"]/@href)',
 } as const;
 type XPaths = typeof xpaths;
 type XPathsKeys = keyof XPaths;
@@ -46,7 +48,8 @@ const cacheKey = (url: string) => `meta:${url}`;
 
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
-	const cached = await kv.get<MetaTags>(cacheKey(cleanUrl));
+	const urlKey = cacheKey(cleanUrl);
+	const cached = await kv.get<MetaTags>(urlKey);
 	if (cached) return cached;
 
 	console.log(`Fetching ${url}`);
@@ -69,18 +72,34 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 
 	const image = properties.image?.toString() ?? "";
 
-	properties.favicon = await imageToBase64(favicon);
-	properties.image = image ? await imageToBase64(image) : properties.favicon;
+	properties.favicon = await imageToBase64(favicon, 32, 32);
+	properties.image = image
+		? await imageToBase64(image)
+		: await imageToBase64(favicon); // fallback to favicon
 
-	kv.set(cacheKey(cleanUrl), properties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
+	const previousValue = (await kv.get<MetaTags>(urlKey)) ?? properties;
 
-	return properties as MetaTags;
+	const newProperties = {
+		...properties,
+		image:
+			properties.image === EMPTY_BASE64_IMAGE
+				? previousValue.image
+				: properties.image,
+		favicon:
+			properties.favicon === EMPTY_BASE64_IMAGE
+				? previousValue.favicon
+				: properties.favicon,
+	} as MetaTags;
+
+	kv.set(urlKey, newProperties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
+
+	return newProperties;
 };
 
 const EMPTY_BASE64_IMAGE =
 	"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
-const imageToBase64 = async (url: string) => {
+const imageToBase64 = async (url: string, width = 300, height = 300) => {
 	if (!url) return EMPTY_BASE64_IMAGE;
 	const response = await fetch(url, {
 		method: "GET",
@@ -88,8 +107,44 @@ const imageToBase64 = async (url: string) => {
 			Accept: "image/*",
 		},
 	});
-	const blob = await response.arrayBuffer();
-	const buffer = Buffer.from(blob);
-	const base64 = buffer.toString("base64");
-	return `data:${response.headers.get("content-type")};base64,${base64}`;
+
+	if (!response.ok) {
+		console.error(
+			`Failed to fetch image: ${url}`,
+			response.status,
+			await response.text(),
+		);
+		return EMPTY_BASE64_IMAGE;
+	}
+
+	try {
+		const contentType = response.headers.get("content-type");
+		if (!contentType || !contentType.startsWith("image")) {
+			throw new Error("Invalid content type");
+		}
+
+		const blob = await response.arrayBuffer();
+		const buffer = Buffer.from(blob);
+		let base64: string;
+		if (isIcoFavicon(url)) {
+			base64 = buffer.toString("base64");
+		} else {
+			const resized = await sharp(buffer)
+				.resize(width, height, {
+					fit: "contain",
+					background: { r: 0, g: 0, b: 0, alpha: 0 },
+				})
+				.toBuffer();
+			base64 = resized.toString("base64");
+		}
+
+		return `data:${contentType};base64,${base64}`;
+	} catch (error) {
+		console.error(`Failed to convert image to base64 url: ${url}`, error);
+		return EMPTY_BASE64_IMAGE;
+	}
 };
+
+const isIcoFavicon = (url: string) => url.endsWith(".ico");
+
+extractMetaTags("https://www.rust-lang.org/");
