@@ -36,8 +36,8 @@ const mapProperties = (paths: typeof xpaths, document: Document) => {
 const domParser = new DOMParser({
 	locator: {},
 	errorHandler: {
-		warning: () => { },
-		error: () => { },
+		warning: () => {},
+		error: () => {},
 		fatalError: console.warn,
 	},
 });
