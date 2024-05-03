@@ -56,31 +56,33 @@ export async function SpotifyTopTrackBadge() {
 	const topTrack = tracks[0];
 
 	return (
-		<a
-			className="flex flew-row rounded-md border border-neutral-200 dark:border-neutral-700 gap-4 hover:border-neutral-300 hover:dark:border-neutral-600 bg-accent text-accent-foreground p-2"
-			title="Ma musique préférée du moment"
-			href={topTrack.external_urls.spotify}
-			target="_blank"
-			rel="noopener noreferrer"
-		>
-			<Image
-				src={topTrack.album.images[0].url}
-				alt={topTrack.album.name}
-				width={64}
-				height={64}
-				className="inline-block rounded-lg"
-			/>
-			<div>
-				<div className="font-semibold">{topTrack.name}</div>
-				<div className="text-sm text-neutral-700 dark:text-neutral-300">
-					{topTrack.artists.map((artist, i) => (
-						<span key={artist.name}>
-							{artist.name}
-							{i < topTrack.artists.length - 1 ? ", " : ""}
-						</span>
-					))}
+		<div>
+			<a
+				className="flex flew-row rounded-md border border-neutral-200 dark:border-neutral-700 gap-4 hover:border-neutral-300 hover:dark:border-neutral-600 bg-accent text-accent-foreground p-2"
+				title="Ma musique préférée du moment"
+				href={topTrack.external_urls.spotify}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<Image
+					src={topTrack.album.images[0].url}
+					alt={topTrack.album.name}
+					width={64}
+					height={64}
+					className="inline-block rounded-lg w-16 h-16"
+				/>
+				<div>
+					<div className="font-semibold">{topTrack.name}</div>
+					<div className="text-sm text-neutral-700 dark:text-neutral-300">
+						{topTrack.artists.map((artist, i) => (
+							<span key={artist.name}>
+								{artist.name}
+								{i < topTrack.artists.length - 1 ? ", " : ""}
+							</span>
+						))}
+					</div>
 				</div>
-			</div>
-		</a>
+			</a>
+		</div>
 	);
 }
