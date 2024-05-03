@@ -17,6 +17,7 @@ export function GithubIcon() {
 		<UrlBadgeWithMetadata
 			url={GITHUB_PROFILE}
 			title="GitHub"
+			alt="GitHub icon"
 			favicon={
 				mounted && theme === "dark"
 					? "/icons/github-mark-white.svg"

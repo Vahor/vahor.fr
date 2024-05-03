@@ -77,11 +77,12 @@ export default function Home() {
 					<UrlBadge
 						url={TWITTER_PROFILE}
 						title="Twitter"
+						alt="Twitter icon"
 						favicon="/icons/twitter.svg"
 					/>
 				</p>
 				<p className="mt-2">
-					Ou me contacter par mail: <CopyMailBadge title="me@vahor.fr" />
+					Ou me contacter par mail: <CopyMailBadge />
 				</p>
 			</section>
 		</main>
