@@ -72,7 +72,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 
 	const image = properties.image?.toString() ?? "";
 
-	properties.favicon = await imageToBase64(favicon, 32, 32);
+	properties.favicon = await imageToBase64(favicon, 16, 16);
 	properties.image = image
 		? await imageToBase64(image)
 		: await imageToBase64(favicon); // fallback to favicon
