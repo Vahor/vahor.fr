@@ -68,7 +68,6 @@ export async function SpotifyTopTrackBadge() {
 				alt={topTrack.album.name}
 				width={64}
 				height={64}
-				unoptimized={true}
 				className="inline-block rounded-lg"
 			/>
 			<div>
