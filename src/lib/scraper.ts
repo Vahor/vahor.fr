@@ -2,6 +2,7 @@
 
 import { kv } from "@vercel/kv";
 import { DOMParser } from "@xmldom/xmldom";
+import sharp from "sharp";
 import * as xpath from "xpath";
 
 const xpaths = {
@@ -34,8 +35,8 @@ const mapProperties = (paths: typeof xpaths, document: Document) => {
 const domParser = new DOMParser({
 	locator: {},
 	errorHandler: {
-		warning: () => {},
-		error: () => {},
+		warning: () => { },
+		error: () => { },
 		fatalError: console.warn,
 	},
 });
@@ -69,8 +70,10 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 
 	const image = properties.image?.toString() ?? "";
 
-	properties.favicon = await imageToBase64(favicon);
-	properties.image = image ? await imageToBase64(image) : properties.favicon;
+	properties.favicon = await imageToBase64(favicon, 32, 32);
+	properties.image = image
+		? await imageToBase64(image)
+		: await imageToBase64(favicon); // fallback to favicon
 
 	kv.set(cacheKey(cleanUrl), properties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
 
@@ -80,7 +83,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 const EMPTY_BASE64_IMAGE =
 	"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
-const imageToBase64 = async (url: string) => {
+const imageToBase64 = async (url: string, width = 300, height = 300) => {
 	if (!url) return EMPTY_BASE64_IMAGE;
 	const response = await fetch(url, {
 		method: "GET",
@@ -89,7 +92,9 @@ const imageToBase64 = async (url: string) => {
 		},
 	});
 	const blob = await response.arrayBuffer();
-	const buffer = Buffer.from(blob);
-	const base64 = buffer.toString("base64");
+	const resized = await sharp(blob)
+		.resize(width, height, { withoutEnlargement: true })
+		.toBuffer();
+	const base64 = resized.toString("base64");
 	return `data:${response.headers.get("content-type")};base64,${base64}`;
 };
