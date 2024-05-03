@@ -35,8 +35,8 @@ const mapProperties = (paths: typeof xpaths, document: Document) => {
 const domParser = new DOMParser({
 	locator: {},
 	errorHandler: {
-		warning: () => {},
-		error: () => {},
+		warning: () => {  },
+		error: () => {  },
 		fatalError: console.warn,
 	},
 });
@@ -107,7 +107,7 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 			base64 = buffer.toString("base64");
 		} else {
 			const resized = await sharp(buffer)
-				.resize(width, height, { withoutEnlargement: true })
+				.resize(width, height, { withoutEnlargement: true, fit: 'contain' })
 				.toBuffer();
 			base64 = resized.toString("base64");
 		}
