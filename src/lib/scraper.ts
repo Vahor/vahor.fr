@@ -92,7 +92,14 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 		},
 	});
 
-	if (!response.ok) return EMPTY_BASE64_IMAGE;
+	if (!response.ok) {
+		console.error(
+			`Failed to fetch image: ${url}`,
+			response.status,
+			await response.text(),
+		);
+		return EMPTY_BASE64_IMAGE;
+	}
 
 	try {
 		const contentType = response.headers.get("content-type");
@@ -107,7 +114,11 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 			base64 = buffer.toString("base64");
 		} else {
 			const resized = await sharp(buffer)
-				.resize(width, height, { withoutEnlargement: true, fit: "contain" })
+				.resize(width, height, {
+					withoutEnlargement: true,
+					fit: "contain",
+					background: { r: 0, g: 0, b: 0, alpha: 0 },
+				})
 				.toBuffer();
 			base64 = resized.toString("base64");
 		}
