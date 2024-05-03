@@ -47,7 +47,8 @@ const cacheKey = (url: string) => `meta:${url}`;
 
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
-	const cached = await kv.get<MetaTags>(cacheKey(cleanUrl));
+	const urlKey = cacheKey(cleanUrl);
+	const cached = await kv.get<MetaTags>(urlKey);
 	if (cached) return cached;
 
 	console.log(`Fetching ${url}`);
@@ -75,9 +76,23 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 		? await imageToBase64(image)
 		: await imageToBase64(favicon); // fallback to favicon
 
-	kv.set(cacheKey(cleanUrl), properties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
+	const previousValue = (await kv.get<MetaTags>(urlKey)) ?? properties;
 
-	return properties as MetaTags;
+	const newProperties = {
+		...properties,
+		image:
+			properties.image === EMPTY_BASE64_IMAGE
+				? previousValue.image
+				: properties.image,
+		favicon:
+			properties.favicon === EMPTY_BASE64_IMAGE
+				? previousValue.favicon
+				: properties.favicon,
+	} as MetaTags;
+
+	kv.set(urlKey, newProperties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
+
+	return newProperties;
 };
 
 const EMPTY_BASE64_IMAGE =
