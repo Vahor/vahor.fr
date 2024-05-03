@@ -130,7 +130,6 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 		} else {
 			const resized = await sharp(buffer)
 				.resize(width, height, {
-					withoutEnlargement: true,
 					fit: "contain",
 					background: { r: 0, g: 0, b: 0, alpha: 0 },
 				})
