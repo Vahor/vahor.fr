@@ -14,8 +14,7 @@ const xpaths = {
 	// image is og:image (either name or property)
 	image:
 		'string(//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content)',
-	favicon:
-		'string(//link[@rel="apple-touch-icon" or @rel="icon" or @rel="shortcut icon"]/@href)',
+	favicon: 'string(//link[@rel="icon" or @rel="shortcut icon"]/@href)',
 } as const;
 type XPaths = typeof xpaths;
 type XPathsKeys = keyof XPaths;
