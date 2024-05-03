@@ -35,8 +35,8 @@ const mapProperties = (paths: typeof xpaths, document: Document) => {
 const domParser = new DOMParser({
 	locator: {},
 	errorHandler: {
-		warning: () => {  },
-		error: () => {  },
+		warning: () => {},
+		error: () => {},
 		fatalError: console.warn,
 	},
 });
@@ -102,12 +102,12 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 
 		const blob = await response.arrayBuffer();
 		const buffer = Buffer.from(blob);
-		let base64 = EMPTY_BASE64_IMAGE;
+		let base64: string;
 		if (isIcoFavicon(url)) {
 			base64 = buffer.toString("base64");
 		} else {
 			const resized = await sharp(buffer)
-				.resize(width, height, { withoutEnlargement: true, fit: 'contain' })
+				.resize(width, height, { withoutEnlargement: true, fit: "contain" })
 				.toBuffer();
 			base64 = resized.toString("base64");
 		}
@@ -119,4 +119,4 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 	}
 };
 
-const isIcoFavicon = (url: string) => !url.endsWith(".ico");
+const isIcoFavicon = (url: string) => url.endsWith(".ico");
