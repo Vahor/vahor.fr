@@ -14,7 +14,8 @@ const xpaths = {
 	// image is og:image (either name or property)
 	image:
 		'string(//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content)',
-	favicon: 'string(//link[@rel="icon" or @rel="shortcut icon"]/@href)',
+	favicon:
+		'string(//link[@rel="apple-touch-icon" or @rel="icon" or @rel="shortcut icon"]/@href)',
 } as const;
 type XPaths = typeof xpaths;
 type XPathsKeys = keyof XPaths;
@@ -35,8 +36,8 @@ const mapProperties = (paths: typeof xpaths, document: Document) => {
 const domParser = new DOMParser({
 	locator: {},
 	errorHandler: {
-		warning: () => {},
-		error: () => {},
+		warning: () => { },
+		error: () => { },
 		fatalError: console.warn,
 	},
 });
@@ -145,3 +146,5 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 };
 
 const isIcoFavicon = (url: string) => url.endsWith(".ico");
+
+extractMetaTags("https://www.rust-lang.org/");
