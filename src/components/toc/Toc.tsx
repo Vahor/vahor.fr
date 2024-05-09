@@ -15,7 +15,7 @@ export function Toc({ group }: TocProps) {
 		});
 
 	return (
-		<div className="sticky top-20">
+		<div className="border-y py-4">
 			<nav className="space-y-2">
 				<h2 className="text-lg font-semibold">Pages sur le même sujet</h2>
 				<ul className="space-y-1">
