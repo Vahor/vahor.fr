@@ -2,15 +2,15 @@ import { allPosts } from "contentlayer/generated";
 import { TocLink } from "./TocLink";
 
 interface TocProps {
-	prefix: string;
+	group: string;
 }
 
-export function Toc({ prefix }: TocProps) {
+export function Toc({ group }: TocProps) {
 	const matchingPosts = allPosts
-		.filter((post) => post._raw.sourceFilePath.startsWith(prefix))
+		.filter((post) => post.toc && post.toc.group === group)
 		.toSorted((a, b) => {
-			const aOrder = a.toc?.order || new Date(a.datePublished).getTime();
-			const bOrder = b.toc?.order || new Date(b.datePublished).getTime();
+			const aOrder = a.toc!.order;
+			const bOrder = b.toc!.order;
 			return aOrder - bOrder;
 		});
 

@@ -16,13 +16,14 @@ import type { ShikiTransformer } from "shiki";
 const TocProperties = defineNestedType(() => ({
 	name: "TocProperties",
 	fields: {
+		group: { type: "string", required: true },
 		order: { type: "number", required: true },
 	},
 }));
 
 const postSlug = (path: string) => {
 	const withoutPrefix = path.split("posts/").splice(-1)[0];
-	return withoutPrefix.split("blog/").splice(-1)[0];
+	return withoutPrefix;
 };
 
 const pageType = (path: string) => {
@@ -50,7 +51,10 @@ export const Post = defineDocumentType(() => ({
 		},
 		url: {
 			type: "string",
-			resolve: (post) => `/blog/${postSlug(post._raw.flattenedPath)}`,
+			resolve: (post) => {
+				const slug = postSlug(post._raw.flattenedPath);
+				return `/${slug}`;
+			},
 		},
 		githubEditUrl: {
 			type: "string",
