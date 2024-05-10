@@ -88,9 +88,7 @@ const scoreDiff = (
 	a: (typeof INITIAL_DATA)[0],
 	b: (typeof INITIAL_DATA)[0],
 ) => {
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const aScore = a.score!;
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const bScore = b.score!;
 	if (aScore === bScore) {
 		return a.item.datePublished > b.item.datePublished

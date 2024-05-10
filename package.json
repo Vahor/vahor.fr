@@ -52,6 +52,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.7.3",
+		"@total-typescript/ts-reset": "^0.5.1",
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",

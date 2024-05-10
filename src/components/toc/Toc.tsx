@@ -2,20 +2,20 @@ import { allPosts } from "contentlayer/generated";
 import { TocLink } from "./TocLink";
 
 interface TocProps {
-	prefix: string;
+	group: string;
 }
 
-export function Toc({ prefix }: TocProps) {
+export function Toc({ group }: TocProps) {
 	const matchingPosts = allPosts
-		.filter((post) => post._raw.sourceFilePath.startsWith(prefix))
+		.filter((post) => post.toc && post.toc.group === group)
 		.toSorted((a, b) => {
-			const aOrder = a.toc?.order || new Date(a.datePublished).getTime();
-			const bOrder = b.toc?.order || new Date(b.datePublished).getTime();
+			const aOrder = a.toc!.order;
+			const bOrder = b.toc!.order;
 			return aOrder - bOrder;
 		});
 
 	return (
-		<div className="sticky top-20">
+		<div className="border-y py-4">
 			<nav className="space-y-2">
 				<h2 className="text-lg font-semibold">Pages sur le même sujet</h2>
 				<ul className="space-y-1">

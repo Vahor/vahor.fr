@@ -24,7 +24,7 @@ export default function NotFound() {
 						supprimée.
 					</p>
 				</div>
-				<div className="space-x-2">
+				<div className="flex gap-2 items-center">
 					<Button asChild variant="secondary" className="w-max">
 						<Link href="/">Returner à l'accueil</Link>
 					</Button>
