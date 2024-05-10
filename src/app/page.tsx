@@ -72,14 +72,14 @@ export default function Home() {
 
 			<section className="mt-8">
 				<p>
-					Vous pouvez me retrouver sur
+					Vous pouvez me retrouver sur{" "}
 					<GithubIcon />{" "}
 					<UrlBadge
 						url={TWITTER_PROFILE}
 						title="Twitter"
 						alt="Twitter icon"
 						favicon="/icons/twitter.svg"
-					/>
+					/>.
 				</p>
 				<p className="mt-2">
 					Ou me contacter par mail: <CopyMailBadge />
