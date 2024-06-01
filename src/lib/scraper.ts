@@ -145,5 +145,3 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 };
 
 const isIcoFavicon = (url: string) => url.endsWith(".ico");
-
-extractMetaTags("https://www.rust-lang.org/");
