@@ -11,6 +11,8 @@ import { allPosts } from "contentlayer/generated";
 
 const postCount = allPosts.length;
 
+export const revalidate = 84600; // 24 hours
+
 export default function Home() {
 	return (
 		<main className="py-16 mx-auto container post-content">
