@@ -7,17 +7,6 @@ toc:
  order: 0
 ---
 
-<Toc group="saverly" />
-
-<Wip>
-    **Progression**
-    - [x] LocalFirst avec replicache 
-    - [x] Abonnements avec lemonsqueezy 
-    - [x] custom auth avec clerk elements
-    - [x] Charts / Filtres avec recharts 
-</Wip>
-
-
 # Quelques images et vidéos
 
 Pour la page d'accueil l'objectif était d'avoir un style "argent", pour ça j'ai utilisé une police avec serif pour les titres
@@ -67,3 +56,29 @@ Une partie que j'apprécie particulièrement est le modal de création d'abonnem
 L'affichage des prochaines executions, les détails sur les "s" lorsqu'il y a plusieurs jours, les icons, filtres.. tous ces détails sans aucun chargement sont parfaits.
 
 
+--
+
+# Stack
+
+- Next.js
+- Tailwind
+- Drizzle - **(nouveau)** pour gerer la connexion à la db / remplacer prisma
+- Replicache / PusherJs - **nouveau)** pour la partie localfirst
+- Clerk - **(nouveau)** pour la partie auth
+- next-safe-action - **(nouveau)** pour gerer les appels d'api et remplacer trpc
+
+
+C'est vraiment une stack très intéressante. Je pense la reprendre dans un autre projet.\
+Dans certains cas trpc est trop lourd, `next-safe-action` le remplace très bien.
+
+Le côté replicache est vraiment vraiment intéressant. Compliqué à mettre en place, mais une fois fait ça fonctionne très bien.\
+Un mutator côté client et une méthode similaire côté serveur pour synchroniser.
+N'avoir aucun chargement est tellement plaisant 😎
+
+Cette application ne peut pas exister sans ce principe, quelqu'un en extérieur, avec un réseau faible n'enregistrera jamais une dépense si le site doit charger pendant quelques secondes avec des spinners.
+
+# Conclusion
+
+Ce projet n'a pas été très long, la mise en place de replicache a été la plus grosse partie. Tout cela a pris 3 petits week-ends.
+
+Pour le moment le code reste privé, mais si je n'en fait rien je le rendrai public.
