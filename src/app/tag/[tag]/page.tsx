@@ -31,8 +31,8 @@ export default async function TagPage(props: PageProps) {
 		.toSorted((a, b) => b.datePublished.localeCompare(a.datePublished));
 
 	return (
-		<div className="container grid gap-4 pb-4 md:grid-cols-4">
-			<nav className="col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:col-span-1 md:max-h-none">
+		<div className="container relative grid gap-4 pb-8 md:grid-cols-4 md:pb-16">
+			<nav className="top-0 col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:sticky md:col-span-1 md:h-max md:max-h-none">
 				{allTags.map((tag) => {
 					const active = tag === params.tag;
 					return (
@@ -69,24 +69,24 @@ export default async function TagPage(props: PageProps) {
 
 const PostEntry = ({ post }: { post: Post }) => {
 	return (
-		<div className="group mt-4 space-y-1">
-			<div className="flex justify-between gap-2">
+		<div className="group mt-4 flex justify-between gap-2">
+			<div className="space-y-1">
 				<Link
 					href={post.url}
 					className="group-hover:text-black group-hover:dark:text-white"
 				>
 					<h2>{post.title}</h2>
 				</Link>
-				<time
-					dateTime={post.datePublished}
-					className="text-muted-foreground text-sm"
-				>
+				<p className="text-muted-foreground">{post.description}</p>
+			</div>
+			<div className="text-right text-muted-foreground text-sm">
+				<time dateTime={post.datePublished}>
 					{format(parseISO(post.datePublished), "d MMMM yyyy", {
 						locale: fr,
 					})}
 				</time>
+				<p className="text-xs">{post.timeToRead} min de lecture</p>
 			</div>
-			<p className="text-muted-foreground">{post.description}</p>
 		</div>
 	);
 };

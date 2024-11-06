@@ -22,6 +22,12 @@ const config = {
 		fontFamily: {
 			mono: ["var(--font-mono)"],
 		},
+		listStyleType: {
+			none: "none",
+			disc: "disc",
+			decimal: "decimal",
+			"lower-alpha": "lower-alpha",
+		},
 		extend: {
 			colors: {
 				border: "hsl(var(--border))",

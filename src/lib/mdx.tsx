@@ -125,29 +125,43 @@ const mdxComponents: MDXComponents = {
 			<AnchorPermalink id={id} size="size-4" />
 		</h5>
 	),
-	p: ({ className, ...props }) => (
-		<p className={cn("[&:not(:first-child)]:mt-4", className)} {...props} />
-	),
+	p: ({ className, ...props }) => {
+		const Comp = typeof props.children === "string" ? "p" : "div";
+		return (
+			<Comp
+				className={cn("[&:not(:first-child)]:mt-4", className)}
+				{...props}
+			/>
+		);
+	},
 	ul: ({ className, ...props }) => (
 		<ul className={cn("mt-4 list-disc pl-4 md:pl-8", className)} {...props} />
 	),
 	ol: ({ className, ...props }) => (
 		<ol
-			className={cn("mt-4 list-decimal pl-4 md:pl-8", className)}
+			className={cn(
+				"mt-4 list-decimal pl-4 md:pl-8 [&>ol]:mt-1 [&>ol]:list-lower-alpha [&>ul]:mt-1",
+				className,
+			)}
 			{...props}
 		/>
 	),
 	li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-		<li className={cn("mt-2 pl-1 md:pl-2 [&>ul]:mt-2", className)} {...props} />
+		<li
+			className={cn(
+				"mt-2 pl-1 md:pl-2 [&>ol]:mt-1 [&>ol]:list-lower-alpha [&>ul]:mt-1",
+				className,
+			)}
+			{...props}
+		/>
 	),
 	hr: Hr,
 	Vimeo: ({ id, title, muted = true }) => (
 		<div className="translate-z-0 larger-post-content mt-6 aspect-video overflow-hidden rounded-md">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
-					muted ? "&muted=1" : ""
-				}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
+					}`}
 				className="h-full w-full scale-x-[1.02] rounded-md"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -155,17 +169,50 @@ const mdxComponents: MDXComponents = {
 			/>
 		</div>
 	),
-	img: ({ className, src = "", alt = "", ...props }) => {
+	Video: ({
+		src,
+		title,
+		muted = true,
+		autoplay = true,
+		controls = false,
+		loop = false,
+		preload = "none",
+		large = false,
+	}) => {
 		const cleanSrc = src.replace(/^.*public\//, "/");
 		return (
-			<span className="larger-post-content block">
+			<div
+				className={cn(
+					"translate-z-0 mt-6 aspect-video rounded-md",
+					large && "larger-content",
+				)}
+			>
+				<video
+					title={title}
+					src={cleanSrc}
+					controls={controls}
+					className="mx-auto rounded-md"
+					muted={muted}
+					autoPlay={autoplay}
+					playsInline
+					loop={loop}
+					preload={preload}
+				/>
+			</div>
+		);
+	},
+	img: async ({ className, src = "", alt = "", width, height, ...props }) => {
+		const cleanSrc = src.replace(/^.*public\//, "/");
+		return (
+			<figure className="my-6 text-center">
 				<img
-					className={cn("mx-auto rounded-md", className)}
+					className={cn("mx-auto rounded-2xl border object-cover", className)}
 					src={cleanSrc}
 					{...props}
 					alt={alt}
 				/>
-			</span>
+				<figcaption className="mt-2 text-balance leading-5">{alt}</figcaption>
+			</figure>
 		);
 	},
 	Toc,
