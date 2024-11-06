@@ -31,7 +31,7 @@ export default async function TagPage(props: PageProps) {
 		.toSorted((a, b) => b.datePublished.localeCompare(a.datePublished));
 
 	return (
-		<div className="container grid gap-4 md:grid-cols-4">
+		<div className="container grid gap-4 pb-4 md:grid-cols-4">
 			<nav className="col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:col-span-1 md:max-h-none">
 				{allTags.map((tag) => {
 					const active = tag === params.tag;
