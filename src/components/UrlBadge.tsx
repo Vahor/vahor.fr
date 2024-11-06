@@ -32,14 +32,14 @@ export const UrlBadgeWithMetadata = ({
 }: UrlBadgeProps & { favicon: string }) => {
 	return (
 		<Badge asChild>
-			<a href={url} target="_blank" rel="noopener noreferrer">
+			<a href={`${url}?ref=vahor.fr`} target="_blank" rel="noopener noreferrer">
 				<Image
 					src={favicon}
 					alt={alt ?? title}
 					width={16}
 					height={16}
 					unoptimized={true}
-					className="inline-block mb-0.5"
+					className="inline-block mb-0.5 select-none"
 				/>
 				<span>{title}</span>
 			</a>

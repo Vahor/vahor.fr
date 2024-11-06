@@ -20,7 +20,7 @@ type XPaths = typeof xpaths;
 type XPathsKeys = keyof XPaths;
 
 const nodesFromDocument = (document: Node, selector: string) =>
-	xpath.select(selector, document);
+	xpath.select(selector, document, true);
 const mapProperties = (paths: typeof xpaths, document: Node) => {
 	const properties = Object.keys(paths) as XPathsKeys[];
 	return properties.reduce(
@@ -40,6 +40,7 @@ const domParser = new DOMParser({
 				console.warn(msg);
 				break;
 			default:
+				console.error(msg);
 				break;
 		}
 	},
@@ -55,8 +56,6 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cached = await kv.get<MetaTags>(urlKey);
 	if (cached) return cached;
 
-	console.log(`Fetching ${url}`);
-
 	const page = await fetch(url, {
 		next: {
 			revalidate: 24 * 60 * 60, // 24 hours
@@ -64,9 +63,12 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	});
 
 	const html = await page.text();
-	const document = domParser.parseFromString(html, "text/html");
+	const documentFromString = domParser.parseFromString(html, "text/xml");
 
-	const properties = mapProperties(xpaths, document as unknown as Node);
+	const properties = mapProperties(
+		xpaths,
+		documentFromString as unknown as Node,
+	);
 
 	let favicon = properties.favicon?.toString() ?? "";
 	favicon =

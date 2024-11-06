@@ -72,6 +72,7 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 				open={open}
 				onOpenChange={setOpen}
 				commandProps={commandProps}
+				title="Chercher une page"
 			>
 				{children}
 			</CommandDialog>

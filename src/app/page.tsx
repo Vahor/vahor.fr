@@ -32,11 +32,11 @@ export default function Home() {
 			</section>
 			<section className="mt-8">
 				<p>
-					Je réalise actuellement un master informatique à{" "}
-					<UrlBadge url="https://www.mewo.fr" title="Mewo" />, effectué en
+					Après un master informatique à{" "}
+					<UrlBadge url="https://www.mewo.fr" title="Mewo" /> effectué en
 					alternance chez{" "}
-					<UrlBadge url="https://www.sesamm.com/" title="SESAMm" /> où j'occupe
-					le poste de développeur fullstack depuis plus de 2ans.
+					<UrlBadge url="https://www.sesamm.com/" title="SESAMm" />, j'occupe
+					désormais le poste de développeur fullstack depuis plus de 2 ans.
 				</p>
 			</section>
 
@@ -50,15 +50,18 @@ export default function Home() {
 				<p className="mt-2">
 					Par exemple, j'essaie d'apprendre{" "}
 					<UrlBadge url="https://www.rust-lang.org/" title="Rust" /> et{" "}
-					<UrlBadge url="https://go.dev/" title="Go" />. Et je réalise un projet
-					open-source <UrlBadge url="https://pedaki.fr" title="Pedaki" />.
+					<UrlBadge url="https://go.dev/" title="Go" />. Mes principaux projets
+					sont
+					<UrlBadge url="https://pedaki.fr" title="Pedaki" /> et{" "}
+					<UrlBadge url="https://helosion.net" title="Helosion" />.
 				</p>
 			</section>
 
 			<section className="mt-8">
 				<p>
-					En dehors de la programation, j'aime regarder des séries, lire des
-					livres et écouter de la musique.
+					En dehors de la programation, j'aime regarder des séries,{" "}
+					<A href="https://www.kenmei.co/user/vahor?ref=vahor.fr">lire</A> et
+					écouter de la musique.
 				</p>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 sm:mt-5 gap-2">

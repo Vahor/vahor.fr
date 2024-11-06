@@ -28,6 +28,9 @@ const itemSchema = z.object({
 	}),
 });
 const itemsSchema = z.array(itemSchema);
+const apiSchema = z.object({
+	items: itemsSchema,
+});
 
 async function getTopTrack() {
 	const token = await getSpotifyAccessToken();
@@ -42,7 +45,7 @@ async function getTopTrack() {
 		throw new Error("Failed to fetch data from Spotify API");
 	}
 	const data = await res.json();
-	const items = itemsSchema.parse(data.items);
+	const items = apiSchema.parse(data).items;
 	return items;
 }
 
@@ -60,7 +63,7 @@ export async function SpotifyTopTrackBadge() {
 			<a
 				className="flex flew-row rounded-md border border-neutral-200 dark:border-neutral-700 gap-4 hover:border-neutral-300 hover:dark:border-neutral-600 bg-accent text-accent-foreground p-2"
 				title="Ma musique préférée du moment"
-				href={topTrack.external_urls.spotify}
+				href={`${topTrack.external_urls.spotify}?ref=vahor.fr`}
 				target="_blank"
 				rel="noopener noreferrer"
 			>
