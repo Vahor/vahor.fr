@@ -1,4 +1,4 @@
-import PostPage, {
+import {
 	generateMetadataBuilder,
 	postPageBuilder,
 } from "@/app/blog/[...slug]/page";

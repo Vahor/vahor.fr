@@ -17,10 +17,11 @@ export const generateStaticParams = async () => {
 };
 
 interface PageProps {
-	params: { tag: string };
+	params: Promise<{ tag: string }>;
 }
 
-export default function TagPage({ params }: PageProps) {
+export default async function TagPage(props: PageProps) {
+	const params = await props.params;
 	if (!allTags.includes(params.tag)) notFound();
 
 	const filteredPosts = allPosts

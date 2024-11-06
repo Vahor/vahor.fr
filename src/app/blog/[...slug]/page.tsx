@@ -22,10 +22,11 @@ import { notFound } from "next/navigation";
 import CommentSection from "./comments";
 
 interface PageProps {
-	params: { slug: string[] };
+	params: Promise<{ slug: string[] }>;
 }
 
-const getPost = ({ params }: PageProps, pageType: "blog" | "project") => {
+const getPost = async (props: PageProps, pageType: "blog" | "project") => {
+	const params = await props.params;
 	if (!params.slug) return null;
 	const slug = `${pageType}/${params.slug.join("/")}`;
 	return allPosts.find((post) => post.slug === slug);
@@ -36,7 +37,7 @@ export const generateMetadataBuilder = (pageType: "blog" | "project") => {
 		props: PageProps,
 		parent: ResolvingMetadata,
 	): Promise<Metadata> => {
-		const post = getPost(props, pageType);
+		const post = await getPost(props, pageType);
 		if (!post) notFound();
 
 		const parentMetadata = await parent;
@@ -83,8 +84,8 @@ const formatDateTime = (date: string) =>
 	format(parseISO(date), "d MMMM yyyy", { locale: fr });
 
 export const postPageBuilder = (pageType: "blog" | "project") => {
-	return function PostPage(props: PageProps) {
-		const post = getPost(props, pageType);
+	return async function PostPage(props: PageProps) {
+		const post = await getPost(props, pageType);
 		if (!post) notFound();
 
 		return (

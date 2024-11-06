@@ -1,98 +1,98 @@
 /* Line numbers */
 code {
-  counter-reset: line;
+	counter-reset: line;
 }
 
 code[data-line-numbers] > [data-line]::before {
-  counter-increment: line;
-  content: counter(line);
+	counter-increment: line;
+	content: counter(line);
 
-  /* Other styling */
-  display: inline-block;
-  width: 1rem;
-  margin-right: 1rem;
-  text-align: right;
-  color: gray;
+	/* Other styling */
+	display: inline-block;
+	width: 1rem;
+	margin-right: 1rem;
+	text-align: right;
+	color: gray;
 }
 
 code[data-line-numbers-max-digits="2"] > [data-line]::before {
-  width: 2rem;
+	width: 2rem;
 }
 
 code[data-line-numbers-max-digits="3"] > [data-line]::before {
-  width: 3rem;
+	width: 3rem;
 }
 
 /* Fix wrapping */
 code .space {
-  white-space: pre;
+	white-space: pre;
 }
 
 /* Highlighted lines/words */
 code mark[data-highlighted-chars] {
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 2px 3px;
-  margin: -2px -3px;
-  border-radius: var(--radius);
+	background-color: rgba(0, 0, 0, 0.05);
+	padding: 2px 3px;
+	margin: -2px -3px;
+	border-radius: var(--radius);
 }
 code mark[data-highlighted-chars] * {
-  background-color: inherit !important;
+	background-color: inherit !important;
 }
 .dark code mark[data-highlighted-chars] {
-  border-color: red;
-  background-color: rgba(60, 60, 70, 0.5);
+	border-color: red;
+	background-color: rgba(60, 60, 70, 0.5);
 }
 
 code span[data-highlighted-line] {
-  background-color: #272738;
+	background-color: #272738;
 }
 
 pre code {
-  padding-right: 1.5rem;
-  padding-left: 1.5rem;
+	padding-right: 1.5rem;
+	padding-left: 1.5rem;
 }
 
 code {
-  padding-right: 0.3rem;
-  padding-left: 0.3rem;
+	padding-right: 0.3rem;
+	padding-left: 0.3rem;
 }
 
 figure figcaption + pre {
-  margin-top: 0;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
+	margin-top: 0;
+	border-top-left-radius: 0 !important;
+	border-top-right-radius: 0 !important;
 }
 
 /*Code title*/
 figure:has(pre) figcaption {
-  background-color: hsl(var(--accent));
-  border: 1px solid hsl(var(--border));
-  border-bottom: none;
-  border-top-left-radius: var(--radius);
-  border-top-right-radius: var(--radius);
-  padding: 0.5rem 1rem;
-  font-family: var(--font-mono);
-  margin-top: 1rem;
-  font-size: 0.9rem;
+	background-color: hsl(var(--accent));
+	border: 1px solid hsl(var(--border));
+	border-bottom: none;
+	border-top-left-radius: var(--radius);
+	border-top-right-radius: var(--radius);
+	padding: 0.5rem 1rem;
+	font-family: var(--font-mono);
+	margin-top: 1rem;
+	font-size: 0.9rem;
 }
 
 figure pre {
-  margin-top: 1rem;
+	margin-top: 1rem;
 }
 
 /* Theme */
 code[data-theme*=" "],
 code[data-theme*=" "] span,
 pre[data-theme*=" "] {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
+	color: var(--shiki-light);
+	background-color: var(--shiki-light-bg);
 }
 
 .dark {
-  code[data-theme*=" "],
-  code[data-theme*=" "] span,
-  pre[data-theme*=" "] {
-    color: var(--shiki-dark);
-    background-color: var(--shiki-dark-bg);
-  }
+	code[data-theme*=" "],
+	code[data-theme*=" "] span,
+	pre[data-theme*=" "] {
+		color: var(--shiki-dark);
+		background-color: var(--shiki-dark-bg);
+	}
 }

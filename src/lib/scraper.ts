@@ -19,9 +19,9 @@ const xpaths = {
 type XPaths = typeof xpaths;
 type XPathsKeys = keyof XPaths;
 
-const nodesFromDocument = (document: Document, selector: string) =>
+const nodesFromDocument = (document: Node, selector: string) =>
 	xpath.select(selector, document);
-const mapProperties = (paths: typeof xpaths, document: Document) => {
+const mapProperties = (paths: typeof xpaths, document: Node) => {
 	const properties = Object.keys(paths) as XPathsKeys[];
 	return properties.reduce(
 		(acc, path) => {
@@ -33,11 +33,15 @@ const mapProperties = (paths: typeof xpaths, document: Document) => {
 };
 
 const domParser = new DOMParser({
-	locator: {},
-	errorHandler: {
-		warning: () => {},
-		error: () => {},
-		fatalError: console.warn,
+	locator: false,
+	onerror: (level, msg) => {
+		switch (level) {
+			case "warning":
+				console.warn(msg);
+				break;
+			default:
+				break;
+		}
 	},
 });
 
@@ -60,9 +64,9 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	});
 
 	const html = await page.text();
-	const document = domParser.parseFromString(html);
+	const document = domParser.parseFromString(html, "text/html");
 
-	const properties = mapProperties(xpaths, document);
+	const properties = mapProperties(xpaths, document as unknown as Node);
 
 	let favicon = properties.favicon?.toString() ?? "";
 	favicon =

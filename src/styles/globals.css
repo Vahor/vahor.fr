@@ -3,91 +3,92 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 21.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-    --primary: 37 93% 46%;
-    --primary-foreground: 37 9.3% 7.5%;
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 24.6 95% 53.1%;
-    --radius: 0.5rem;
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 0 0% 21.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 20 14.3% 4.1%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 20 14.3% 4.1%;
+		--primary: 37 93% 46%;
+		--primary-foreground: 37 9.3% 7.5%;
+		--secondary: 60 4.8% 95.9%;
+		--secondary-foreground: 24 9.8% 10%;
+		--muted: 60 4.8% 95.9%;
+		--muted-foreground: 25 5.3% 44.7%;
+		--accent: 60 4.8% 95.9%;
+		--accent-foreground: 24 9.8% 10%;
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 60 9.1% 97.8%;
+		--border: 20 5.9% 90%;
+		--input: 20 5.9% 90%;
+		--ring: 24.6 95% 53.1%;
+		--radius: 0.5rem;
 
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
+		--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+			"Liberation Mono", "Courier New", monospace;
 
-      color-scheme: light dark;
-  }
+		color-scheme: light dark;
+	}
 
-  .dark {
-    --background: 240 16.7% 7.06%;
-    --foreground: 0deg 0% 83.1%;
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
-    --popover: 240 16.7% 7.06%; 
-    --popover-foreground: 60 9.1% 97.8%;
-    --primary: 37 93% 75%;
-    --primary-foreground: 37 9.3% 7.5%;
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 0 0% 56%;
-    --accent: 240 19% 18.5%;
-    --accent-foreground: 60 9.1% 97.8%;
-    --destructive: 0 72.2% 50.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 240 3.7% 15.9%;
-    --input: 12 6.5% 15.1%;
-    --ring: 20.5 90.2% 48.2%;
+	.dark {
+		--background: 240 16.7% 7.06%;
+		--foreground: 0deg 0% 83.1%;
+		--card: 20 14.3% 4.1%;
+		--card-foreground: 60 9.1% 97.8%;
+		--popover: 240 16.7% 7.06%;
+		--popover-foreground: 60 9.1% 97.8%;
+		--primary: 37 93% 75%;
+		--primary-foreground: 37 9.3% 7.5%;
+		--secondary: 12 6.5% 15.1%;
+		--secondary-foreground: 60 9.1% 97.8%;
+		--muted: 12 6.5% 15.1%;
+		--muted-foreground: 0 0% 56%;
+		--accent: 240 19% 18.5%;
+		--accent-foreground: 60 9.1% 97.8%;
+		--destructive: 0 72.2% 50.6%;
+		--destructive-foreground: 60 9.1% 97.8%;
+		--border: 240 3.7% 15.9%;
+		--input: 12 6.5% 15.1%;
+		--ring: 20.5 90.2% 48.2%;
 
-    color-scheme: dark;
-  }
+		color-scheme: dark;
+	}
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground antialiased;
-    overflow-x: hidden;
-    -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-    font-feature-settings: "cv11", "salt", "ss01", "ss03", "cv01", "cv02",
-      "cv03", "cv04", "cv05", "cv06", "cv07", "cv08", "cv09", "cv10";
-  }
-  html,
-  body,
-  div#__next {
-    @apply h-full;
-  }
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground antialiased;
+		overflow-x: hidden;
+		-webkit-text-size-adjust: 100%;
+		text-rendering: optimizeLegibility;
+		font-feature-settings:
+			"cv11", "salt", "ss01", "ss03", "cv01", "cv02",
+			"cv03", "cv04", "cv05", "cv06", "cv07", "cv08", "cv09", "cv10";
+	}
+	html,
+	body,
+	div#__next {
+		@apply h-full;
+	}
 
-  img[alt=""] {
-    @apply sr-only;
-  }
+	img[alt=""] {
+		@apply sr-only;
+	}
 }
 
 @layer components {
-  .post-content {
-    @apply md:max-w-3xl flex-1;
-    line-height: 1.9;
-  }
-  .larger-post-content {
-    @apply lg:-mx-24 xl:-mx-32;
-  }
-  p span:has(img) + em {
-    @apply text-center block text-sm larger-post-content mt-1;
-  }
+	.post-content {
+		@apply md:max-w-3xl flex-1;
+		line-height: 1.9;
+	}
+	.larger-post-content {
+		@apply lg:-mx-24 xl:-mx-32;
+	}
+	p span:has(img) + em {
+		@apply text-center block text-sm larger-post-content mt-1;
+	}
 }
