@@ -51,19 +51,19 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 
 	return (
 		<>
-			<label className="flex items-center relative">
+			<label className="relative flex items-center">
 				<Search className="mr-2 size-4 shrink-0 opacity-50" />
 				<input
 					type="text"
-					className="flex rounded-md bg-transparent text-sm outline-none w-24 sm:w-48"
+					className="flex w-24 rounded-md bg-transparent text-sm outline-none sm:w-48"
 					name="search"
 					placeholder={
 						isMounted() && md ? "Chercher une page..." : "Chercher..."
 					}
 					onFocus={() => setOpen(true)}
 				/>
-				<kbd className="text-muted-foreground absolute right-0 inset-y-0 select-none pointer-events-none h-5 gap-1.5 border hidden sm:flex items-center px-1.5 rounded-md text-sm">
-					<span className="text-base mt-px">⌘</span>
+				<kbd className="pointer-events-none absolute inset-y-0 right-0 hidden h-5 select-none items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground text-sm sm:flex">
+					<span className="mt-px text-base">⌘</span>
 					<span>K</span>
 				</kbd>
 			</label>

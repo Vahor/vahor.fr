@@ -16,14 +16,14 @@ export function Logo() {
 	}, []);
 
 	return (
-		<Link href="/" className="flex items-center gap-3 cursor-pointer shrink-0">
+		<Link href="/" className="flex shrink-0 cursor-pointer items-center gap-3">
 			<Image
 				src={mounted && theme === "dark" ? darkLogo : whiteLogo}
 				alt="Logo"
 				width={24}
-				className="transform hover:rotate-12 transition-transform w-[24px] h-[24px]"
+				className="h-[24px] w-[24px] transform transition-transform hover:rotate-12"
 			/>
-			<span className="hidden sm:inline text-dark dark:text-white font-semibold text-lg">
+			<span className="hidden font-semibold text-dark text-lg sm:inline dark:text-white">
 				Vahor
 			</span>
 		</Link>

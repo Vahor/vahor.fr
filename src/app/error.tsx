@@ -10,7 +10,7 @@ import homerError from "../../public/error.gif";
 
 export default function ErrorPage() {
 	return (
-		<div className="sm:h-full w-full flex flex-col lg:flex-row gap-8 md:gap-12 items-center sm:justify-center md:mt-[-105px] container">
+		<div className="container flex w-full flex-col items-center gap-8 sm:h-full sm:justify-center md:mt-[-105px] md:gap-12 lg:flex-row">
 			<Image
 				src={homerError}
 				alt="Homer Simpson error"

@@ -39,7 +39,7 @@ export const UrlBadgeWithMetadata = ({
 					width={16}
 					height={16}
 					unoptimized={true}
-					className="inline-block mb-0.5 select-none"
+					className="mb-0.5 inline-block select-none"
 				/>
 				<span>{title}</span>
 			</a>

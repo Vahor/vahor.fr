@@ -31,15 +31,15 @@ export default async function TagPage(props: PageProps) {
 		.toSorted((a, b) => b.datePublished.localeCompare(a.datePublished));
 
 	return (
-		<div className="grid md:grid-cols-4 gap-4 container">
-			<nav className="flex gap-2 flex-col col-span-4 md:col-span-1 max-h-64 md:max-h-none overflow-y-auto">
+		<div className="container grid gap-4 md:grid-cols-4">
+			<nav className="col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:col-span-1 md:max-h-none">
 				{allTags.map((tag) => {
 					const active = tag === params.tag;
 					return (
 						<Link key={tag} href={`/tag/${tag}`} className="w-full md:w-max">
 							<Button
 								disabled={active}
-								className="capitalize w-full justify-start"
+								className="w-full justify-start capitalize"
 								variant="ghost"
 							>
 								{tag}
@@ -51,11 +51,11 @@ export default async function TagPage(props: PageProps) {
 
 			<hr className="col-span-4 md:hidden" />
 
-			<main className="col-span-4 md:col-span-3 px-4 md:px-0">
-				<h1 className="text-3xl font-semibold text-black dark:text-white capitalize">
+			<main className="col-span-4 px-4 md:col-span-3 md:px-0">
+				<h1 className="font-semibold text-3xl text-black capitalize dark:text-white">
 					{params.tag}
 				</h1>
-				<ul className="divide-y space-y-4 mt-8">
+				<ul className="mt-8 space-y-4 divide-y">
 					{filteredPosts.map((post) => (
 						<li key={post.url}>
 							<PostEntry post={post} />
@@ -69,8 +69,8 @@ export default async function TagPage(props: PageProps) {
 
 const PostEntry = ({ post }: { post: Post }) => {
 	return (
-		<div className="mt-4 space-y-1 group">
-			<div className="flex gap-2 justify-between">
+		<div className="group mt-4 space-y-1">
+			<div className="flex justify-between gap-2">
 				<Link
 					href={post.url}
 					className="group-hover:text-black group-hover:dark:text-white"

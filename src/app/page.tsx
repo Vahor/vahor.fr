@@ -15,9 +15,9 @@ export const revalidate = 84600; // 24 hours
 
 export default function Home() {
 	return (
-		<main className="py-16 mx-auto container post-content">
+		<main className="post-content container mx-auto py-16">
 			<JsonLd jsonLd={profilePage} />
-			<h1 className="text-2xl text-black dark:text-white font-semibold mb-8">
+			<h1 className="mb-8 font-semibold text-2xl text-black dark:text-white">
 				Nathan David
 			</h1>
 			<section>
@@ -64,11 +64,11 @@ export default function Home() {
 					écouter de la musique.
 				</p>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 sm:mt-5 gap-2">
-					<div className="hidden sm:flex justify-end">
+				<div className="grid grid-cols-1 gap-2 sm:mt-5 sm:grid-cols-2">
+					<div className="hidden justify-end sm:flex">
 						<CurrentlyListeningSvg />
 					</div>
-					<div className="sm:hidden font-semibold">
+					<div className="font-semibold sm:hidden">
 						<p>En ce moment j'écoute:</p>
 					</div>
 					<SpotifyTopTrackBadge />

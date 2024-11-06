@@ -15,7 +15,7 @@ export function TocLink({ post }: { post: Post }) {
 			<Button
 				size="sm"
 				disabled={active}
-				className="capitalize w-full justify-start"
+				className="w-full justify-start capitalize"
 				variant="ghost"
 			>
 				{post.title}

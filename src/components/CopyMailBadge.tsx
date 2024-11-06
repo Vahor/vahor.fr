@@ -1,16 +1,16 @@
 "use client";
 
-import { EMAIL } from "@/lib/constants";
-import { useCopy } from "@/lib/useCopy";
-import { CheckIcon, SendIcon } from "lucide-react";
-import { Badge } from "./ui/badge";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { EMAIL } from "@/lib/constants";
+import { useCopy } from "@/lib/useCopy";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
+import { CheckIcon, SendIcon } from "lucide-react";
+import { Badge } from "./ui/badge";
 
 export const CopyMailBadge = () => {
 	const { hasCopied, handleClick } = useCopy(EMAIL);

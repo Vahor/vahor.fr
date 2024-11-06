@@ -74,7 +74,7 @@ export const generateMetadataBuilder = (pageType: "blog" | "project") => {
 const Tag = ({ tag, href }: { tag: string; href: string }) => (
 	<Link
 		href={href}
-		className="text-xs bg-accent font-mono capitalize text-black dark:text-white px-2 py-1 rounded-md"
+		className="rounded-md bg-accent px-2 py-1 font-mono text-black text-xs capitalize dark:text-white"
 	>
 		{tag}
 	</Link>
@@ -89,7 +89,7 @@ export const postPageBuilder = (pageType: "blog" | "project") => {
 		if (!post) notFound();
 
 		return (
-			<main className="container py-16 mx-auto post-content" id="skip-nav">
+			<main className="post-content container mx-auto py-16" id="skip-nav">
 				<JsonLd
 					jsonLd={articlePage({
 						headline: post.title,
@@ -101,7 +101,7 @@ export const postPageBuilder = (pageType: "blog" | "project") => {
 				/>
 
 				<header className="mb-10 flex flex-col gap-6">
-					<h1 className="text-3xl font-semibold text-black dark:text-white text-balance">
+					<h1 className="text-balance font-semibold text-3xl text-black dark:text-white">
 						{post.title}
 					</h1>
 					<p>{post.description}</p>
@@ -148,7 +148,7 @@ export const postPageBuilder = (pageType: "blog" | "project") => {
 					<Link
 						href={post.githubEditUrl}
 						prefetch={false}
-						className="flex flex-row items-center gap-2 font-mono text-sm hover:text-black dark:hover:text-white w-max"
+						className="flex w-max flex-row items-center gap-2 font-mono text-sm hover:text-black dark:hover:text-white"
 					>
 						<Pencil className="size-3" />
 						<span>Suggérer une modification</span>

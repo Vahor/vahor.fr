@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.7.0/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
 	"organizeImports": {
 		"enabled": true
 	},
@@ -9,7 +9,17 @@
 			"recommended": true,
 			"style": {
 				"noNonNullAssertion": "off",
-				"useSelfClosingElements": "off"
+				"useSelfClosingElements": "off",
+				"useNumberNamespace": "off"
+			},
+			"correctness": {
+				"noUnusedImports": "error"
+			},
+			"suspicious": {
+				"noImplicitAnyLet": "warn"
+			},
+			"nursery": {
+				"useSortedClasses": "info"
 			}
 		}
 	},

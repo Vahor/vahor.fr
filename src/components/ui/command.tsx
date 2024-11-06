@@ -1,9 +1,9 @@
 "use client";
 
-import { DialogTitle, type DialogProps } from "@radix-ui/react-dialog";
+import { type DialogProps, DialogTitle } from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Command as CommandPrimitive } from "cmdk";
 import * as React from "react";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -36,7 +36,7 @@ const CommandDialog = ({
 }: CommandDialogProps) => {
 	return (
 		<Dialog {...props}>
-			<DialogContent className="overflow-hidden p-0 shadow-lg max-w-screen-sm top-1/4 sm:top-1/2">
+			<DialogContent className="top-1/4 max-w-screen-sm overflow-hidden p-0 shadow-lg sm:top-1/2">
 				<VisuallyHidden.Root asChild>
 					<DialogTitle>{title}</DialogTitle>
 				</VisuallyHidden.Root>
@@ -88,7 +88,7 @@ const CommandEmpty = React.forwardRef<
 >((props, ref) => (
 	<CommandPrimitive.Empty
 		ref={ref}
-		className="py-6 text-center text-sm text-muted-foreground"
+		className="py-6 text-center text-muted-foreground text-sm"
 		{...props}
 	/>
 ));
@@ -102,7 +102,7 @@ const CommandGroup = React.forwardRef<
 	<CommandPrimitive.Group
 		ref={ref}
 		className={cn(
-			"overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:capitalize",
+			"overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:capitalize",
 			className,
 		)}
 		{...props}
@@ -146,7 +146,7 @@ const CommandShortcut = ({
 	return (
 		<span
 			className={cn(
-				"ml-auto text-xs tracking-widest text-muted-foreground",
+				"ml-auto text-muted-foreground text-xs tracking-widest",
 				className,
 			)}
 			{...props}

@@ -61,7 +61,7 @@ export async function SpotifyTopTrackBadge() {
 	return (
 		<div>
 			<a
-				className="flex flew-row rounded-md border border-neutral-200 dark:border-neutral-700 gap-4 hover:border-neutral-300 hover:dark:border-neutral-600 bg-accent text-accent-foreground p-2"
+				className="flew-row flex gap-4 rounded-md border border-neutral-200 bg-accent p-2 text-accent-foreground hover:border-neutral-300 dark:border-neutral-700 hover:dark:border-neutral-600"
 				title="Ma musique préférée du moment"
 				href={`${topTrack.external_urls.spotify}?ref=vahor.fr`}
 				target="_blank"
@@ -72,11 +72,11 @@ export async function SpotifyTopTrackBadge() {
 					alt={topTrack.album.name}
 					width={64}
 					height={64}
-					className="inline-block rounded-lg w-16 h-16"
+					className="inline-block h-16 w-16 rounded-lg"
 				/>
 				<div>
 					<div className="font-semibold">{topTrack.name}</div>
-					<div className="text-sm text-neutral-700 dark:text-neutral-300">
+					<div className="text-neutral-700 text-sm dark:text-neutral-300">
 						{topTrack.artists.map((artist, i) => (
 							<span key={artist.name}>
 								{artist.name}
