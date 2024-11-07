@@ -17,5 +17,56 @@ Projet très simple qui m'a pris ~5 heures. Le code n'a rien de compliqué l'obj
 C'est un outil où on jette un json et on obtient un graphique, on ne veut pas faire de transformations.
 
 
+L'objectif était simple, j'avais des données dans un google sheet et je voulais faire un beau graph.\
+Mais le résultat donné par google était un peu moche, peut être qu'il existe des themes ou des options pour faire mieux, mais je n'en ai pas trouvé et pas envie d'en apprendre.
 
+![Graphique donné par google](../../../../public/projects/charts.vahor.fr/google-sheet-chart.png)
+
+
+Je sais développer et j'ai déjà fait des dashboards avec des graphiques plus beaux que ça, alors pourquoi pas réutiliser ce code ?\
+Si on regarde le style de base donné par [shadcn](https://ui.shadcn.com/charts?ref=vahor.fr), c'est déjà 10x mieux.
+
+![Examples de graphiques avec shadcn](../../../../public/projects/charts.vahor.fr/shadcn-default-page.png)
+
+---
+
+Le poc a pris même pas 5min: création du projet avec nextjs, installer recharts et les styles avec shadcn, coller la donnée et voilà, tout est prêt.
+
+![Résulat avec shadcn](../../../../public/projects/charts.vahor.fr/shadcn-chart.png)
+
+C'est quand même tout de suite mieux ! 
+
+---
+
+J'aurais pu m'arrêter là, mon but était d'avoir un beau graphique, je l'ai. Mais si dans le futur je veux en faire d'autres, modifier les couleurs ou le style, je veux faire ça facilement.
+
+Donc je commence à lister tous les cas possibles:
+
+- Graphique de type bar, ligne, area, pie.
+- Afficher le tooltip
+- Afficher/Cacher les axes
+- Afficher/Cacher les labels
+- Afficher/Cacher la grille
+- Afficher/Cacher la légende
+- Modifier les min/max des axes
+- Séléctionner la donnée
+- Modifier les couleurs
+
+
+Ne regardons pas le design, on se concentre sur le graphique on est là pour ça:
+
+<Video src="../../../../public/projects/charts.vahor.fr/demo.mp4" title="Fonctionnement de chart.vahor.fr"  controls />
+
+Fonctionnalités:
+
+1. On peut selectionner un type de graphique / choisir quoi afficher
+2. On peut customiser la donnée à l'aide d'un éditeur typé (autocompletion sur la donnée, indication d'erreurs) avec une prévisualisation sous forme de tableau.
+3. On peut modifier les couleurs
+
+
+Comme dit, on peut importer des données json ou csv simplement en dropant le fichier n'importe où sur la page, et une fois le graphique prêt on peut l'exporter au format png avec un simple `CTRL+C` ou en appuyant sur le bouton `Export image`.
+
+<Video src="../../../../public/projects/charts.vahor.fr/demo-export.mp4" title="Importer et Exporter le graphique"  controls />
+
+On peut remarquer qu'à l'import, seul les colonnes de type `nombre` sont créées, les autres sont présentes si nécessaires mais ne sont pas affichées initialement.
 

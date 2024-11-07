@@ -85,7 +85,7 @@ export const Post = defineDocumentType(() => ({
 			resolve: (post) => {
 				const content = post.body.raw;
 				const words = content.split(/\s+/).length;
-				const minutes = words / 200;
+				const minutes = words / 180;
 				return Math.ceil(minutes);
 			},
 		},
