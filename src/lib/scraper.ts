@@ -1,50 +1,40 @@
 "use server";
 
 import { kv } from "@vercel/kv";
-import { DOMParser } from "@xmldom/xmldom";
 import sharp from "sharp";
-import * as xpath from "xpath";
+import { JSDOM } from "jsdom";
 
 const xpaths = {
 	// title is either the first <title> or og:title
-	title: 'string(//title | //meta[@property="og:title"]/@content)',
+	title: '//title | //meta[@property="og:title"]/@content',
 	// description is either the first <meta name="description"> or og:description
 	description:
-		'string(//meta[@name="description"]/@content | //meta[@property="og:description"]/@content)',
+		'//meta[@name="description"]/@content | //meta[@property="og:description"]/@content',
 	// image is og:image (either name or property)
 	image:
-		'string(//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content)',
-	favicon: 'string(//link[@rel="icon" or @rel="shortcut icon"]/@href)',
+		'//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content',
+	favicon: '//link[@rel="icon" or @rel="shortcut icon"]/@href',
 } as const;
 type XPaths = typeof xpaths;
 type XPathsKeys = keyof XPaths;
 
-const nodesFromDocument = (document: Node, selector: string) =>
-	xpath.select(selector, document, true);
-const mapProperties = (paths: typeof xpaths, document: Node) => {
+const mapProperties = (paths: typeof xpaths, document: JSDOM) => {
 	const properties = Object.keys(paths) as XPathsKeys[];
 	return properties.reduce(
 		(acc, path) => {
-			acc[path] = nodesFromDocument(document, paths[path]);
+			const result = document.window.document.evaluate(
+				paths[path],
+				document.window.document,
+				null,
+				document.window.XPathResult.FIRST_ORDERED_NODE_TYPE,
+				null,
+			).singleNodeValue;
+			acc[path] = result?.textContent ?? "";
 			return acc;
 		},
-		{} as Record<XPathsKeys, xpath.SelectReturnType>,
+		{} as Record<XPathsKeys, string>,
 	);
 };
-
-const domParser = new DOMParser({
-	locator: false,
-	onerror: (level, msg) => {
-		switch (level) {
-			case "warning":
-				console.warn(msg);
-				break;
-			default:
-				console.error(msg);
-				break;
-		}
-	},
-});
 
 type MetaTags = Record<XPathsKeys, string>;
 
@@ -63,12 +53,9 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	});
 
 	const html = await page.text();
-	const documentFromString = domParser.parseFromString(html, "text/xml");
 
-	const properties = mapProperties(
-		xpaths,
-		documentFromString as unknown as Node,
-	);
+	const document = new JSDOM(html);
+	const properties = mapProperties(xpaths, document);
 
 	let favicon = properties.favicon?.toString() ?? "";
 	favicon =
