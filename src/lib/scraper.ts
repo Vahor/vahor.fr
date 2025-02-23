@@ -1,8 +1,8 @@
 "use server";
 
 import { kv } from "@vercel/kv";
-import sharp from "sharp";
 import { JSDOM } from "jsdom";
+import sharp from "sharp";
 
 const xpaths = {
 	// title is either the first <title> or og:title
