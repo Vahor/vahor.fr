@@ -30,7 +30,6 @@ code .space {
 
 /* Highlighted lines/words */
 code mark[data-highlighted-chars] {
-	background-color: rgba(0, 0, 0, 0.05);
 	padding: 2px 3px;
 	margin: -2px -3px;
 	border-radius: var(--radius);
@@ -38,23 +37,53 @@ code mark[data-highlighted-chars] {
 code mark[data-highlighted-chars] * {
 	background-color: inherit !important;
 }
-.dark code mark[data-highlighted-chars] {
-	border-color: red;
-	background-color: rgba(60, 60, 70, 0.5);
+/* 
+* Chars highlight 
+* r = Red
+* g = Green
+* b = Blue
+* y = Yellow
+*/
+code mark {
+	background-color: transparent;
+}
+code [data-chars-id] {
+	border-bottom-width: 2px;
+	padding: .25rem;
+	--tw-shadow: 0 0 #0000;
+	--tw-shadow-colored: 0 0 #0000;
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+		var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+	font-weight: 700;
+}
+mark[data-chars-id="r"] {
+	border-bottom-color: rgb(220 38 38);
+	background-color: #991b1b80;
+	color: rgb(252 165 165) !important;
+}
+mark[data-chars-id="g"] {
+	border-bottom-color: rgb(22 163 74);
+	background-color: #15803d80;
+	color: rgb(134 239 172) !important;
+}
+mark[data-chars-id="b"] {
+	border-bottom-color: rgb(29 78 216);
+	background-color: #1e40af80;
+	color: rgb(147 197 253) !important;
+}
+mark[data-chars-id="y"] {
+	border-bottom-color: rgb(202 138 4);
+	background-color: #854d0e80;
+	color: rgb(253 224 71) !important;
+}
+
+code mark[data-chars-id] span {
+	color: inherit !important;
+	background-color: inherit !important;
 }
 
 code span[data-highlighted-line] {
 	background-color: #272738;
-}
-
-pre code {
-	padding-right: 1.5rem;
-	padding-left: 1.5rem;
-}
-
-code {
-	padding-right: 0.3rem;
-	padding-left: 0.3rem;
 }
 
 figure figcaption + pre {
@@ -85,14 +114,54 @@ code[data-theme*=" "],
 code[data-theme*=" "] span,
 pre[data-theme*=" "] {
 	color: var(--shiki-light);
-	background-color: var(--shiki-light-bg);
 }
 
+code .diff.remove {
+	opacity: 0.7;
+	background-color: rgba(244, 63, 94, 0.16);
+}
+code .diff.remove::before {
+	color: rgb(203, 118, 118);
+	content: "-";
+}
+code .diff.add {
+	background-color: rgba(16, 185, 129, 0.16);
+}
+code .diff.add::before {
+	color: rgb(61, 214, 140);
+	content: "+";
+}
+
+/* light/dark */
 .dark {
 	code[data-theme*=" "],
 	code[data-theme*=" "] span,
 	pre[data-theme*=" "] {
 		color: var(--shiki-dark);
-		background-color: var(--shiki-dark-bg);
+		/* Optional, if you also want font styles */
+		text-decoration: var(--shiki-dark-text-decoration);
 	}
+}
+
+/* Focus */
+pre.has-focused span[data-line]:not(.focused) {
+	opacity: 0.7;
+	filter: blur(1px);
+	transition: filter 0.35s, opacity 0.35s;
+}
+pre.has-focused:hover span[data-line]:not(.focused) {
+	filter: blur(0);
+	opacity: 1;
+}
+
+/* Error or warning */
+
+code .diff.remove {
+	background-color: rgba(244, 63, 94, 0.16);
+}
+code .highlighted.error {
+	background-color: rgba(244, 63, 94, 0.16);
+}
+code .highlighted.warning {
+	background-color: rgba(234, 179, 8, 0.16);
 }

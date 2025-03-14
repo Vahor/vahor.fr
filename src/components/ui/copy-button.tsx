@@ -1,6 +1,6 @@
 "use client";
 
-import { useCopy } from "@/lib/useCopy";
+import { useClipboard } from "@/lib/useClipboard";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ClipboardIcon } from "lucide-react";
 import { Button, type ButtonProps } from "./button";
@@ -10,7 +10,7 @@ interface CopyButtonProps extends ButtonProps {
 }
 
 export function CopyButton({ value, className, ...props }: CopyButtonProps) {
-	const { hasCopied, handleClick } = useCopy(value);
+	const { hasCopied, handleClick } = useClipboard(value);
 
 	return (
 		<Button

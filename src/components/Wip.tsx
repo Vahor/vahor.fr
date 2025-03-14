@@ -1,5 +1,5 @@
+import { Warning } from "@/components/callout";
 import A from "./A";
-import { Callout } from "./Callout";
 
 export function Wip({
 	children,
@@ -7,7 +7,7 @@ export function Wip({
 	...props
 }: React.HTMLAttributes<HTMLDivElement>) {
 	return (
-		<Callout variant="warning" title={title} {...props}>
+		<Warning title={title} {...props}>
 			{children}
 			<hr className="mt-4" />
 			<p className="mt-2">
@@ -16,6 +16,6 @@ export function Wip({
 				Ajoutez un <A href="#comments">commentaire</A> si les sujets abordés
 				vous intéressent.
 			</p>
-		</Callout>
+		</Warning>
 	);
 }

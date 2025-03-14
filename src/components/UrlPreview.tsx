@@ -11,7 +11,7 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 	return (
 		<a
 			href={url}
-			className="!no-underline group md:-mx-20 relative mt-6 grid grid-cols-3 rounded-md border bg-white dark:bg-black"
+			className="no-underline! group md:-mx-20 relative mt-6 grid grid-cols-3 rounded-md border bg-white dark:bg-black"
 			aria-label={metadata.title}
 		>
 			<div className="pointer-events-none absolute inset-0 rounded-md bg-black opacity-0 transition duration-250 ease-in-out group-hover:opacity-10 dark:bg-white" />
@@ -23,7 +23,7 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 				<p className="flex min-h-[3.5rem] items-center overflow-hidden break-words py-1 font-light text-muted-foreground">
 					{metadata.description.slice(0, 200)}
 				</p>
-				<div className="space-x-2 overflow-hidden overflow-ellipsis whitespace-nowrap">
+				<div className="space-x-2 overflow-hidden text-ellipsis whitespace-nowrap">
 					<Image
 						src={metadata.favicon}
 						alt={metadata.title}

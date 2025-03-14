@@ -55,9 +55,12 @@ export default async function TagPage(props: PageProps) {
 				<h1 className="font-semibold text-3xl text-black capitalize dark:text-white">
 					{params.tag}
 				</h1>
-				<ul className="mt-8 space-y-4 divide-y">
+				<ul className="mt-8 flex flex-col">
 					{filteredPosts.map((post) => (
-						<li key={post.url}>
+						<li
+							key={post.url}
+							className="border-b px-0 py-4 first:pt-0 last:border-none"
+						>
 							<PostEntry post={post} />
 						</li>
 					))}
@@ -69,11 +72,11 @@ export default async function TagPage(props: PageProps) {
 
 const PostEntry = ({ post }: { post: Post }) => {
 	return (
-		<div className="group mt-4 flex justify-between gap-2">
-			<div className="space-y-1">
+		<div className="group flex justify-between gap-2">
+			<div className="flex flex-col gap-y-1">
 				<Link
 					href={post.url}
-					className="group-hover:text-black group-hover:dark:text-white"
+					className="group-hover:text-black dark:group-hover:text-white"
 				>
 					<h2>{post.title}</h2>
 				</Link>

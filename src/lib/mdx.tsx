@@ -1,17 +1,15 @@
 import A from "@/components/A";
-import { Callout } from "@/components/Callout";
 import Hr from "@/components/Hr";
 import { UrlPreview } from "@/components/UrlPreview";
 import { Wip } from "@/components/Wip";
+import { Check, Info, Note, Tip, Warning } from "@/components/callout";
+import { CodeBlock } from "@/components/code/code-block";
 import { Toc } from "@/components/toc/Toc";
-import { CopyButton } from "@/components/ui/copy-button";
+import { getNodeText } from "@/lib/getNodeText";
 import { cn } from "@/lib/utils";
 import { Link as IconLink } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer2/hooks";
-
-// Based on Tailwind prose css: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
-// And shadcn
 
 const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 	if (!id) return null;
@@ -27,38 +25,34 @@ const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 	);
 };
 
-const mdxComponents: MDXComponents = {
-	// @ts-expect-error next/link href is not a string
-	a: A,
-	code: ({ className, ...props }) => (
-		<code
-			className={cn(
-				"relative overflow-x-auto whitespace-nowrap rounded py-[0.2rem] font-mono text-sm",
-				className,
-			)}
-			{...props}
-		/>
-	),
-	pre: ({ className, ...props }) => {
-		// @ts-ignore
-		const { __raw_source, children, ...rest } = props;
-		// @ts-ignore
-		const language = rest["data-language"];
-		return (
-			<pre
-				className={cn("group relative mb-4 rounded-lg border py-4", className)}
-				{...rest}
-			>
+const MarkColor: React.FC<{ children: string; color: string }> = ({
+	children,
+	color,
+}) => {
+	return (
+		<code className="not-prose relative rounded-lg bg-zinc-950 p-1.5 text-xs dark:bg-zinc-900">
+			<mark data-highlighted-chars="" data-chars-id={color}>
 				{children}
-				<span className="absolute top-0 right-0 p-1 text-muted-foreground text-xs">
-					{language}
-				</span>
-				<CopyButton
-					value={__raw_source}
-					className="absolute top-4 right-10 opacity-0 group-hover:opacity-100"
-				/>
-			</pre>
-		);
+			</mark>
+		</code>
+	);
+};
+
+const mdxComponents: MDXComponents = {
+	a: A,
+	figure: ({ children, ...props }) => {
+		const isCode = props["data-rehype-pretty-code-figure"] !== undefined;
+		if (isCode) {
+			const title = children.length > 1 ? getNodeText(children[0]) : "";
+			const childrenToRender =
+				children.length > 1 ? children.slice(1) : children;
+			return (
+				<CodeBlock {...props} filename={title}>
+					{childrenToRender}
+				</CodeBlock>
+			);
+		}
+		return <figure {...props} />;
 	},
 	h1: ({ className, id, children, ...props }) => (
 		<h1
@@ -127,34 +121,8 @@ const mdxComponents: MDXComponents = {
 	),
 	p: ({ className, ...props }) => {
 		const Comp = typeof props.children === "string" ? "p" : "div";
-		return (
-			<Comp
-				className={cn("[&:not(:first-child)]:mt-4", className)}
-				{...props}
-			/>
-		);
+		return <Comp className={cn("not-first:mt-4", className)} {...props} />;
 	},
-	ul: ({ className, ...props }) => (
-		<ul className={cn("mt-4 list-disc pl-4 md:pl-8", className)} {...props} />
-	),
-	ol: ({ className, ...props }) => (
-		<ol
-			className={cn(
-				"mt-4 list-decimal pl-4 md:pl-8 [&>ol]:mt-1 [&>ol]:list-lower-alpha [&>ul]:mt-1",
-				className,
-			)}
-			{...props}
-		/>
-	),
-	li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-		<li
-			className={cn(
-				"mt-2 pl-1 md:pl-2 [&>ol]:mt-1 [&>ol]:list-lower-alpha [&>ul]:mt-1",
-				className,
-			)}
-			{...props}
-		/>
-	),
 	hr: Hr,
 	Vimeo: ({ id, title, muted = true }) => (
 		<div className="translate-z-0 larger-post-content mt-6 aspect-video overflow-hidden rounded-md">
@@ -216,9 +184,32 @@ const mdxComponents: MDXComponents = {
 			</figure>
 		);
 	},
+
+	// Higlight colors (same as in code.css)
+	R: ({ children }) => <MarkColor color="r">{children}</MarkColor>,
+	G: ({ children }) => <MarkColor color="g">{children}</MarkColor>,
+	B: ({ children }) => <MarkColor color="b">{children}</MarkColor>,
+	Y: ({ children }) => <MarkColor color="y">{children}</MarkColor>,
+
+	callout: ({ type, ...props }) => {
+		switch (type) {
+			case "info":
+				return <Info {...props} />;
+			case "warning":
+				return <Warning {...props} />;
+			case "note":
+				return <Note {...props} />;
+			case "tip":
+				return <Tip {...props} />;
+			case "check":
+				return <Check {...props} />;
+			default:
+				throw new Error(`Unknown callout type: ${type}`);
+		}
+	},
+
 	Toc,
 	UrlPreview,
-	Callout,
 	Wip,
 };
 

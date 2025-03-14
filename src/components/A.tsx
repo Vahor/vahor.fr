@@ -4,10 +4,15 @@ import type { HTMLProps } from "react";
 
 export default function A({
 	className,
+	href,
 	...props
 }: LinkProps & HTMLProps<HTMLAnchorElement>) {
+	const isHash = href?.startsWith("#");
+	const isExternal = href?.startsWith("http");
 	return (
 		<Link
+			href={href}
+			target={!isHash && isExternal ? "_blank" : undefined}
 			className={cn(
 				"group inline-flex w-max items-center gap-2 font-medium text-primary underline decoration-dashed transition-colors duration-200 hover:text-primary has-[code]:no-underline",
 				className,

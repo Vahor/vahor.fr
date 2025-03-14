@@ -10,7 +10,7 @@ export default function NotFound() {
 			<Image
 				src={whereAmI}
 				alt="Where am I?"
-				className="rounded-md shadow"
+				className="rounded-md shadow-sm"
 				unoptimized
 			/>
 			<main className="flex flex-col gap-4">

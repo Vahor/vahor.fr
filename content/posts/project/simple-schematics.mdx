@@ -32,16 +32,16 @@ tags:
 
 Sauvegarde la sélection actuelle dans un fichier.
 
-```bash 
+```bash  /trees/#r /small/#g /test/#b
 /s schematic create trees.small test
 ```
 
-<Callout>
-    Cette commande va sauvegarder la sélection dans le fichier `test.schematics`.
-    Ce fichier sera situé dans le dossier `small`, lui même dans le dossier `trees`. 
+:::info
+    Cette commande va sauvegarder la sélection dans le fichier <B>test.schematics</B>.
+    Ce fichier sera situé dans le dossier <G>small</G>, lui même dans le dossier <R>trees</R>. 
 
     *Chemin final `{rootFolder}/trees/small/test.schematics`*
-</Callout>
+:::
 
 ### \/s to
 
@@ -72,14 +72,13 @@ Alterne le mode de selection entre deux modes `mode sélection` et `mode créati
 ### Menu Principal
 
 ![Menu minecraft avec 4 livres dans la première ligne et des boutons d'action en dernière ligne](../../../public/projects/simple-schematics/menu-main.png)
-*Menu principal*
 
 #### Actions
 
-<Callout>
+:::info
     Les actions sont les éléments présent en dernière ligne sur l'inventaire en haut de l'image.<br/>
     Ils vont être présenté de gauche à droite.
-</Callout>
+:::
 
 
 ##### Activer l’auto rotation des schematics
@@ -103,11 +102,11 @@ Permet de filtrer la liste: par ordre `alphabétique` ou par `date de création`
 
 ### Liste de schématics
 
-<Callout>
+:::info
     Similaire à une structure de fichier, il y a des dossiers et des schématics.
 
     Un dossier est représenté par un livre, un schématic par une carte.
-</Callout>
+:::
 
 ![Tooltip d'information d'un dossier montrant les actions possibles](../../../public/projects/simple-schematics/menu-list.png)
 
@@ -128,9 +127,9 @@ generate_thumbnail: false
 `true{:java}` Génère automatiquement les miniatures.\
 `false{:java}` Désactive la fonctionalité. 
 
-<Callout title="Remarque">
-    Les miniatures fonctionnent mieux avec les éléments imposants comme les arbres.
-</Callout>
+:::info
+Les miniatures fonctionnent mieux avec les éléments imposants comme les arbres.
+:::
 
 ### `skull_base64`
 
@@ -141,9 +140,9 @@ Base64 de l'icon du dossier, se remplis automatiquement à l'aide de la commande
 
 ## Outils
 
-<Callout title="Remarque">
+:::info
     Pour changer le mode de l'outil, utilisez [`/s toggle`](#s-toggle)
-</Callout>
+:::
 
 ### Mode séléction
 
@@ -169,4 +168,3 @@ Base64 de l'icon du dossier, se remplis automatiquement à l'aide de la commande
 - Add sound on inventory clicks
 - Add interface for API. And remove statics
 - Doc: Ajouter la configuration de base
-

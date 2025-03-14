@@ -14,7 +14,7 @@ export default function ErrorPage() {
 			<Image
 				src={homerError}
 				alt="Homer Simpson error"
-				className="rounded-md shadow"
+				className="rounded-md shadow-sm"
 				unoptimized
 			/>
 			<main className="flex flex-col gap-4">
