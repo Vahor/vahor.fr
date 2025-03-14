@@ -1,19 +1,19 @@
 import * as fs from "node:fs";
+import { addCalloutComponent } from "@/lib/contentlayer/add-callout-component";
+import { shikiOptions } from "@/lib/shiki";
 import {
 	transformerNotationDiff,
-	transformerRenderWhitespace,
 	transformerNotationErrorLevel,
 	transformerNotationFocus,
+	transformerRenderWhitespace,
 } from "@shikijs/transformers";
 import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineDocumentType, makeSource } from "contentlayer2/source-files";
 import { defineNestedType } from "contentlayer2/source-files";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
-import { shikiOptions } from "@/lib/shiki";
-import { addCalloutComponent } from "@/lib/contentlayer/add-callout-component";
 import remarkDirective from "remark-directive";
+import remarkGfm from "remark-gfm";
 const contentFolder = "content";
 
 const TocProperties = defineNestedType(() => ({

@@ -2,14 +2,14 @@ import A from "@/components/A";
 import Hr from "@/components/Hr";
 import { UrlPreview } from "@/components/UrlPreview";
 import { Wip } from "@/components/Wip";
+import { Check, Info, Note, Tip, Warning } from "@/components/callout";
+import { CodeBlock } from "@/components/code/code-block";
 import { Toc } from "@/components/toc/Toc";
+import { getNodeText } from "@/lib/getNodeText";
 import { cn } from "@/lib/utils";
 import { Link as IconLink } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer2/hooks";
-import { Check, Info, Note, Tip, Warning } from "@/components/callout";
-import { CodeBlock } from "@/components/code/code-block";
-import { getNodeText } from "@/lib/getNodeText";
 
 const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 	if (!id) return null;
@@ -128,8 +128,9 @@ const mdxComponents: MDXComponents = {
 		<div className="translate-z-0 larger-post-content mt-6 aspect-video overflow-hidden rounded-md">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
-					}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
+					muted ? "&muted=1" : ""
+				}`}
 				className="h-full w-full scale-x-[1.02] rounded-md"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

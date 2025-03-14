@@ -1,6 +1,6 @@
-import { visit } from "unist-util-visit";
-import type { Node } from "unist";
 import { h } from "hastscript";
+import type { Node } from "unist";
+import { visit } from "unist-util-visit";
 
 export function addCalloutComponent() {
 	return (tree: Node) => {

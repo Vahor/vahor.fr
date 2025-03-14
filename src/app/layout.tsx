@@ -3,8 +3,8 @@ import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import { Providers } from "./providers";
 import { Geist_Mono, Inter } from "next/font/google";
+import { Providers } from "./providers";
 
 const mono = Geist_Mono({
 	subsets: ["latin"],
