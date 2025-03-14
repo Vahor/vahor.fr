@@ -123,27 +123,6 @@ const mdxComponents: MDXComponents = {
 		const Comp = typeof props.children === "string" ? "p" : "div";
 		return <Comp className={cn("not-first:mt-4", className)} {...props} />;
 	},
-	ul: ({ className, ...props }) => (
-		<ul className={cn("mt-4 list-disc pl-4 md:pl-8", className)} {...props} />
-	),
-	ol: ({ className, ...props }) => (
-		<ol
-			className={cn(
-				"mt-4 list-decimal pl-4 md:pl-8 [&>ol]:mt-1 [&>ol]:list-lower-alpha [&>ul]:mt-1",
-				className,
-			)}
-			{...props}
-		/>
-	),
-	li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-		<li
-			className={cn(
-				"mt-2 pl-1 md:pl-2 [&>ol]:mt-1 [&>ol]:list-lower-alpha [&>ul]:mt-1",
-				className,
-			)}
-			{...props}
-		/>
-	),
 	hr: Hr,
 	Vimeo: ({ id, title, muted = true }) => (
 		<div className="translate-z-0 larger-post-content mt-6 aspect-video overflow-hidden rounded-md">

@@ -5,6 +5,5 @@ export const shikiOptions = {
 		dark: "catppuccin-mocha",
 		light: "github-light",
 	},
-	keepBackground: false,
 	defaultLang: "plaintext",
 } satisfies Options;

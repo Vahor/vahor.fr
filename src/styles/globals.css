@@ -219,9 +219,17 @@
 		--shiki-light: dark;
 		--shiki-dark: white;
 		font-family: var(--font-mono);
+		position: relative;
+	}
+	figcaption {
+		@apply text-sm text-balance text-zinc-500 max-w-[80%] mx-auto;
 	}
 
 	/* Typography */
+	ul,
+	ol {
+		@apply relative list-none my-0;
+	}
 	ul li,
 	ol li {
 		@apply relative list-none my-2 pl-8;
@@ -242,7 +250,20 @@
 		border-radius: 50%;
 		position: absolute;
 		left: 0px;
-		top: 3;
+		top: 3px;
+	}
+	ol > li > ol > li::before {
+		content: counter(listitem, lower-alpha);
+	}
+	ul > li::before {
+		content: "";
+		background: var(--color-accent);
+		height: 6px;
+		width: 6px;
+		border-radius: 50%;
+		position: absolute;
+		left: 8px;
+		top: 13px;
 	}
 }
 
@@ -250,15 +271,11 @@
 	p span:has(img) + em {
 		@apply text-center block text-sm larger-post-content mt-1;
 	}
-	code:not(
-			[data-code-block] code,
-			code[data-language="plaintext"],
-			code:has(> mark)
-		) {
-		@apply px-1.5 py-px border rounded-md;
+	h3 code:not([data-code-block] code) {
+		@apply text-base;
 	}
-	code {
-		@apply relative;
+	code:not([data-code-block] code) {
+		@apply text-sm px-1.5 py-px border rounded-md;
 	}
 
 	[data-code-block] {
@@ -272,7 +289,7 @@
 			background-color: #15151e !important;
 
 			code {
-				@apply py-2 overflow-auto text-xs font-medium my-1 px-1 block h-full;
+				@apply py-2 overflow-auto text-sm font-medium my-1 px-1 block h-full;
 				> span {
 					@apply px-4;
 				}
