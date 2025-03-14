@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { kv } from "@vercel/kv";
+import { kv } from "@/lib/redis";
 
 const cacheKey = (key: string) => `spotify:${key}`;
 const cacheKeyAccessToken = cacheKey("accessToken");
@@ -13,9 +13,9 @@ const getCachedAccessToken = async () => {
 	return null;
 };
 
-export async function getSpotifyAccessToken() {
+export async function getSpotifyAccessToken(refresh = false) {
 	const cachedToken = await getCachedAccessToken();
-	if (cachedToken) {
+	if (cachedToken && !refresh) {
 		return cachedToken;
 	}
 

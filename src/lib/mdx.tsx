@@ -1,17 +1,13 @@
 import A from "@/components/A";
-import { Callout } from "@/components/Callout";
 import Hr from "@/components/Hr";
 import { UrlPreview } from "@/components/UrlPreview";
 import { Wip } from "@/components/Wip";
 import { Toc } from "@/components/toc/Toc";
-import { CopyButton } from "@/components/ui/copy-button";
 import { cn } from "@/lib/utils";
 import { Link as IconLink } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer2/hooks";
-
-// Based on Tailwind prose css: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
-// And shadcn
+import { Check, Info, Note, Tip, Warning } from "@/components/callout";
 
 const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 	if (!id) return null;
@@ -27,8 +23,20 @@ const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 	);
 };
 
+const MarkColor: React.FC<{ children: string; color: string }> = ({
+	children,
+	color,
+}) => {
+	return (
+		<code className="not-prose relative rounded-lg bg-zinc-950 p-1.5 text-xs dark:bg-zinc-900">
+			<mark data-highlighted-chars="" data-chars-id={color}>
+				{children}
+			</mark>
+		</code>
+	);
+};
+
 const mdxComponents: MDXComponents = {
-	// @ts-expect-error next/link href is not a string
 	a: A,
 	code: ({ className, ...props }) => (
 		<code
@@ -53,10 +61,6 @@ const mdxComponents: MDXComponents = {
 				<span className="absolute top-0 right-0 p-1 text-muted-foreground text-xs">
 					{language}
 				</span>
-				<CopyButton
-					value={__raw_source}
-					className="absolute top-4 right-10 opacity-0 group-hover:opacity-100"
-				/>
 			</pre>
 		);
 	},
@@ -216,9 +220,32 @@ const mdxComponents: MDXComponents = {
 			</figure>
 		);
 	},
+
+	// Higlight colors (same as in code.css)
+	R: ({ children }) => <MarkColor color="r">{children}</MarkColor>,
+	G: ({ children }) => <MarkColor color="g">{children}</MarkColor>,
+	B: ({ children }) => <MarkColor color="b">{children}</MarkColor>,
+	Y: ({ children }) => <MarkColor color="y">{children}</MarkColor>,
+
+	callout: ({ type, ...props }) => {
+		switch (type) {
+			case "info":
+				return <Info {...props} />;
+			case "warning":
+				return <Warning {...props} />;
+			case "note":
+				return <Note {...props} />;
+			case "tip":
+				return <Tip {...props} />;
+			case "check":
+				return <Check {...props} />;
+			default:
+				throw new Error(`Unknown callout type: ${type}`);
+		}
+	},
+
 	Toc,
 	UrlPreview,
-	Callout,
 	Wip,
 };
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { kv } from "@vercel/kv";
+import { kv } from "@/lib/redis";
 import { JSDOM } from "jsdom";
 import sharp from "sharp";
 

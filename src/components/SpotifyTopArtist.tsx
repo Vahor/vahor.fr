@@ -41,6 +41,7 @@ async function getTopTrack() {
 		},
 	});
 	if (!res.ok) {
+		getSpotifyAccessToken(true);
 		console.error(await res.text());
 		throw new Error("Failed to fetch data from Spotify API");
 	}

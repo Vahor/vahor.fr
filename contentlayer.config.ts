@@ -2,16 +2,19 @@ import * as fs from "node:fs";
 import {
 	transformerNotationDiff,
 	transformerRenderWhitespace,
+	transformerNotationErrorLevel,
+	transformerNotationFocus,
 } from "@shikijs/transformers";
 import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineDocumentType, makeSource } from "contentlayer2/source-files";
 import { defineNestedType } from "contentlayer2/source-files";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
-import codeImport from "remark-code-import";
 import remarkGfm from "remark-gfm";
-// import remarkCustomHeaderId from 'remark-custom-header-id';
-import type { ShikiTransformer } from "shiki";
+import { shikiOptions } from "@/lib/shiki";
+import { addCalloutComponent } from "@/lib/contentlayer/add-callout-component";
+import remarkDirective from "remark-directive";
+const contentFolder = "content";
 
 const TocProperties = defineNestedType(() => ({
 	name: "TocProperties",
@@ -21,16 +24,21 @@ const TocProperties = defineNestedType(() => ({
 	},
 }));
 
-const postSlug = (path: string) => {
-	const withoutPrefix = path.split("posts/").splice(-1)[0];
+const slug = (path: string) => {
+	const withoutPrefix = path.split("/").splice(-1)[0];
 	return withoutPrefix;
 };
 
 const pageType = (path: string) => {
-	const slug = postSlug(path);
-	if (slug.indexOf("/") === -1) return "blog";
-	const firstSegment = slug.split("/")[0];
+	if (path.indexOf("/") < 2) return "blog";
+	const firstSegment = path.split("/")[1];
 	return firstSegment;
+};
+
+const lastModified = (path: string) => {
+	const stats = fs.statSync(`${contentFolder}/${path}`);
+	const date = stats.mtime;
+	return date;
 };
 
 export const Post = defineDocumentType(() => ({
@@ -47,13 +55,13 @@ export const Post = defineDocumentType(() => ({
 	computedFields: {
 		slug: {
 			type: "string",
-			resolve: (post) => postSlug(post._raw.flattenedPath),
+			resolve: (post) => slug(post._raw.flattenedPath),
 		},
 		url: {
 			type: "string",
 			resolve: (post) => {
-				const slug = postSlug(post._raw.flattenedPath);
-				return `/${slug}`;
+				const filePath = post._raw.flattenedPath;
+				return `/${pageType(filePath)}/${slug(filePath)}`;
 			},
 		},
 		githubEditUrl: {
@@ -93,50 +101,33 @@ export const Post = defineDocumentType(() => ({
 			type: "date",
 			resolve: (post) => {
 				const sourceFilePath = post._raw.sourceFilePath;
-				const prefix = "src/content/";
-				const stats = fs.statSync(prefix + sourceFilePath);
-				const date = stats.mtime;
-				return date;
+				return lastModified(sourceFilePath);
 			},
 		},
 	},
 }));
 
-function shikiCustom(): ShikiTransformer {
-	return {
-		name: "@vahor/skiki",
-		pre(node) {
-			node.properties.__raw_source = this.source;
-		},
-	};
-}
-
 const highlightPlugin = () => {
 	return rehypePrettyCode({
-		theme: {
-			dark: "catppuccin-mocha",
-			light: "catppuccin-latte",
-		},
-		defaultLang: "plaintext",
+		...shikiOptions,
 		transformers: [
 			transformerRenderWhitespace(),
 			transformerNotationDiff(),
+			transformerNotationErrorLevel(),
+			transformerNotationFocus(),
 			transformerTwoslash({
 				explicitTrigger: true,
 			}),
-			shikiCustom(),
 		],
 	});
 };
 
+export const mdxOptions = {
+	rehypePlugins: [highlightPlugin, rehypeSlug],
+	remarkPlugins: [remarkGfm, remarkDirective, addCalloutComponent],
+};
 export default makeSource({
-	contentDirPath: "src/content",
+	contentDirPath: contentFolder,
 	documentTypes: [Post],
-	mdx: {
-		rehypePlugins: [highlightPlugin, codeImport, rehypeSlug],
-		remarkPlugins: [
-			//	remarkCustomHeaderId,  FIXME: not working with ContentLayer
-			remarkGfm,
-		],
-	},
+	mdx: mdxOptions,
 });
