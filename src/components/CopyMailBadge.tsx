@@ -7,13 +7,13 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { EMAIL } from "@/lib/constants";
-import { useCopy } from "@/lib/useCopy";
+import { useClipboard } from "@/lib/useClipboard";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import { CheckIcon, SendIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 export const CopyMailBadge = () => {
-	const { hasCopied, handleClick } = useCopy(EMAIL);
+	const { hasCopied, handleClick } = useClipboard(EMAIL);
 	const Icon = hasCopied ? CheckIcon : SendIcon;
 
 	return (

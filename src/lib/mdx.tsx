@@ -8,6 +8,8 @@ import { Link as IconLink } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer2/hooks";
 import { Check, Info, Note, Tip, Warning } from "@/components/callout";
+import { CodeBlock } from "@/components/code/code-block";
+import { getNodeText } from "@/lib/getNodeText";
 
 const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 	if (!id) return null;
@@ -38,31 +40,19 @@ const MarkColor: React.FC<{ children: string; color: string }> = ({
 
 const mdxComponents: MDXComponents = {
 	a: A,
-	code: ({ className, ...props }) => (
-		<code
-			className={cn(
-				"relative overflow-x-auto whitespace-nowrap rounded py-[0.2rem] font-mono text-sm",
-				className,
-			)}
-			{...props}
-		/>
-	),
-	pre: ({ className, ...props }) => {
-		// @ts-ignore
-		const { __raw_source, children, ...rest } = props;
-		// @ts-ignore
-		const language = rest["data-language"];
-		return (
-			<pre
-				className={cn("group relative mb-4 rounded-lg border py-4", className)}
-				{...rest}
-			>
-				{children}
-				<span className="absolute top-0 right-0 p-1 text-muted-foreground text-xs">
-					{language}
-				</span>
-			</pre>
-		);
+	figure: ({ children, ...props }) => {
+		const isCode = props["data-rehype-pretty-code-figure"] !== undefined;
+		if (isCode) {
+			const title = children.length > 1 ? getNodeText(children[0]) : "";
+			const childrenToRender =
+				children.length > 1 ? children.slice(1) : children;
+			return (
+				<CodeBlock {...props} filename={title}>
+					{childrenToRender}
+				</CodeBlock>
+			);
+		}
+		return <figure {...props} />;
 	},
 	h1: ({ className, id, children, ...props }) => (
 		<h1
@@ -131,12 +121,7 @@ const mdxComponents: MDXComponents = {
 	),
 	p: ({ className, ...props }) => {
 		const Comp = typeof props.children === "string" ? "p" : "div";
-		return (
-			<Comp
-				className={cn("not-first:mt-4", className)}
-				{...props}
-			/>
-		);
+		return <Comp className={cn("not-first:mt-4", className)} {...props} />;
 	},
 	ul: ({ className, ...props }) => (
 		<ul className={cn("mt-4 list-disc pl-4 md:pl-8", className)} {...props} />
@@ -164,9 +149,8 @@ const mdxComponents: MDXComponents = {
 		<div className="translate-z-0 larger-post-content mt-6 aspect-video overflow-hidden rounded-md">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
-					muted ? "&muted=1" : ""
-				}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
+					}`}
 				className="h-full w-full scale-x-[1.02] rounded-md"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

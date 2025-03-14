@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useCopy = (text: string) => {
+export const useClipboard = (text: string) => {
 	const [hasCopied, setHasCopied] = useState(false);
 
 	const handleClick = () => {

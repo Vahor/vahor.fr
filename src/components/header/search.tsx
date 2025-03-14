@@ -62,8 +62,8 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 					}
 					onFocus={() => setOpen(true)}
 				/>
-				<kbd className="pointer-events-none absolute inset-y-0 right-0 hidden h-5 select-none items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground text-sm sm:flex">
-					<span className="mt-px text-base">⌘</span>
+				<kbd className="pointer-events-none absolute inset-y-0 right-0 hidden h-5 select-none items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground sm:flex">
+					<span className="mt-px text-xs">⌘</span>
 					<span>K</span>
 				</kbd>
 			</label>

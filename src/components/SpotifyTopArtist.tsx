@@ -62,7 +62,7 @@ export async function SpotifyTopTrackBadge() {
 	return (
 		<div>
 			<a
-				className="flew-row flex gap-4 rounded-md border border-neutral-200 bg-accent p-2 text-accent-foreground hover:border-neutral-300 dark:border-neutral-700 dark:hover:border-neutral-600"
+				className="flew-row flex gap-4 rounded-md border bg-card p-2 text-card-foreground"
 				title="Ma musique préférée du moment"
 				href={`${topTrack.external_urls.spotify}?ref=vahor.fr`}
 				target="_blank"
