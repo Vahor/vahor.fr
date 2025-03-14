@@ -1,29 +1,19 @@
 import { Slot } from "@radix-ui/react-slot";
-import { type VariantProps, cva } from "class-variance-authority";
 
-import { cn } from "@/lib/utils";
+function Badge({
+  asChild,
+  className,
+  ...props
+}: React.ComponentProps<"span"> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot : "span";
 
-const badgeVariants = cva(
-	"inline w-max rounded-md border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 bg-accent text-accent-foreground p-1 space-x-1 no-underline! leading-4 text-sm whitespace-nowrap",
-	{
-		variants: {
-			variant: {},
-		},
-		defaultVariants: {},
-	},
-);
-
-export interface BadgeProps
-	extends React.HTMLAttributes<HTMLDivElement>,
-		VariantProps<typeof badgeVariants> {
-	asChild?: boolean;
+  return (
+    <Comp
+      data-slot="badge"
+      className="!no-underline inline w-max cursor-pointer space-x-1 whitespace-nowrap rounded-md border border-neutral-200 bg-accent p-1 text-accent-foreground text-sm leading-4 hover:border-neutral-300 dark:border-neutral-700 hover:dark:border-neutral-600"
+      {...props}
+    />
+  );
 }
 
-function Badge({ className, variant, asChild, ...props }: BadgeProps) {
-	const Comp = asChild ? Slot : "span";
-	return (
-		<Comp className={cn(badgeVariants({ variant }), className)} {...props} />
-	);
-}
-
-export { Badge, badgeVariants };
+export { Badge };
