@@ -124,7 +124,7 @@ export default async function PostPage(props: PageProps) {
 }
 
 export const generateStaticParams = async () =>
-	allPosts.map((post) => ({ slug: post.url.split("/") }));
+	allPosts.map((post) => ({ slug: post.url.split("/").filter(Boolean) }));
 
 export const generateMetadata = async (
 	props: PageProps,
