@@ -133,7 +133,7 @@ const mdxComponents: MDXComponents = {
 		const Comp = typeof props.children === "string" ? "p" : "div";
 		return (
 			<Comp
-				className={cn("[&:not(:first-child)]:mt-4", className)}
+				className={cn("not-first:mt-4", className)}
 				{...props}
 			/>
 		);

@@ -6,7 +6,7 @@ import { ThemeSwitcher } from "./theme-switcher";
 
 export function Header() {
 	return (
-		<header className="mx-auto flex max-w-screen-xl items-center justify-between px-8 py-4 sm:px-12 sm:py-8">
+		<header className="mx-auto flex max-w-(--breakpoint-xl) items-center justify-between px-8 py-4 sm:px-12 sm:py-8">
 			<Logo />
 			<div className="flex items-center justify-end gap-3">
 				<nav className="flex gap-6">

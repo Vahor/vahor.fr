@@ -73,7 +73,7 @@ const PostEntry = ({ post }: { post: Post }) => {
 			<div className="space-y-1">
 				<Link
 					href={post.url}
-					className="group-hover:text-black group-hover:dark:text-white"
+					className="group-hover:text-black dark:group-hover:text-white"
 				>
 					<h2>{post.title}</h2>
 				</Link>

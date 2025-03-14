@@ -55,7 +55,7 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 				<Search className="mr-2 size-4 shrink-0 opacity-50" />
 				<input
 					type="text"
-					className="flex w-24 rounded-md bg-transparent text-sm outline-none sm:w-48"
+					className="flex w-24 rounded-md bg-transparent text-sm outline-hidden sm:w-48"
 					name="search"
 					placeholder={
 						isMounted() && md ? "Chercher une page..." : "Chercher..."
