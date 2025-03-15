@@ -8,6 +8,7 @@ import { JsonLd } from "@/components/jsonld/profile-page";
 import { TWITTER_PROFILE } from "@/lib/constants";
 import { profilePage } from "@/lib/jsonld";
 import { allPosts } from "contentlayer/generated";
+import type { Metadata } from "next";
 
 const postCount = allPosts.length;
 
@@ -92,3 +93,11 @@ export default function Home() {
 		</main>
 	);
 }
+
+export const generateMetadata = async (): Promise<Metadata> => {
+	return {
+		alternates: {
+			canonical: "/",
+		},
+	};
+};

@@ -149,6 +149,7 @@ export const generateMetadata = async (
 		title: post.title,
 		description: post.description,
 		alternates: {
+			canonical: post.url,
 			types: {
 				"text/markdown": `${post.url}.md`,
 			},

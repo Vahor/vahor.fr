@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { type Post, allPosts } from "contentlayer/generated";
 import { format, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -92,4 +93,13 @@ const PostEntry = ({ post }: { post: Post }) => {
 			</div>
 		</div>
 	);
+};
+
+export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
+	const params = await props.params;
+	return {
+		alternates: {
+			canonical: `/tag/${params.tag}`,
+		},
+	};
 };
