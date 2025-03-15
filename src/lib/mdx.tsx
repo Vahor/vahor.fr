@@ -128,8 +128,9 @@ const mdxComponents: MDXComponents = {
 		<div className="translate-z-0 larger-post-content mt-6 aspect-video overflow-hidden rounded-md">
 			<iframe
 				title={title}
-				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${muted ? "&muted=1" : ""
-					}`}
+				src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&vimeo_logo=0${
+					muted ? "&muted=1" : ""
+				}`}
 				className="h-full w-full scale-x-[1.02] rounded-md"
 				frameBorder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

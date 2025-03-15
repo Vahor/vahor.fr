@@ -73,11 +73,11 @@ export default async function TagPage(props: PageProps) {
 
 const PostEntry = ({ post }: { post: Post }) => {
 	return (
-		<div className="group flex justify-between gap-2">
+		<div className="flex justify-between gap-2">
 			<div>
 				<Link
 					href={post.url}
-					className="group-hover:text-black dark:group-hover:text-white"
+					className="hover:text-black dark:hover:text-white"
 				>
 					<h2 className="my-0">{post.title}</h2>
 				</Link>
