@@ -271,6 +271,23 @@
 		left: 8px;
 		top: 0.5em;
 	}
+	/* hardcoded counter reset */
+	ul[start="2"],
+	ol[start="2"] {
+		counter-reset: listitem 1;
+	}
+	ul[start="3"],
+	ol[start="3"] {
+		counter-reset: listitem 2;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply mb-4;
+	}
 }
 
 @layer components {
