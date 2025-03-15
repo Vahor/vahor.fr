@@ -4,7 +4,6 @@ import Fuse from "fuse.js";
 import {
 	EMAIL,
 	GITHUB_PROFILE,
-	HEADER_LINKS,
 	LINKEDIN_PROFILE,
 	TWITTER_PROFILE,
 } from "./constants";
@@ -36,14 +35,13 @@ const contact_links = [
 
 const search_content = [
 	...allPosts.map((post) => ({
-		...post,
-		external: false,
-	})),
-	...HEADER_LINKS.map((l) => ({
-		title: l.label,
-		datePublished: env.NEXT_PUBLIC_BUILD_TIME,
-		url: l.href,
-		pageType: "app",
+		title: post.title,
+		description: post.description,
+		fullTags: post.fullTags,
+		pageType: post.pageType,
+		datePublished: post.datePublished,
+		raw: post.body.raw,
+		url: post.url,
 		external: false,
 	})),
 	...contact_links.map((l) => ({
@@ -59,7 +57,7 @@ export const SEARCH_INDEX = new Fuse(search_content, {
 	keys: [
 		{
 			name: "title",
-			weight: 1,
+			weight: 0.8,
 		},
 		{
 			name: "description",
@@ -70,14 +68,22 @@ export const SEARCH_INDEX = new Fuse(search_content, {
 			weight: 0.2,
 		},
 		{
+			name: "raw",
+			weight: 0.3,
+		},
+		{
 			name: "pageType",
 			weight: 0.1,
 		},
 	],
 	includeMatches: true,
+	ignoreDiacritics: true,
 	includeScore: true,
+	isCaseSensitive: false,
 	useExtendedSearch: true,
+	shouldSort: false,
 	findAllMatches: true,
+	threshold: 0.5,
 });
 
 export const INITIAL_DATA: ReturnType<
