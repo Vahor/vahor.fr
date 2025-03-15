@@ -14,13 +14,14 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useTransition } from "react";
-import { useIsMounted, useMediaQuery } from "usehooks-ts";
 import { useStore } from "zustand";
 
 const commandProps: CommandDialogProps["commandProps"] = {
-	loop: false,
+	loop: true,
 	disablePointerSelection: false,
 	shouldFilter: false,
+	vimBindings: false,
+	label: "Chercher une page",
 };
 
 export function SearchMenu() {
@@ -35,8 +36,6 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 	const toggle = useStore(searchStore, (state) => state.toogleOpen);
 	const setOpen = useStore(searchStore, (state) => state.setOpen);
 	const open = useStore(searchStore, (state) => state.open);
-	const md = useMediaQuery("(min-width: 640px)", { defaultValue: true });
-	const isMounted = useIsMounted();
 
 	useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -57,9 +56,7 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 					type="text"
 					className="flex w-24 rounded-md bg-transparent text-sm outline-hidden sm:w-48"
 					name="search"
-					placeholder={
-						isMounted() && md ? "Chercher une page..." : "Chercher..."
-					}
+					placeholder="Chercher..."
 					onFocus={() => setOpen(true)}
 				/>
 				<kbd className="pointer-events-none absolute inset-y-0 right-0 hidden h-5 select-none items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground sm:flex">
@@ -81,7 +78,7 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 }
 
 const filterResults = (query: string) => {
-	const results = SEARCH_INDEX.search(query);
+	const results = SEARCH_INDEX.search(`"${query}" | '"${query}"`);
 	return results;
 };
 
