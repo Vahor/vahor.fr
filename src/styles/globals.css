@@ -200,6 +200,11 @@
 			"cv03", "cv04", "cv05", "cv06", "cv07", "cv08", "cv09", "cv10";
 		word-break: break-word;
 	}
+	html,
+	body,
+	div#__next {
+		@apply h-full;
+	}
 	ul,
 	ol {
 		counter-reset: listitem;
@@ -234,7 +239,7 @@
 	ol li {
 		@apply relative list-none my-2 pl-8;
 	}
-	ol > li::before {
+	ol > li:not(.list-none)::before {
 		counter-increment: listitem;
 		display: flex;
 		align-items: center;
@@ -255,7 +260,7 @@
 	ol > li > ol > li::before {
 		content: counter(listitem, lower-alpha);
 	}
-	ul > li::before {
+	ul > li:not(.list-none)::before {
 		content: "";
 		background: var(--color-accent);
 		height: 6px;

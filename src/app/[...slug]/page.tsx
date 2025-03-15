@@ -148,6 +148,11 @@ export const generateMetadata = async (
 	return {
 		title: post.title,
 		description: post.description,
+		alternates: {
+			types: {
+				"text/markdown": `${post.url}.md`,
+			},
+		},
 		openGraph: {
 			...parentMetadata.openGraph,
 			type: "article",
