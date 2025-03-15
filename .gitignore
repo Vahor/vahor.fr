@@ -41,3 +41,7 @@ next-env.d.ts
 # local
 .envrc
 *.local
+
+# md in public
+public/**/*.md
+public/llms.txt
