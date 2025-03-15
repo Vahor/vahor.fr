@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "next build && bash ./scripts/build.sh",
 		"start": "next start",
 		"format": "bunx @biomejs/biome check ./ --write",
 		"format:check": "bunx @biomejs/biome format ./",
