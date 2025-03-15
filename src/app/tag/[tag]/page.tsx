@@ -73,14 +73,14 @@ export default async function TagPage(props: PageProps) {
 const PostEntry = ({ post }: { post: Post }) => {
 	return (
 		<div className="group flex justify-between gap-2">
-			<div className="flex flex-col gap-y-1">
+			<div>
 				<Link
 					href={post.url}
 					className="group-hover:text-black dark:group-hover:text-white"
 				>
-					<h2>{post.title}</h2>
+					<h2 className="my-0">{post.title}</h2>
 				</Link>
-				<p className="text-muted-foreground">{post.description}</p>
+				<p className="text-muted-foreground text-sm">{post.description}</p>
 			</div>
 			<div className="text-right text-muted-foreground text-sm">
 				<time dateTime={post.datePublished}>
