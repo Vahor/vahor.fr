@@ -37,6 +37,7 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+	--line-height: 1.5;
 
 	color-scheme: light dark;
 }
@@ -171,7 +172,6 @@
 
 @utility post-content {
 	@apply md:max-w-3xl flex-1;
-	line-height: 1.9;
 }
 
 @utility larger-post-content {
@@ -184,6 +184,7 @@
 		animation-timing-function: east-out;
 		scrollbar-width: thin;
 		scrollbar-color: hsl(var(--border)) transparent;
+		line-height: var(--line-height);
 	}
 	*:focus-visible:not(.outline-hidden) {
 		outline: 2px solid currentColor;
@@ -235,8 +236,8 @@
 	ol {
 		@apply relative list-none my-0;
 	}
-	ul li,
-	ol li {
+	ul li:not(.list-none),
+	ol li:not(.list-none) {
 		@apply relative list-none my-2 pl-8;
 	}
 	ol > li:not(.list-none)::before {
@@ -245,8 +246,8 @@
 		align-items: center;
 		justify-content: center;
 		content: counter(listitem);
-		background: var(--color-accent);
-		color: var(--color-accent-foreground);
+		background: var(--list-counter-background, var(--color-accent));
+		color: var(--list-counter-foreground, var(--color-accent-foreground));
 		font-size: 12px;
 		font-weight: 500;
 		padding: 5px 0;
@@ -255,20 +256,20 @@
 		border-radius: 50%;
 		position: absolute;
 		left: 0px;
-		top: 3px;
+		top: 0.1em;
 	}
 	ol > li > ol > li::before {
 		content: counter(listitem, lower-alpha);
 	}
 	ul > li:not(.list-none)::before {
 		content: "";
-		background: var(--color-accent);
+		background: var(--list-counter-background, currentColor);
 		height: 6px;
 		width: 6px;
 		border-radius: 50%;
 		position: absolute;
 		left: 8px;
-		top: 13px;
+		top: 0.5em;
 	}
 }
 

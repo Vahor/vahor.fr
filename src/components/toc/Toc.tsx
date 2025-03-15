@@ -21,7 +21,7 @@ export function Toc({ group }: TocProps) {
 				<ul className="space-y-1">
 					{matchingPosts.map((post) => {
 						return (
-							<li key={post._id}>
+							<li key={post._id} className="list-none">
 								<TocLink post={post} />
 							</li>
 						);

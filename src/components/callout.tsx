@@ -100,7 +100,7 @@ export function Warning({ children, title }: CalloutContent) {
 				</svg>
 			)}
 			className="border border-amber-500/80 bg-amber-50/80 dark:border-amber-500/30 dark:bg-amber-500/10"
-			childrenClassName="text-amber-900 dark:text-amber-200"
+			childrenClassName="text-amber-900 dark:text-amber-200 [--list-counter-background:theme(colors.amber.500)] [--list-counter-foreground:theme(colors.amber.900)]"
 		>
 			{children}
 		</CalloutTemplate>
