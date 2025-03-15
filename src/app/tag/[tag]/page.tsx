@@ -59,7 +59,7 @@ export default async function TagPage(props: PageProps) {
 					{filteredPosts.map((post) => (
 						<li
 							key={post.url}
-							className="border-b px-0 py-4 first:pt-0 last:border-none"
+							className="list-none border-b px-0 py-4 first:pt-0 last:border-none"
 						>
 							<PostEntry post={post} />
 						</li>
