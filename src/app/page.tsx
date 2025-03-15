@@ -15,7 +15,7 @@ export const revalidate = 84600; // 24 hours
 
 export default function Home() {
 	return (
-		<main className="post-content container mx-auto py-16">
+		<main className="post-content container mx-auto py-16 **:leading-7">
 			<JsonLd jsonLd={profilePage} />
 			<h1 className="mb-8 font-semibold text-2xl text-black dark:text-white">
 				Nathan David
