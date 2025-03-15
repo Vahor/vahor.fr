@@ -50,7 +50,7 @@ export default async function PostPage(props: PageProps) {
 	if (!post) notFound();
 
 	return (
-		<main className="post-content container mx-auto py-16" id="skip-nav">
+		<main className="post-content container mx-auto pb-16" id="skip-nav">
 			<JsonLd
 				jsonLd={articlePage({
 					headline: post.title,
