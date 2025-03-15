@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-# Copy markdown
 bash scripts/copy-markdown.sh
+bash scripts/llms.txt.sh

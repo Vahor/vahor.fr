@@ -44,3 +44,4 @@ next-env.d.ts
 
 # md in public
 public/**/*.md
+public/llms.txt
