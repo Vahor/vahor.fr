@@ -10,7 +10,11 @@
 		"format": "bunx @biomejs/biome check ./ --write",
 		"format:check": "bunx @biomejs/biome format ./",
 		"lint": "bunx @biomejs/biome lint ./ --write",
-		"typecheck": "tsc --noEmit --declaration"
+		"typecheck": "tsc --noEmit --declaration",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true"]
 	},
 	"dependencies": {
 		"@giscus/react": "^3.1.0",
@@ -57,6 +61,8 @@
 		"@types/node": "^22.13.10",
 		"@types/react": "^19.0.10",
 		"@types/react-dom": "^19.0.4",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.0",
 		"postcss": "^8.5.3",
 		"remark-code-import": "^1.2.0",
 		"schema-dts": "^1.1.5",
