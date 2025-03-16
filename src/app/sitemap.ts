@@ -3,6 +3,8 @@ import { BASE_URL } from "@/lib/constants";
 import { allPosts } from "contentlayer/generated";
 import type { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 export const getPosts = (): MetadataRoute.Sitemap => {
 	return allPosts.map((post) => ({
 		url: `${BASE_URL}${post.url}`,
