@@ -103,3 +103,6 @@ export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
 		},
 	};
 };
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
