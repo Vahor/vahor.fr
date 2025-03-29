@@ -138,6 +138,7 @@ function includeMarkdown() {
 				);
 				if (!includeMatch) return;
 				let filePath = includeMatch[1];
+				// If we want to show the @include text without any transformation
 				const isFake = filePath.startsWith("fake:");
 				if (isFake) {
 					filePath = filePath.slice(5);
