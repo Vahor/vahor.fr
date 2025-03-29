@@ -1,0 +1,98 @@
+...@vars
+
+direction: right
+
+vars: {
+  d2-config: {
+    theme-id: 0
+    pad: 0
+    center: true
+    layout-engine: elk
+
+    theme-overrides: {
+      B1: "#000000" # arrow color
+      N2: "#000000" # italic color
+    }
+  }
+}
+
+style: {
+  fill: transparent
+}
+
+api-gateway: {
+  label: API Gateway
+  shape: image
+  icon: https://app.eraser.io/static/canvas-icons/aws-api-gateway.svg
+}
+
+lambda: {
+  label: Lambda
+  shape: image
+  icon: https://app.eraser.io/static/canvas-icons/aws-lambda.svg
+}
+
+s3: {
+  label: S3
+  shape: image
+  icon: https://app.eraser.io/static/canvas-icons/aws-simple-storage-service.svg
+}
+
+vpc-subnet: {
+  label: VPC Subnet
+  class: [orange; container; label]
+
+  main: {
+    label: Main
+    class: [purple; container; label]
+
+    server: {
+      label: Server
+      shape: image
+      icon: https://app.eraser.io/static/canvas-icons/aws-ec2.svg
+    }
+
+    data: {
+      label: Data
+      shape: image
+      icon: https://app.eraser.io/static/canvas-icons/aws-rds.svg
+    }
+  }
+
+  queue: {
+    label: Queue
+    shape: image
+    icon: https://app.eraser.io/static/canvas-icons/aws-auto-scaling.svg
+  }
+
+  compute: {
+    label: Compute
+    class: [red; container; label]
+
+    worker1: {
+      label: Worker 1
+      shape: image
+      icon: https://app.eraser.io/static/canvas-icons/aws-ec2.svg
+    }
+    worker2: {
+      label: Worker 2
+      shape: image
+      icon: https://app.eraser.io/static/canvas-icons/aws-ec2.svg
+    }
+    worker3: {
+      label: Worker 3
+      shape: image
+      icon: https://app.eraser.io/static/canvas-icons/aws-ec2.svg
+    }
+  }
+}
+analytics: {
+  label: Analytics
+  shape: image
+  icon: https://app.eraser.io/static/canvas-icons/aws-redshift.svg
+}
+
+api-gateway -> lambda -> vpc-subnet.main.server -> vpc-subnet.main.data
+vpc-subnet.main.server -> vpc-subnet.queue -> vpc-subnet.compute.worker*
+s3 <- vpc-subnet.main.data
+vpc-subnet.compute -> analytics

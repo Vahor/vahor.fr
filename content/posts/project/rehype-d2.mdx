@@ -1,0 +1,95 @@
+---
+title: Rehype D2 Plugin
+description: A Rehype plugin to convert D2 diagrams to SVG or PNG.
+datePublished: 2025-03-29
+---
+
+# What is D2?
+
+<UrlPreview url="https://d2lang.com/"/>
+
+## Cool diagrams
+
+### Excalidraw
+### Eraser.io
+
+# Why a plugin?
+
+- Current remark plugin is not up to date (2 years old)
+   - don't support imports
+
+
+# How to use it?
+
+<UrlPreview url="https://github.com/Vahor/rehype-d2"/>
+
+## Setup
+
+As I'm using [contentlayer](https://www.contentlayer.dev/) to manage my content, I'll show you how to use it with contentlayer.
+
+```bash
+bun add -D @vahor/rehype-d2
+```
+
+```js title="contentlayer.config.ts"
+import rehypeD2 from "@vahor/rehype-d2";
+
+...
+
+export default makeSource({
+    contentDirPath: contentFolder,
+    documentTypes: [Post],
+    mdx: {
+        rehypePlugins: [[
+            rehypeD2,
+            {
+                cwd: "public/blog/d2",
+                defaultMetadata: {
+                    sketch: false,
+                },
+            },
+        ]],
+    },
+});
+```
+
+## Use
+
+Contentlayer parse markdown files and convert them to HTML. So we can use the plugin with:
+
+~~~mdx
+```d2 height=350 pad=20
+...@vars
+a: From
+b: To
+a -> b: Arrow
+```
+~~~
+
+And get:
+
+<div className="flex items-center justify-center">
+```d2 height=350 pad=20
+...@vars
+a: From
+b: To
+a -> b: Arrow
+```
+</div>
+
+Mixed with our other remark/rehype plugins, we can get:
+
+~~~mdx
+@include "fake:raw:../../../public/blog/d2/computer.d2"
+~~~
+
+to render:
+
+
+```d2
+@include "raw:../../../public/blog/d2/computer.d2"
+```
+
+Magic! 🤯
+
+

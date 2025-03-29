@@ -60,8 +60,8 @@ export default function Home() {
 			<section className="mt-8">
 				<p>
 					En dehors de la programation, j'aime regarder des séries,{" "}
-					<A href="https://www.kenmei.co/user/vahor?ref=vahor.fr">lire</A> et
-					écouter de la musique.
+					<A href="https://www.kenmei.co/user/vahor">lire</A> et écouter de la
+					musique.
 				</p>
 
 				<div className="grid grid-cols-1 gap-2 sm:mt-5 sm:grid-cols-2">

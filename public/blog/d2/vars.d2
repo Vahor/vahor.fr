@@ -1,4 +1,17 @@
 vars: {
+  d2-config: {
+    theme-id: 0
+    pad: 0
+    layout-engine: dagre
+
+    theme-overrides: {
+      B1: "#000000" # arrow color
+      N2: "#000000" # italic color
+    }
+  }
+}
+
+vars: {
   loading-icon: https://cdn.hugeicons.com/icons/loading-03-stroke-rounded.svg
   user-icon: https://app.eraser.io/static/canvas-icons/user.svg
   api-icon: https://cdn.hugeicons.com/icons/api-stroke-rounded.svg
@@ -16,6 +29,14 @@ vars: {
     blue: {
       light: "#F7F9FD"
       dark: "#8CADDD"
+    }
+    purple: {
+      light: "#FCF7FD"
+      dark: "#DA85E0"
+    }
+    red: {
+      light: "#FDF7F7"
+      dark: "#D88F8A"
     }
   }
 }
@@ -37,6 +58,30 @@ classes: {
     style: {
       stroke: ${colors.blue.dark}
       fill: ${colors.blue.light}
+    }
+  }
+  purple: {
+    style: {
+      stroke: ${colors.purple.dark}
+      fill: ${colors.purple.light}
+    }
+  }
+  red: {
+    style: {
+      stroke: ${colors.red.dark}
+      fill: ${colors.red.light}
+    }
+  }
+  label: {
+    label.near: top-left
+    style: {
+      fill: white
+    }
+  }
+  container: {
+    shape: rectangle
+    style: {
+      border-radius: 10
     }
   }
 }
