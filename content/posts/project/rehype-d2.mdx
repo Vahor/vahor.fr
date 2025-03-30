@@ -1,10 +1,10 @@
 ---
 title: Rehype D2 Plugin
-description: A Rehype plugin to convert D2 diagrams to SVG or PNG.
+description: Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
 datePublished: 2025-03-29
 ---
 
-# What is D2?
+# Qu'est-ce que D2?
 
 <UrlPreview url="https://d2lang.com/"/>
 
@@ -13,19 +13,19 @@ datePublished: 2025-03-29
 ### Excalidraw
 ### Eraser.io
 
-# Why a plugin?
+# Pourquoi il faut un plugin?
 
 - Current remark plugin is not up to date (2 years old)
    - don't support imports
 
 
-# How to use it?
+# Comment ça marche?
 
 <UrlPreview url="https://github.com/Vahor/rehype-d2"/>
 
 ## Setup
 
-As I'm using [contentlayer](https://www.contentlayer.dev/) to manage my content, I'll show you how to use it with contentlayer.
+Comme j'utilise [contentlayer](https://www.contentlayer.dev/) pour gérer mon contenu, je vais vous montrer comment l'utiliser avec contentlayer.
 
 ```bash
 bun add -D @vahor/rehype-d2
@@ -33,6 +33,7 @@ bun add -D @vahor/rehype-d2
 
 ```js title="contentlayer.config.ts"
 import rehypeD2 from "@vahor/rehype-d2";
+import { makeSource } from "contentlayer2/source-files";
 
 ...
 
@@ -55,35 +56,35 @@ export default makeSource({
 
 ## Use
 
-Contentlayer parse markdown files and convert them to HTML. So we can use the plugin with:
+ContentLayer se charge de convertir les fichiers mdx en HTML.\
+Il nous suffit donc de spécifier un bloc de code `d2` comme ceci:
 
 ~~~mdx
 ```d2 height=350 pad=20
-...@vars
 a: From
 b: To
 a -> b: Arrow
 ```
 ~~~
 
-And get:
+Pour obtenir:
 
 <div className="flex items-center justify-center">
 ```d2 height=350 pad=20
-...@vars
 a: From
 b: To
 a -> b: Arrow
 ```
 </div>
 
-Mixed with our other remark/rehype plugins, we can get:
+Si on y ajoute un plugin pour importer des fichiers, on peut obtenir:
 
 ~~~mdx
 @include "fake:raw:../../../public/blog/d2/computer.d2"
 ~~~
 
-to render:
+ce qui donne:
+<br/>
 
 
 ```d2 pad=10
@@ -93,12 +94,12 @@ to render:
 Magic! 🤯
 
 
-One more because it looks cool:
+Un petit dernier parce que c'est cool:
 
 ```d2 pad=10
 @include "raw:../../../public/blog/d2/eraser.d2"
 ```
 
-Source for the above:
+Source des diagrammes:
 - [computer.d2](/blog/d2/computer.d2)
 - [eraser.d2](/blog/d2/eraser.d2)

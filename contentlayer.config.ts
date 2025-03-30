@@ -187,9 +187,27 @@ export const mdxOptions = {
 		[
 			rehypeD2,
 			{
-				cwd: "./public/blog/d2",
-				defaultMetadata: {
-					sketch: false,
+				cwd: "./public/blog/d2/imports",
+				defaultThemes: ["light", "dark"],
+				globalImports: {
+					light: [
+						{
+							filename: "light.d2",
+							mode: "prepend",
+						},
+						"config.d2",
+					],
+					dark: [
+						{
+							filename: "light.d2",
+							mode: "prepend",
+						},
+						{
+							filename: "dark.d2",
+							mode: "prepend",
+						},
+						"config.d2",
+					],
 				},
 			},
 		],

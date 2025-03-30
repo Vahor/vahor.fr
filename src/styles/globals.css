@@ -1,3 +1,4 @@
+@import "./d2.css";
 @import "tailwindcss";
 @plugin 'tailwindcss-animate';
 
