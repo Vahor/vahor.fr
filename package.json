@@ -62,7 +62,7 @@
 		"@types/node": "^22.13.14",
 		"@types/react": "^19.0.12",
 		"@types/react-dom": "^19.0.4",
-		"@vahor/rehype-d2": "^0.0.7",
+		"@vahor/rehype-d2": "^0.0.8",
 		"husky": "^9.1.7",
 		"lint-staged": "^15.5.0",
 		"postcss": "^8.5.3",
