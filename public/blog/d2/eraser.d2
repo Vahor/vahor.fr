@@ -1,18 +1,26 @@
-direction: right
-
-vars: {
-  d2-config: {
-    theme-id: 0
-    pad: 0
-    center: true
-    layout-engine: elk
-
-    theme-overrides: {
-      B1: "#000000" # arrow color
-      N2: "#000000" # italic color
-    }
+# Arrow from any depth to any depth
+(*** -> ***)[*]: {
+  style: {
+    stroke: "#000000"
+    font-color: "#000000"
   }
 }
+(*** <- ***)[*]: {
+  style: {
+    stroke: "#000000"
+    font-color: "#000000"
+  }
+}
+
+**: {
+  &shape: image
+  style: {
+    font-size: 28
+    bold: false
+  }
+}
+
+direction: right
 
 api-gateway: {
   label: API Gateway
