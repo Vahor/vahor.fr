@@ -13,11 +13,12 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 			href={`${url}?ref=vahor.fr`}
 			className="no-underline! group md:-mx-20 relative mt-6 grid grid-cols-3 rounded-md border bg-white dark:bg-black"
 			aria-label={metadata.title}
+			title={metadata.title}
 		>
 			<div className="pointer-events-none absolute inset-0 rounded-md bg-black opacity-0 transition duration-250 ease-in-out group-hover:opacity-10 dark:bg-white" />
 
 			<div className="col-span-3 flex flex-col justify-between p-4 text-sm md:col-span-2">
-				<div className="text-black text-md dark:text-white">
+				<div className="truncate text-black text-md dark:text-white">
 					{metadata.title}
 				</div>
 				<p className="flex min-h-[3.5rem] items-center overflow-hidden break-words py-1 font-light text-muted-foreground">
