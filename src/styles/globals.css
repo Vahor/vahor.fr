@@ -41,6 +41,10 @@
 	--line-height: 1.5;
 
 	color-scheme: light dark;
+
+	--breakpoint-sm: 40rem;
+	--breakpoint-md: 48rem;
+	--breakpoint-lg: 64rem;
 }
 
 .dark {

@@ -11,7 +11,7 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 	return (
 		<a
 			href={`${url}?ref=vahor.fr`}
-			className="no-underline! group md:-mx-20 relative mt-6 grid grid-cols-3 rounded-md border bg-white dark:bg-black"
+			className="no-underline! group lg:-mx-20 relative mt-6 grid grid-cols-3 rounded-md border bg-white dark:bg-black"
 			aria-label={metadata.title}
 			title={metadata.title}
 		>
