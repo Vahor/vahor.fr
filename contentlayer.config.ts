@@ -15,6 +15,11 @@ import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive";
 import remarkGfm from "remark-gfm";
 const contentFolder = "content";
+import path from "node:path";
+import rehypeD2 from "@vahor/rehype-d2";
+import { remark } from "remark";
+import { visit } from "unist-util-visit";
+import type { VFile } from "vfile";
 
 const TocProperties = defineNestedType(() => ({
 	name: "TocProperties",
@@ -93,7 +98,7 @@ export const Post = defineDocumentType(() => ({
 			resolve: (post) => {
 				const content = post.body.raw;
 				const words = content.split(/\s+/).length;
-				const minutes = words / 180;
+				const minutes = words / 140;
 				return Math.ceil(minutes);
 			},
 		},
@@ -122,9 +127,99 @@ const highlightPlugin = () => {
 	});
 };
 
+function includeMarkdown() {
+	// Adapted from https://github.com/hashicorp/remark-plugins/blob/main/plugins/include-markdown/index.js
+	return (tree: Node, file: VFile) => {
+		visit(tree, (node: Node) => {
+			try {
+				const targetNode = node.children?.[0] ?? node;
+				const includeMatch = targetNode.value?.match(
+					/^@include\s['"](.*)['"]$/,
+				);
+				if (!includeMatch) return;
+				let filePath = includeMatch[1];
+				// If we want to show the @include text without any transformation
+				const isFake = filePath.startsWith("fake:");
+				if (isFake) {
+					filePath = filePath.slice(5);
+					targetNode.value = `@include "${filePath}"`;
+					return;
+				}
+				const isRaw = filePath.startsWith("raw:");
+				if (isRaw) {
+					filePath = filePath.slice(4);
+				}
+
+				const includePath = path.join(file.dirname, filePath);
+				const contents = fs.readFileSync(includePath, "utf8");
+
+				const extension = includePath.match(/\.(\w+)$/)[1];
+				const isMdx = extension === "mdx";
+				if (isMdx) {
+					const processor = remark();
+					for (const plugin of mdxOptions.remarkPlugins) {
+						processor.use(plugin);
+					}
+					const ast = processor.parse(contents);
+					const result = processor.runSync(ast, contents);
+					node.type = "root";
+					node.children = result.children;
+					node.position = result.position;
+					return;
+				}
+
+				if (!isRaw) {
+					node.type = "code";
+					node.lang = extension;
+					node.value = contents.replace(/\n$/, "");
+				} else {
+					targetNode.value = contents.replace(/\n$/, "");
+				}
+			} catch (err) {
+				console.error(err);
+			}
+		});
+	};
+}
+
 export const mdxOptions = {
-	rehypePlugins: [highlightPlugin, rehypeSlug],
-	remarkPlugins: [remarkGfm, remarkDirective, addCalloutComponent],
+	rehypePlugins: [
+		[
+			rehypeD2,
+			{
+				cwd: "./public/blog/d2/imports",
+				defaultThemes: ["light", "dark"],
+				globalImports: {
+					light: [
+						{
+							filename: "light.d2",
+							mode: "prepend",
+						},
+						"config.d2",
+					],
+					dark: [
+						{
+							filename: "light.d2",
+							mode: "prepend",
+						},
+						{
+							filename: "dark.d2",
+							mode: "prepend",
+						},
+						"config.d2",
+					],
+				},
+			},
+		],
+		highlightPlugin,
+		rehypeSlug,
+	],
+	remarkPlugins: [
+		remarkGfm,
+		remarkDirective,
+		addCalloutComponent,
+		includeMarkdown,
+	],
 };
 export default makeSource({
 	contentDirPath: contentFolder,

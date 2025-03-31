@@ -1,0 +1,10 @@
+.dark [data-d2-theme]:not([data-d2-theme="dark"]) {
+	display: none;
+}
+.light [data-d2-theme]:not([data-d2-theme="light"]) {
+	display: none;
+}
+
+[data-d2-theme] {
+	@apply rounded-2xl my-3 border;
+}

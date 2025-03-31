@@ -1,0 +1,12 @@
+diff --git a/dist/getConfig/index.js b/dist/getConfig/index.js
+index 0e93d68516bf92b617446c000fb438f452d381c6..9f76f4d3ab14d6c7fbfd90a3cd8c146e2af6ca1e 100644
+--- a/dist/getConfig/index.js
++++ b/dist/getConfig/index.js
+@@ -15,6 +15,7 @@ export const getConfigWatch = ({ configPath: configPath_, }) => {
+     return pipe(S.fromEffect(resolveParams), S.chainMapEitherRight(({ configPath, outfilePath, cwd }) => pipe(esbuild.makeAndSubscribe({
+         entryPoints: [configPath],
+         entryNames: '[name]-[hash]',
++        external: ["@vahor/rehype-d2"],
+         outfile: outfilePath,
+         sourcemap: true,
+         platform: 'node',

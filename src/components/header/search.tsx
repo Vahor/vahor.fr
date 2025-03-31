@@ -61,7 +61,7 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 				/>
 				<kbd className="pointer-events-none absolute inset-y-0 right-0 hidden h-5 select-none items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground sm:flex">
 					<span className="mt-px text-xs">⌘</span>
-					<span>K</span>
+					<span className="text-sm">K</span>
 				</kbd>
 			</label>
 

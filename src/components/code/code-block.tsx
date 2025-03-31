@@ -66,7 +66,7 @@ export const CodeBlock = function CodeBlock({
 			{header && <CodeHeader>{header}</CodeHeader>}
 
 			<div
-				className="relative mr-2 h-full overflow-hidden"
+				className="relative h-full overflow-hidden"
 				style={{ fontVariantLigatures: "none" }}
 			>
 				{!filename && actions && (
