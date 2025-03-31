@@ -4,26 +4,75 @@ description: Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
 datePublished: 2025-03-29
 ---
 
+## Comment je fais mes schémas?
+
+Avant D2, j'utilisais [excalidraw](https://excalidraw.com/) pour faire mes schémas.
+
+![Diagramme UML fait avec excalidraw](../../public/projects/rehype-d2/uml_diagram_in_editor_excalidraw.svg)
+[source](https://plus.excalidraw.com/use-cases/uml-diagram)
+
+Mais de plus en plus j'ai cherché à faire des diagrammes en exprimant les concepts directement dans le texte. Pour ça j'ai commencé à utiliser [eraser.io](https://eraser.io)
+
+![Schéma d'architecture fait avec eraser.io](../../public/projects/rehype-d2/diagram_eraser_io.svg)
+
+Ici tout ce schéma a été généré à partir de cette expression:
+
+```bash
+API gateway [icon: aws-api-gateway]
+Lambda [icon: aws-lambda]
+S3 [icon: aws-simple-storage-service]
+VPC Subnet [icon: aws-vpc]{
+  Main Server {
+    Server [icon: aws-ec2]
+    Data [icon: aws-rds]
+  }
+  Queue [icon: aws-auto-scaling]
+  Compute Nodes [color: red] {
+    Worker1 [icon: aws-ec2]
+    Worker2 [icon: aws-ec2]
+    Worker3 [icon: aws-ec2]
+  }
+}
+Analytics [icon: aws-redshift]
+
+// Define connections
+API gateway > Lambda > Server > Data
+Server > Queue > Worker1, Worker2, Worker3
+S3 < Data
+Compute Nodes > Analytics
+```
+
+Ce texte est simple a lire et est beaucoup plus simple a sauvegarder dans git ou a modifier.\
+En comparaison, un export excalidraw est un fichier json qui contient les positions et propriétés de chaque élément. Quasiment impossible a modifier manuellement.
+
+Le soucis avec eraser.io est que c'est un outil payant... et qu'en version gratuite la customisation ou partage des schémas est limitée.\
+Un autre soucis _(qu'on avait aussi avec excalidraw)_ est qu'a chaque modification il faut aller sur le site pour re-générer un schéma.
+
+Du coup j'ai cherché un autre outil qui pourrait répondre à tous ces problèmes.
+
 # Qu'est-ce que D2?
 
 <UrlPreview url="https://d2lang.com/"/>
 
-## Cool diagrams
+D2 est un outil de création de diagrammes comparable à mermaid, graphviz, plantuml, etc. [comparaison](https://text-to-diagram.com/)\
+Avec un sytaxe plus simple, mais avec des fonctionnalités avancées.
 
-### Excalidraw
-### Eraser.io
+Un point intéressant de D2 est l'utilisation de classes pour styliser des elements. Et la possibilité d'importer des fichiers pour les ré-utiliser.
 
 # Pourquoi il faut un plugin?
 
-- Current remark plugin is not up to date (2 years old)
-   - don't support imports
+Il existe déjà un plugin pour remark [remark-d2](https://github.com/mech-a/remark-d2), mais il n'est pas à jour depuis 2 ans et manque des fonctionnalités tel que les imports et la gestion d'un theme clair/sombre.
 
+Du coup j'ai créé mon propre plugin.
+
+<br/>
+<small>
+Note: Entre temps un autre plugin [rehype-d2](https://github.com/stereobooster/beoe/tree/main/packages/rehype-d2) a été créé, cependant il ne supporte pas l'utilisation d'imports différents selon le theme et le format de sorti ne me convient pas
+</small>
 
 # Comment ça marche?
 
 <UrlPreview url="https://github.com/Vahor/rehype-d2"/>
-
-## Setup
 
 Comme j'utilise [contentlayer](https://www.contentlayer.dev/) pour gérer mon contenu, je vais vous montrer comment l'utiliser avec contentlayer.
 
@@ -72,7 +121,7 @@ const withContentlayer = createContentlayerPlugin({
 module.exports = withContentlayer(nextConfig);
 ```
 
-## Use
+## Utilisation
 
 ContentLayer se charge de convertir les fichiers mdx en HTML.\
 Il nous suffit donc de spécifier un bloc de code `d2` comme ceci:
@@ -109,7 +158,7 @@ ce qui donne:
 @include "raw:../../../public/blog/d2/computer.d2"
 ```
 
-Magic! 🤯
+Magie! 🤯
 
 
 Un petit dernier parce que c'est cool:
@@ -119,6 +168,14 @@ Un petit dernier parce que c'est cool:
 @include "raw:../../../public/blog/d2/eraser.d2"
 ```
 </div>
+
+Ça vous dit quelque chose ? En utilisant du style on peut se rapprocher du style de eraser.io.
+
+Il reste quelques issues à corriger pour devenir un outil parfait, mais c'est un très bon début.
+- Theme global non appliqué [#2472](https://github.com/terrastruct/d2/issues/2472)
+- Taille des élements de grid incorrect [#2471](https://github.com/terrastruct/d2/issues/2471)
+- Améliorations des options de styles pour le label [#2446](https://github.com/terrastruct/d2/issues/2446)
+- Soucis d'intégration avec contentlayer [#70](https://github.com/timlrx/contentlayer2/issues/70)
 
 Source des diagrammes:
 - [computer.d2](/blog/d2/computer.d2)
