@@ -54,6 +54,24 @@ export default makeSource({
 });
 ```
 
+`@terrastruct/d2` utilises des imports dynamiques de wasm et js, ce qui pose soucis avec `contentlayer` [issue](https://github.com/timlrx/contentlayer2/issues/70). 
+Pour éviter cela il faut modifier les options esbuild du plugin:
+
+```js title="next.config.ts"
+import { createContentlayerPlugin, defaultPluginOptions } from "next-contentlayer2";
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {...}
+
+const withContentlayer = createContentlayerPlugin({
+	...defaultPluginOptions,
+	esbuildOptions: {
+		external: ["@terrastruct/d2"],
+	},
+});
+module.exports = withContentlayer(nextConfig);
+```
+
 ## Use
 
 ContentLayer se charge de convertir les fichiers mdx en HTML.\
@@ -96,9 +114,11 @@ Magic! 🤯
 
 Un petit dernier parce que c'est cool:
 
+<div className="lg:-mx-20">
 ```d2 pad=40
 @include "raw:../../../public/blog/d2/eraser.d2"
 ```
+</div>
 
 Source des diagrammes:
 - [computer.d2](/blog/d2/computer.d2)
