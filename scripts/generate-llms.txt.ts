@@ -29,7 +29,7 @@ const options = {
 			title: "Posts",
 			links: allDocuments.map((doc) => ({
 				title: doc.title,
-				url: `/${doc.pageType}/${doc.slug}`,
+				url: `https://vahor.fr/${doc.pageType}/${doc.slug}.md`,
 				description: doc.description,
 			})),
 		},
