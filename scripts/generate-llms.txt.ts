@@ -1,5 +1,5 @@
 import {
-	LLMS_TXT_OUTPUT_DIR_INPUT,
+	LLMS_TXT_FILENAME,
 	type PluginOptions,
 	generate,
 } from "@vahor/llms-txt";
@@ -26,7 +26,7 @@ function fixRelativeLinks() {
 
 const options = {
 	outputPath: (path) => {
-		if (path === LLMS_TXT_OUTPUT_DIR_INPUT) {
+		if (path === LLMS_TXT_FILENAME) {
 			return "./public/llms.txt";
 		}
 		// path is "./content/posts/[slug].mdx"
