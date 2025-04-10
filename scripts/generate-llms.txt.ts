@@ -40,12 +40,11 @@ const options = {
 	formatFrontmatter: (frontmatter) => ({
 		title: frontmatter.title,
 		description: frontmatter.description,
+		datePublished: frontmatter.datePublished,
 	}),
 	sections: [
 		{
 			title: "Vahor.fr",
-			description: "This is a super cool blog",
-			details: "In this blog I will write about stuff",
 		},
 		{
 			title: "Posts",
