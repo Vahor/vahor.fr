@@ -12,15 +12,12 @@ function fixRelativeLinks() {
 		const pattern = /(..\/)*public\//g;
 		visit(tree, "image", (node) => {
 			node.url = (node.url as string).replace(pattern, "/");
-			return node;
 		});
 		visit(tree, "html", (node) => {
 			node.value = (node.value as string).replace(pattern, "/");
-			return node;
 		});
 		visit(tree, "code", (node) => {
 			node.value = (node.value as string).replace(pattern, "/");
-			return node;
 		});
 
 		return tree;
