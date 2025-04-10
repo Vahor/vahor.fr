@@ -4,6 +4,28 @@ import {
 	generate,
 } from "@vahor/llms-txt";
 import { allDocuments } from "contentlayer/generated";
+import { visit } from "unist-util-visit";
+
+function fixRelativeLinks() {
+	// biome-ignore lint/suspicious/noExplicitAny: TODO
+	return (tree: any) => {
+		const pattern = /(..\/)*public\//g;
+		visit(tree, "image", (node) => {
+			node.url = (node.url as string).replace(pattern, "/");
+			return node;
+		});
+		visit(tree, "html", (node) => {
+			node.value = (node.value as string).replace(pattern, "/");
+			return node;
+		});
+		visit(tree, "code", (node) => {
+			node.value = (node.value as string).replace(pattern, "/");
+			return node;
+		});
+
+		return tree;
+	};
+}
 
 const options = {
 	outputPath: (path) => {
@@ -37,6 +59,7 @@ const options = {
 	content: allDocuments.map((doc) => ({
 		path: `./content/${doc._raw.sourceFilePath}`,
 	})),
+	remarkPlugins: [fixRelativeLinks],
 } satisfies PluginOptions;
 
 generate(options);
