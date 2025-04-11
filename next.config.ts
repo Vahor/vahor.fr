@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
-import { withContentlayer } from "next-contentlayer2";
-
+import {
+	createContentlayerPlugin,
+	defaultPluginOptions,
+} from "next-contentlayer2";
 const securityHeaders = [
 	// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
 	{
@@ -70,5 +72,12 @@ const nextConfig: NextConfig = {
 		ignoreBuildErrors: true,
 	},
 };
+
+const withContentlayer = createContentlayerPlugin({
+	...defaultPluginOptions,
+	esbuildOptions: {
+		external: ["@terrastruct/d2"],
+	},
+});
 
 export default withContentlayer(nextConfig);
