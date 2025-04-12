@@ -1,0 +1,57 @@
+---
+title: Next Broken Links
+description: Une cli qui détectes les liens invalides dans un site Next.js
+datePublished: 2025-04-13
+---
+
+tldr: [https://github.com/Vahor/next-broken-links](https://github.com/Vahor/next-broken-links)
+
+# Pourquoi?
+
+J’ai migré du contenu Markdown d’un site vers un autre : il y avait quasiment 50 pages différentes.  
+Et chaque page a bien sûr changé d’URL.
+
+...Donc tous les liens entre ces pages étaient maintenant invalides.
+
+Regarder chaque page, trouver les liens et les mettre à jour à la main allait être fastidieux.  
+Du coup, je me suis dit qu’automatiser une partie serait pas mal.  
+Et je suis sûr qu’un outil ne va pas rater de liens.
+
+# Comment ça marche?
+
+Mettre à jour les liens automatiquement n’est pas faisable : la CLI n’a pas l’information de ce qui doit remplacer l’URL incorrecte.  
+Mais ce qui est déjà suffisant, c’est d’avoir une liste de liens invalides. Puis de faire un `sed` pour les remplacer.
+
+```bash
+bun install -D @vahor/next-broken-links
+```
+
+```bash
+bunx @vahor/next-broken-links --domain vahor.fr 
+```
+
+Et voilà c'est fait.
+
+```bash
+✔ Parsed next config
+✔ Extracted links from all pages
+✔ Checked links
+✖ error Found 44 broken links
+    archive/changelog/1.34.0.html: /docs/api/reference/limitations
+    archive/changelog/1.36.0.html: /docs/api/howtos-and-examples/analyze/data-dictionary.mdx#download-response
+    archive/changelog/1.36.0.html: /docs/api/howtos-and-examples/analyze/data-dictionary.mdx#parameters
+    archive/changelog/1.37.0.html: /docs/api/howtos-and-examples/analyze/data-dictionary.mdx#download-response
+    archive/changelog/1.37.0.html: /docs/api/howtos-and-examples/documents/batch-translation
+    archive/changelog/1.37.0.html: /docs/api/reference/language-support#translation
+    [...]
+```
+
+44 liens invalides trouvés instantanément.
+
+Y’a plus qu’à corriger les liens avec un 🪄 `find . -name "*.tsx" -exec sed -i 's@broken-link@correct-link@g' {} \;`
+<small>(ou un search-and-replace dans l’IDE)</small>
+
+Faire ce script n’a pas pris beaucoup de temps, et je vais pouvoir le réutiliser pour n’importe quel autre projet.
+Voire même l’ajouter comme check dans une CI pour m’assurer que les nouvelles pages restent à jour.
+
+Aussi, je ne me limite pas aux liens internes : la CLI regarde aussi le sitemap, ainsi que les liens vers les images ou autres assets.

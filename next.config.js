@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+// @ts-check
 import {
 	createContentlayerPlugin,
 	defaultPluginOptions,
@@ -36,7 +36,8 @@ const securityHeaders = [
 	},
 ];
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
 	reactStrictMode: true,
 	poweredByHeader: false,
 
