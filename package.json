@@ -3,6 +3,7 @@
 	"version": "2.0.0",
 	"private": false,
 	"license": "MIT",
+	"type": "module",
 	"scripts": {
 		"dev": "next dev",
 		"start": "next start",
@@ -64,6 +65,7 @@
 		"@types/react": "^19.1.1",
 		"@types/react-dom": "^19.1.2",
 		"@vahor/llms-txt": "^0.0.2",
+		"@vahor/next-broken-links": "^0.1.2",
 		"@vahor/rehype-d2": "^0.0.8",
 		"husky": "^9.1.7",
 		"lint-staged": "^15.5.0",
