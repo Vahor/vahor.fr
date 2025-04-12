@@ -305,6 +305,9 @@
 	code:not([data-code-block] code) {
 		@apply text-sm px-1.5 py-px border rounded-md;
 	}
+	small code:not([data-code-block] code) {
+		@apply text-xs py-0 px-1;
+	}
 
 	[data-code-block] {
 		&[data-wrap-code="true"] {

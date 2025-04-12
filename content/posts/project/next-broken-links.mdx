@@ -17,7 +17,18 @@ Regarder chaque page, trouver les liens et les mettre à jour à la main allait 
 Du coup, je me suis dit qu’automatiser une partie serait pas mal.  
 Et je suis sûr qu’un outil ne va pas rater de liens.
 
+# Aucun outil existant ?
+
+Next.js a une option expérimentale pour ajouter du typage typescript sur les liens de pages [Statically Typed Links](https://nextjs.org/docs/app/api-reference/config/typescript#statically-typed-links).
+
+Cependant, ça ne fonctionne que pour les `<Link>`, donc si votre contenu vient d'un CMS ou de fichiers Markdown, ça ne marche plus.\
+De plus, ça ne prend en compte que les pages où l'url est pré-définie en utilisant le nom de fichier.\
+Par exemple `hello/page.tsx` va ajouter le typage pour `/hello`  mais si on utilise `hello/[...slug]/page.tsx`, là le typage est perdu et donne `/hello/${string}` 
+
 # Comment ça marche?
+
+Pour fonctionner il faut que le projet soit construit avec `next build`.\
+Cette cli va simplement extraire les liens de chaque page présent dans le dossier `.next` <small>(ou `out` si vous utilisez `next export`)</small>. Puis comparer ça avec les pages qu'il a croisé pour faire cette liste.
 
 Mettre à jour les liens automatiquement n’est pas faisable : la CLI n’a pas l’information de ce qui doit remplacer l’URL incorrecte.  
 Mais ce qui est déjà suffisant, c’est d’avoir une liste de liens invalides. Puis de faire un `sed` pour les remplacer.
