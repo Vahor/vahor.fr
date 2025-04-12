@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "next dev",
 		"start": "next start",
-		"build": "next build && bun generate:llms.txt",
+		"build": "next build && bun generate:llms.txt && bunx @vahor/next-broken-links --domain vahor.fr",
 		"generate:llms.txt": "bun ./scripts/generate-llms.txt.ts",
 		"format": "bunx @biomejs/biome check ./ --write",
 		"format:check": "bunx @biomejs/biome format ./",
