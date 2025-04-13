@@ -1,0 +1,232 @@
+---
+title: llms.txt
+description: Outil pour générer un fichier llms.txt et des versions markdown de chaque page de votre site.
+datePublished: 2025-04-14
+---
+
+tldr: [https://github.com/Vahor/llms-txt](https://github.com/Vahor/llms-txt)
+
+
+# Qu'est-ce que llms.txt ?
+
+[llms.txt](https://llmstxt.org/) est une proposition de standart pour aider les ia a comprendre le contenu d'un site web.
+
+Au lieu d'essayer de parser des pages html, le standard propose l'ajout d'un fichier `llms.txt` listant toutes les pages accessibles, un peu comme le `sitemap.xml` fait déjà, mais en y ajoutant des sections et descriptions pour chaque lien.\
+Ainsi que l'ajout d'une version markdown de chaque page, ainsi en allant sur la page [https://vahor.fr/project/llms-txt](https://vahor.fr/project/llms-txt) on a une belle version html avec du style et du js, mais en allant sur [https://vahor.fr/project/llms-txt.md](https://vahor.fr/project/llms-txt.md) on peut voir tout ce contenu en format Markdown, beaucoup plus lisible pour une IA ou n'import quel autre outil de scraping.
+
+# Pouquoi un outil pour générer ces fichiers ?
+
+Il existe déjà quelques outils pour generer tout ça, par exemple [https://llmstxt.firecrawl.dev/](https://llmstxt.firecrawl.dev/) qui permet de générer un fichier `llms.txt` ou `llms-full.txt`.
+
+<details>
+  <summary>Voir le fichier généré par llmstxt.firecrawl.dev</summary>
+```md
+# https://vahor.fr/ llms.txt
+
+- [Nathan David's Portfolio](https://vahor.fr/): Fullstack developer sharing projects, articles, and interests.
+- [MacOS Setup Guide](https://vahor.fr/blog/setup): Explore setup for MacOS with Zsh, Vim, and more.
+- [Beautiful Chart Generator](https://vahor.fr/project/charts.vahor.fr): Create beautiful charts quickly with customizable options.
+- [Game Tools Overview](https://vahor.fr/project/dtools): Explore tools for game packet analysis and chat features.
+- [Game of Life Project](https://vahor.fr/project/game-of-life): Rust implementation of Game of Life using Tauri framework.
+- [Magic Paint App](https://vahor.fr/project/magic-paint): Transform images into paint by number with Magic Paint.
+- [Mazercraft Server Overview](https://vahor.fr/project/mazercraft): Overview of Mazercraft server project features and development.
+- [Next Broken Links Tool](https://vahor.fr/project/next-broken-links): Automate detection of broken links in Next.js projects.
+- [Pedaki School Management](https://vahor.fr/project/pedaki): Pedaki is an innovative school management solution project.
+- [Text to Diagrams](https://vahor.fr/project/rehype-d2): D2 transforms text into diagrams with advanced features.
+- [Saverly Project Overview](https://vahor.fr/project/saverly.fr): Showcasing Saverly's design, animations, and tech stack.
+- [Minecraft Schematic Manager](https://vahor.fr/project/simple-schematics): Manage Minecraft schematics with auto-rotation and previews.
+- [Unlimited Sudoku Games](https://vahor.fr/project/sudoku): Play unlimited Sudoku games and generate new puzzles easily.
+- [Vahor Digital Solutions](https://vahor.fr/project/vahor.fr): Explore Vahor's innovative solutions for digital transformation.
+- [Add Comments Tutorial](https://vahor.fr/tutorial/add-comments-to-blog): Learn to add comments to your blog easily and freely.
+- [Markdown Blog Tutorial](https://vahor.fr/tutorial/create-a-markdown-blog): Learn to create a Markdown blog using Next.js.
+- [Open Graph and XPath](https://vahor.fr/tutorial/generate-url-preview): Learn about Open Graph and XPath integration techniques.
+- [Spotify Top Tracks Guide](https://vahor.fr/tutorial/spotify-top-track): Learn how to access Spotify user top tracks efficiently.
+- [Blog Tools Overview](https://vahor.fr/tag/blog): Explore tools and software I use daily for blogging.
+- [2022 Projects and Blogs](https://vahor.fr/tag/2022): Explore projects and blog posts from 2022 on Vahor.
+- [2024 Projects and Tutorials](https://vahor.fr/tag/2024): Explore various projects and tutorials for 2024.
+- [Innovative Educational Tools](https://vahor.fr/tag/2023): Explore innovative educational tools and creative projects.
+- [Minecraft Plugins and Servers](https://vahor.fr/tag/minecraft): Explore Minecraft plugins and mini-game servers for players.
+- [Mazercraft Server](https://vahor.fr/tag/2021): Minecraft mini-game server for unique player experiences.
+- [Blog Enhancement Tutorials](https://vahor.fr/tag/tutorial): Explore various tutorials for enhancing your blog experience.
+- [Web Development Projects](https://vahor.fr/tag/all): Explore various projects and tutorials related to web development.
+```
+</details>
+
+Ou encore avec [llmstxt](https://github.com/dotenvx/llmstxt)
+
+<details>
+  <summary>Voir le fichier généré par llmstxt</summary>
+```md
+# Vahor
+
+> Développeur full-stack
+
+## Blog
+
+- [Setup | Vahor](https://vahor.fr/blog/setup): Quels outils et logiciels j'utilise au quotidien.
+
+## Project
+
+- [Charts | Vahor](https://vahor.fr/project/charts.vahor.fr): Site pour transformer un json en un beau graphique.
+- [DTools | Vahor](https://vahor.fr/project/dtools): Outils pour vous accompagner dans Dofus.
+- [Game of Life | Vahor](https://vahor.fr/project/game-of-life): Implementation de Conway's Game of Life en Rust, utilisant Tauri pour l'interface graphique.
+- [Magic Paint | Vahor](https://vahor.fr/project/magic-paint): Outil pour transformer une image en coloriage magique.
+- [Mazercraft | Vahor](https://vahor.fr/project/mazercraft): Serveur mini-jeu Minecraft ayant pour but d'accueillir un grand nombre de joueurs sur des jeux inédits.
+- [Next Broken Links | Vahor](https://vahor.fr/project/next-broken-links): Une cli qui détectes les liens invalides dans un site Next.js
+- [Pedaki | Vahor](https://vahor.fr/project/pedaki): Le futur de la gestion scolaire.
+- [Rehype D2 Plugin | Vahor](https://vahor.fr/project/rehype-d2): Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
+- [Saverly.fr | Vahor](https://vahor.fr/project/saverly.fr): Projet de gestion de budget personnel.
+- [Simple Schematics | Vahor](https://vahor.fr/project/simple-schematics): Plugin minecraft pour simplifier la gestion des schématics.
+- [Sudoku | Vahor](https://vahor.fr/project/sudoku): Petit jeu de Sudoku en ligne avec génération de grille aléatoire, vérification, solution et tips.
+- [Vahor.fr | Vahor](https://vahor.fr/project/vahor.fr): Informations sur la réalisation de ce site.
+
+## Tutorial
+
+- [Ajouter des commentaires à un blog | Vahor](https://vahor.fr/tutorial/add-comments-to-blog): Ajouter des commentaires à un blog statique.
+- [Comment faire un blog en markdown | Vahor](https://vahor.fr/tutorial/create-a-markdown-blog): Créer un blog en markdown avec Next.js.
+- [Ajouter une prévisualisation d'URL | Vahor](https://vahor.fr/tutorial/generate-url-preview): Comment générer une prévisualisation d'une URL en utilisant Open Graph et xpath.
+- [Intégrer un top track Spotify | Vahor](https://vahor.fr/tutorial/spotify-top-track): Comment intégrer un top track Spotify sur un site.
+
+## Tag
+
+- [Vahor](https://vahor.fr/tag/blog): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/2022): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/project): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/2024): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/2023): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/minecraft): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/2021): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/2025): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/tutorial): Développeur full-stack
+- [Vahor](https://vahor.fr/tag/all): Développeur full-stack
+```
+</details>
+
+Ces deux outils sont plutôt bons, le premier utilie de l'ia derrière pour générer les descriptions, ce qui rend la génération plus lente : quasiment 2min pour mon petit test.\
+Le deuxieme est plus simple et n'a pris que 4s a générer le fichier `llms.txt`.
+
+## Alors pourquoi en faire un de plus ?
+
+L'inconvenient de ces deux outils est qu'ils ne génèrent que des fichiers `llms.txt` et `llms-full.txt`, ils ne génèrent pas les fichiers `.md` de vos pages.\
+De plus ils ne sont pas très customisables.
+
+<UrlPreview url="https://github.com/Vahor/llms-txt" />
+
+Ce que je cherche c'est:
+- Pourquoi modifier les titres de pages, par exemple retirer les ` | Vahor`.
+- Nommer les sections et grouper les liens comme je le veux.
+- Modifier les descriptions si besoin.
+- Générer des fichiers `.md` pour chaque page.
+- Pouvoir transformer le markdown avant de l'exporter.
+   - Très souvent on utilise [remark](https://github.com/remarkjs/remark) pour changer le markdown brut en contenu enrichi : par exemple sur [vahor.fr](https://vahor.fr), les liens d'images ou autres sont relatifs au fichier markdown par exemple `../../../public/fichier.txt`. Le garder tel quel rend n'est pas bon, on veut retirer ce prefix avant de publier.
+   - Retirer des champs dans la partie frontmatter. Par exemple certaines fois on ajoute des tags, une configuration de sidebar etc. Mais on souhaite peut être ne concerver que le titre et la description.
+   - Ou toute autre chose qui modifie le markdown avant de l'exporter.
+
+# Comment ça marche ?
+
+Une petite dépendance en plus dans votre projet node :
+
+```bash
+bun add -D @vahor/llms-txt
+```
+
+Puis on ajoute un fichier ts qui sera exécuté lors de la génération de votre site :
+
+```ts title="scripts/generate-llms.ts"
+import {
+	LLMS_TXT_FILENAME,
+	type PluginOptions,
+	generate,
+} from "@vahor/llms-txt";
+import { allDocuments } from "contentlayer/generated";
+import { visit } from "unist-util-visit";
+
+// Ici on retire les ../../ pour les images
+function fixRelativeLinks() {
+	return (tree: any) => {
+		const pattern = /(..\/)*public\//g;
+		visit(tree, "image", (node) => {
+			node.url = (node.url as string).replace(pattern, "/");
+		});
+		visit(tree, "html", (node) => {
+			node.value = (node.value as string).replace(pattern, "/");
+		});
+		visit(tree, "code", (node) => {
+			node.value = (node.value as string).replace(pattern, "/");
+		});
+
+		return tree;
+	};
+}
+
+const options = {
+	outputPath: (path) => {
+		if (path === LLMS_TXT_FILENAME) {
+			// Là on dit où mettre le fichier `llms.txt`
+			return "./public/llms.txt";
+		}
+		const slug = path.split("/").slice(3).join("/");
+		const withoutExtension = slug.split(".").slice(0, -1).join(".");
+		// Ici on dit où mettre le fichier `.md` de chaque page
+		return `./public/${withoutExtension}.md`;
+	},
+	formatFrontmatter: (frontmatter) => ({
+		// On ne conserve que le titre, la description et la date de publication
+		title: frontmatter.title,
+		description: frontmatter.description,
+		datePublished: frontmatter.datePublished,
+	}),
+	sections: [
+		{
+			// Ici on met le titre qu'on souhaite pour la section
+			title: "Vahor.fr",
+		},
+		{
+			title: "Posts",
+			// Et ici on liste tous les liens qu'on souhaite dans la section "Posts".
+			links: allDocuments.map((doc) => ({
+				title: doc.title,
+				url: `https://vahor.fr/${doc.pageType}/${doc.slug}.md`,
+				description: doc.description,
+			})),
+		},
+	],
+	content: allDocuments.map((doc) => ({
+		path: `./content/${doc._raw.sourceFilePath}`,
+	})),
+	remarkPlugins: [fixRelativeLinks],
+} satisfies PluginOptions;
+
+generate(options);
+```
+
+Plus qu'à lancer un `bun ./scripts/generate-llms.txt.ts` avant de publier le site. Et le script va se charger de générer le fichier `llms.txt` et une version `.md` de chaque page. 
+
+Pour [vahor.fr](https://vahor.fr) celà donne:
+```md
+# Vahor.fr
+
+## Posts
+
+- [Setup](https://vahor.fr/blog/setup.md): Quels outils et logiciels j'utilise au quotidien.
+- [Charts](https://vahor.fr/project/charts.vahor.fr.md): Site pour transformer un json en un beau graphique.
+- [DTools](https://vahor.fr/project/dtools.md): Outils pour vous accompagner dans Dofus.
+- [Game of Life](https://vahor.fr/project/game-of-life.md): Implementation de Conway's Game of Life en Rust, utilisant Tauri pour l'interface graphique.
+- [Magic Paint](https://vahor.fr/project/magic-paint.md): Outil pour transformer une image en coloriage magique.
+- [Mazercraft](https://vahor.fr/project/mazercraft.md): Serveur mini-jeu Minecraft ayant pour but d'accueillir un grand nombre de joueurs sur des jeux inédits.
+- [Next Broken Links](https://vahor.fr/project/next-broken-links.md): Une cli qui détectes les liens invalides dans un site Next.js
+- [Pedaki](https://vahor.fr/project/pedaki.md): Le futur de la gestion scolaire.
+- [Rehype D2 Plugin](https://vahor.fr/project/rehype-d2.md): Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
+- [Saverly.fr](https://vahor.fr/project/saverly.fr.md): Projet de gestion de budget personnel.
+- [Simple Schematics](https://vahor.fr/project/simple-schematics.md): Plugin minecraft pour simplifier la gestion des schématics.
+- [Sudoku](https://vahor.fr/project/sudoku.md): Petit jeu de Sudoku en ligne avec génération de grille aléatoire, vérification, solution et tips.
+- [Vahor.fr](https://vahor.fr/project/vahor.fr.md): Informations sur la réalisation de ce site.
+- [Ajouter des commentaires à un blog](https://vahor.fr/tutorial/add-comments-to-blog.md): Ajouter des commentaires à un blog statique.
+- [Comment faire un blog en markdown](https://vahor.fr/tutorial/create-a-markdown-blog.md): Créer un blog en markdown avec Next.js.
+- [Ajouter une prévisualisation d'URL](https://vahor.fr/tutorial/generate-url-preview.md): Comment générer une prévisualisation d'une URL en utilisant Open Graph et xpath.
+- [Intégrer un top track Spotify](https://vahor.fr/tutorial/spotify-top-track.md): Comment intégrer un top track Spotify sur un site.
+- [llms.txt](https://vahor.fr/project/llms-txt.md): Outil pour générer un fichier llms.txt et des versions markdown de chaque page de votre site.
+```
+Et tout ça a été généré en 0.04s (llms.txt + toutes les pages .md)
+
+De cette manière on est sûr à 100% que le llms.txt est à jour et que toutes nos pages ont bien leur version `.md`.
