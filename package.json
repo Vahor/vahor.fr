@@ -67,7 +67,7 @@
 		"@types/react-dom": "^19.1.2",
 		"@types/rss": "^0.0.32",
 		"@vahor/llms-txt": "^0.0.2",
-		"@vahor/next-broken-links": "^0.1.3",
+		"@vahor/next-broken-links": "^0.1.4",
 		"@vahor/rehype-d2": "^0.0.8",
 		"husky": "^9.1.7",
 		"lint-staged": "^15.5.0",
