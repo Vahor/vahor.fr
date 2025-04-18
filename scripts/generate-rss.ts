@@ -6,6 +6,8 @@ import RSS from "rss";
 
 const site_url = globalMetadata.metadataBase.toString().replace(/\/$/, "");
 
+const allCategories = new Set(allDocuments.flatMap((post) => post.fullTags));
+
 const feed = new RSS({
 	title: globalMetadata.title.default,
 	description: globalMetadata.description,
@@ -16,6 +18,7 @@ const feed = new RSS({
 	language: globalMetadata.openGraph.locale,
 	managingEditor: `me@vahor.fr (${globalMetadata.creator})`,
 	generator: "Vahor",
+	categories: Array.from(allCategories),
 });
 
 for (const post of allDocuments) {
