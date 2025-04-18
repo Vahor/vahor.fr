@@ -151,6 +151,7 @@ export const generateMetadata = async (
 		alternates: {
 			canonical: post.url,
 			types: {
+				...parentMetadata.alternates?.types,
 				"text/markdown": `${post.url}.md`,
 			},
 		},

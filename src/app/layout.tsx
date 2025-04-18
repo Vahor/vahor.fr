@@ -69,6 +69,11 @@ export const metadata: Metadata = {
 		{ rel: "icon", sizes: "192x192", url: "/android-chrome-192x192.png" },
 		{ rel: "icon", sizes: "512x512", url: "/android-chrome-512x512.png" },
 	],
+	alternates: {
+		types: {
+			"application/rss+xml": "rss.xml",
+		},
+	},
 };
 
 export const viewport: Viewport = {
