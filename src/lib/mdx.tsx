@@ -18,7 +18,7 @@ const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 		<a
 			href={`#${id}`}
 			aria-label={`${id} permalink`}
-			className="hidden text-primary no-underline group-hover:inline-block"
+			className="invisible text-primary no-underline group-hover:visible"
 		>
 			<IconLink className={size} />
 		</a>
