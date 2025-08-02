@@ -1,6 +1,4 @@
 import * as fs from "node:fs";
-import { addCalloutComponent } from "@/lib/contentlayer/add-callout-component";
-import { shikiOptions } from "@/lib/shiki";
 import {
 	transformerNotationDiff,
 	transformerNotationErrorLevel,
@@ -8,13 +6,20 @@ import {
 	transformerRenderWhitespace,
 } from "@shikijs/transformers";
 import { transformerTwoslash } from "@shikijs/twoslash";
-import { defineDocumentType, makeSource } from "contentlayer2/source-files";
-import { defineNestedType } from "contentlayer2/source-files";
+import {
+	defineDocumentType,
+	defineNestedType,
+	makeSource,
+} from "contentlayer2/source-files";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive";
 import remarkGfm from "remark-gfm";
+import { addCalloutComponent } from "@/lib/contentlayer/add-callout-component";
+import { shikiOptions } from "@/lib/shiki";
+
 const contentFolder = "content";
+
 import path from "node:path";
 import rehypeD2 from "@vahor/rehype-d2";
 import { remark } from "remark";

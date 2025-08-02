@@ -1,5 +1,5 @@
-import { extractMetaTags } from "@/lib/scraper";
 import Image from "next/image";
+import { extractMetaTags } from "@/lib/scraper";
 
 interface UrlPreviewProps {
 	url: string;

@@ -1,15 +1,15 @@
-import A from "@/components/A";
-import Hr from "@/components/Hr";
-import { UrlPreview } from "@/components/UrlPreview";
-import { Wip } from "@/components/Wip";
-import { Check, Info, Note, Tip, Warning } from "@/components/callout";
-import { CodeBlock } from "@/components/code/code-block";
-import { Toc } from "@/components/toc/Toc";
-import { getNodeText } from "@/lib/getNodeText";
-import { cn } from "@/lib/utils";
 import { Link as IconLink } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer2/hooks";
+import A from "@/components/A";
+import { Check, Info, Note, Tip, Warning } from "@/components/callout";
+import { CodeBlock } from "@/components/code/code-block";
+import Hr from "@/components/Hr";
+import { Toc } from "@/components/toc/Toc";
+import { UrlPreview } from "@/components/UrlPreview";
+import { Wip } from "@/components/Wip";
+import { getNodeText } from "@/lib/getNodeText";
+import { cn } from "@/lib/utils";
 
 const AnchorPermalink = ({ id, size }: { id?: string; size: string }) => {
 	if (!id) return null;

@@ -1,4 +1,9 @@
 "use client";
+import { Search } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useTransition } from "react";
+import { useStore } from "zustand";
 import {
 	CommandDialog,
 	type CommandDialogProps,
@@ -10,11 +15,6 @@ import {
 } from "@/components/ui/command";
 import { INITIAL_DATA, SEARCH_INDEX } from "@/lib/search";
 import { searchStore } from "@/stores/search.store";
-import { Search } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useTransition } from "react";
-import { useStore } from "zustand";
 
 const commandProps: CommandDialogProps["commandProps"] = {
 	loop: true,

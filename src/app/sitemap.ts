@@ -1,7 +1,7 @@
-import { env } from "@/env";
-import { BASE_URL } from "@/lib/constants";
 import { allPosts } from "contentlayer/generated";
 import type { MetadataRoute } from "next";
+import { env } from "@/env";
+import { BASE_URL } from "@/lib/constants";
 
 export const dynamic = "force-static";
 

@@ -1,14 +1,14 @@
 "use client";
 
-import { CopyToClipboardButton } from "@/components/code/clipboard-button";
-import { CodeWrapButton } from "@/components/code/code-wrap-button";
-import { getNodeText } from "@/lib/getNodeText";
 import { clsx } from "clsx";
 import {
 	type ComponentPropsWithoutRef,
 	type ReactElement,
 	useRef,
 } from "react";
+import { CopyToClipboardButton } from "@/components/code/clipboard-button";
+import { CodeWrapButton } from "@/components/code/code-wrap-button";
+import { getNodeText } from "@/lib/getNodeText";
 
 export interface CodeBlockPropsBase {
 	filename?: string;

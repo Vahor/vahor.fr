@@ -1,5 +1,5 @@
-import { env } from "@/env";
 import type { Metadata } from "next";
+import { env } from "@/env";
 
 const HOSTNAME =
 	env.NEXT_PUBLIC_VERCEL_ENV === "production"

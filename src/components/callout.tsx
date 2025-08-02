@@ -1,8 +1,9 @@
 // https://mintlify.com/docs/content/components/callouts
 //
-import { cn } from "@/lib/utils";
+
 import { clsx } from "clsx";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 type CalloutProps = {
 	children: ReactNode;

@@ -1,8 +1,8 @@
 "use client";
 
+import { CheckIcon, ClipboardIcon } from "lucide-react";
 import { useClipboard } from "@/lib/useClipboard";
 import { cn } from "@/lib/utils";
-import { CheckIcon, ClipboardIcon } from "lucide-react";
 import { Button, type ButtonProps } from "./button";
 
 interface CopyButtonProps extends ButtonProps {

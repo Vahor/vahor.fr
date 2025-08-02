@@ -1,7 +1,7 @@
-import { TriggerSearch } from "@/components/TriggerSearch";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { TriggerSearch } from "@/components/TriggerSearch";
+import { Button } from "@/components/ui/button";
 import whereAmI from "../../public/where-am-i.gif";
 
 export default function NotFound() {

@@ -1,6 +1,6 @@
-import { env } from "@/env";
 import { allPosts } from "contentlayer/generated";
 import Fuse from "fuse.js";
+import { env } from "@/env";
 import {
 	EMAIL,
 	GITHUB_PROFILE,
