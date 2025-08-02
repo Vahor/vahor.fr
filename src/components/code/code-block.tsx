@@ -43,8 +43,7 @@ export const CodeBlock = function CodeBlock({
 	return (
 		<div
 			className={clsx(
-				"relative my-3 h-full overflow-hidden rounded-2xl bg-zinc-900",
-				"dark",
+				"relative my-3 h-full overflow-hidden rounded-2xl bg-zinc-50 dark:bg-zinc-900",
 				"group",
 				className,
 			)}
@@ -101,8 +100,10 @@ function CodeTabBar({
 	children?: OneOrMany<ReactElement | null>;
 }) {
 	return (
-		<div className="flex h-11 items-center justify-between rounded-t-2xl border-zinc-800 border-b bg-zinc-800 px-3 pr-5">
-			<div className="mr-auto font-semibold text-white text-xs">{filename}</div>
+		<div className="flex h-11 items-center justify-between rounded-t-2xl border-border border-b bg-zinc-100 dark:bg-zinc-800 px-3 pr-5">
+			<div className="mr-auto font-semibold dark:text-white text-xs">
+				{filename}
+			</div>
 			{children && (
 				<div className="flex items-center gap-2 text-zinc-500">{children}</div>
 			)}

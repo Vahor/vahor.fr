@@ -8,7 +8,8 @@ tldr: [https://github.com/Vahor/typed-es](https://github.com/Vahor/typed-es)
 
 ## Pourquoi cette librairie ?
 
-Actuellement avec la librairie node elasticsearch, lorsqu'on fait une requête search, on a des types de retour très minces. Les `_souce` sont de type `unknown`. Il n'y a aucune sécurité sur les champs ou non d'index.
+Actuellement avec la librairie node elasticsearch, lorsqu'on fait une requête search, on a des types de retour très minces.\
+Les `_source{:ts}` sont de type `unknown{:ts}`. Il n'y a aucune sécurité sur les champs ou non d'index.\
 Le seul moyen d'ajouter quelques types est de tout déclarer manuellement.
 
 ```ts
@@ -139,4 +140,4 @@ const firstHitSource = firstHit._source; // type: never, comme `_source` est dé
 const firstHitFields = firstHit.fields; // type: { name: string[] }
 ```
 
-Note: si `track_total_hits` était à `false`, `hits.total` serait de type `never`
+Note: si `track_total_hits` était à `false{:ts}`, `hits.total{:ts}` serait de type `never{:ts}`
