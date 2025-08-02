@@ -227,8 +227,6 @@
 		}
 	}
 	code {
-		--shiki-light: dark;
-		--shiki-dark: white;
 		font-family: var(--font-mono);
 		position: relative;
 	}
@@ -317,7 +315,6 @@
 		}
 		pre {
 			@apply overflow-hidden rounded-2xl h-full;
-			background-color: #15151e !important;
 
 			code {
 				@apply py-2 overflow-auto text-sm font-medium my-1 px-1 block h-full;

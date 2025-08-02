@@ -1,0 +1,143 @@
+---
+title: typed-es
+description: Détecter les types de sorties de vos requêtes elasticsearch automatiquement.
+datePublished: 2025-08-01
+---
+
+tldr: [https://github.com/Vahor/typed-es](https://github.com/Vahor/typed-es)
+
+## Pourquoi cette librairie ?
+
+Actuellement avec la librairie node elasticsearch, lorsqu'on fait une requête search, on a des types de retour très minces.\
+Les `_source{:ts}` sont de type `unknown{:ts}`. Il n'y a aucune sécurité sur les champs ou non d'index.\
+Le seul moyen d'ajouter quelques types est de tout déclarer manuellement.
+
+```ts
+const result = await client.search<
+  { id: number; name: string },
+  { categories: { buckets: Array<{ key: string; doc_count: number }> } }
+>(query);
+```
+
+Mais rien n'assure que les types sont correctes ni à jour par rapport à la requête..
+
+
+## La solution
+
+**typed-es** génère automatiquement des types précis à partir de la requête Elasticsearch.
+
+```ts
+type Indexes = {
+    products: {
+        id: number;
+        name: string;
+        price: number;
+        category: string;
+        created_at: string;
+    },
+    users: {
+        id: number;
+        first_name: string;
+        last_name: string;
+        email: string;
+    }
+};
+
+const query = typedEs(client, {
+    index: "products",
+    _source: ["*_at", "price"],
+    track_total_hits: true,
+    rest_total_hits_as_int: true,
+    aggs: {
+        categories: { terms: { field: "category" } }
+    }
+});
+
+const result = await client.search(query);
+const total = result.hits.total; // number
+const firstHit = result.hits.hits[0]._source; // { price: number; created_at: string }
+const categories = result.aggregations.categories.buckets;  // Array<{ key: unknown; doc_count: number; }>
+```
+
+🎉 Types parfaitement inférés, sans déclaration manuelle
+
+### Fonctionnalités
+
+#### Auto-completion
+
+Comme les types sont automatiquement générés, ils sont aussi utilisés pour l'auto-complétion.
+
+```typescript
+const query = typedEs(client, {
+    index: "p", // Ici l'IDE suggère "products"
+    _source: ["p"] // Une fois l'index défini sur "products", l'IDE suggère "price"
+});
+```
+
+Note: Il est tout de même possible d'acceder à un champ qui n'existe pas directement dans la définition de l'index, exemple "name.keyword" sera accepté.
+
+#### Types de sortie basés sur les champs demandés
+
+Dérive des types exacts à partir des configurations `_source`, `fields`, `docvalue_fields` et `aggregations`.
+
+```typescript
+const query = typedEs(client, {
+    index: "users",
+    _source: ["first_name", "email"],
+    fields: [{ field: "created_at", format: "yyyy-MM-dd" }]
+});
+
+const result = await client.search(query);
+const firstHit = result.hits.hits[0];
+// Type précis : { 
+//   _source: { first_name: string; email: string }, 
+//   fields: { created_at: string[] } 
+// }
+```
+
+#### Support des wildcards
+
+Détecte et infère correctement les types de sortie même lors de l'utilisation de wildcards dans `_source`, `fields` et `docvalue_fields`.
+
+```typescript
+type ProductIndex = {
+    products: {
+        created_at: string;
+        updated_at: string;
+        title: string;
+    }
+};
+
+const query = typedEs(client, {
+    index: "products",
+    _source: ["*_at"] // Wildcard
+});
+
+const result = await client.search(query);
+const firstHit = result.hits.hits[0]._source;
+// Type précis : { created_at: string; updated_at: string }
+```
+
+#### Sécurité des types de sortie
+
+Si l'index est modifié, qu'un champ est supprimé ou que le type change, une erreur de type sera détectée.
+
+#### Les options de requêtes influencent les types de sortie
+
+```ts
+const query = typedEs(client, {
+    index: "products",
+    _source: false,
+    fields: ["name"],
+    track_total_hits: true,
+    rest_total_hits_as_int: true
+});
+
+const result = await client.search(query);
+const total = result.hits.total; // type: number, au lieu de number | estypes.SearchTotalHits | undefined
+const firstHit = result.hits.hits[0];
+const firstHitSource = firstHit._source; // type: never, comme `_source` est défini sur `false` il n'y aura jamais de `_source` dans la réponse
+const firstHitFields = firstHit.fields; // type: { name: string[] }
+```
+
+Note: si `track_total_hits` était à `false{:ts}`, `hits.total{:ts}` serait de type `never{:ts}`
