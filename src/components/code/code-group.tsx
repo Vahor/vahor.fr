@@ -1,11 +1,11 @@
 "use client";
 
+import type { ComponentPropsWithoutRef } from "react";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { ComponentPropsWithoutRef } from "react";
 
 interface CodeWrapButtonProps extends ComponentPropsWithoutRef<"button"> {
 	wrapperRef: React.RefObject<HTMLDivElement | null>;

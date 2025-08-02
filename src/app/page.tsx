@@ -1,14 +1,14 @@
+import { allPosts } from "contentlayer/generated";
+import type { Metadata, ResolvingMetadata } from "next";
 import A from "@/components/A";
 import { CopyMailBadge } from "@/components/CopyMailBadge";
 import { CurrentlyListeningSvg } from "@/components/CurrentlyListeningSvg";
-import { SpotifyTopTrackBadge } from "@/components/SpotifyTopArtist";
-import { UrlBadge } from "@/components/UrlBadge";
 import { GithubIcon } from "@/components/icons/Github";
 import { JsonLd } from "@/components/jsonld/profile-page";
+import { SpotifyTopTrackBadge } from "@/components/SpotifyTopArtist";
+import { UrlBadge } from "@/components/UrlBadge";
 import { TWITTER_PROFILE } from "@/lib/constants";
 import { profilePage } from "@/lib/jsonld";
-import { allPosts } from "contentlayer/generated";
-import type { Metadata, ResolvingMetadata } from "next";
 
 const postCount = allPosts.length;
 

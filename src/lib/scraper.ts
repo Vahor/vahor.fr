@@ -1,8 +1,8 @@
 "use server";
 
-import { kv } from "@/lib/redis";
 import { JSDOM } from "jsdom";
 import sharp from "sharp";
+import { kv } from "@/lib/redis";
 
 const xpaths = {
 	// title is either the first <title> or og:title

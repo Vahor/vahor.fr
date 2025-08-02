@@ -1,13 +1,12 @@
 import {
+	generate,
 	LLMS_TXT_FILENAME,
 	type PluginOptions,
-	generate,
 } from "@vahor/llms-txt";
 import { allDocuments } from "contentlayer/generated";
 import { visit } from "unist-util-visit";
 
 function fixRelativeLinks() {
-	// biome-ignore lint/suspicious/noExplicitAny: TODO
 	return (tree: any) => {
 		const pattern = /(..\/)*public\//g;
 		visit(tree, "image", (node) => {

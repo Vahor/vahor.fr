@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import A from "@/components/A";
 import { TriggerSearch } from "@/components/TriggerSearch";
 import { Button } from "@/components/ui/button";
 import { GITHUB_REPOSITORY } from "@/lib/constants";
-import Image from "next/image";
-import Link from "next/link";
 import homerError from "../../public/error.gif";
 
 export default function ErrorPage() {

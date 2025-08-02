@@ -1,6 +1,6 @@
-import { getSpotifyAccessToken } from "@/lib/spotify";
 import Image from "next/image";
 import { z } from "zod";
+import { getSpotifyAccessToken } from "@/lib/spotify";
 
 const API_URL =
 	"https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1&offset=0";

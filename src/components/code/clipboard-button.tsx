@@ -1,12 +1,12 @@
 "use client";
 
+import type { ComponentPropsWithoutRef } from "react";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useClipboard } from "@/lib/useClipboard";
-import type { ComponentPropsWithoutRef } from "react";
 
 interface CopyToClipboardButtonProps
 	extends ComponentPropsWithoutRef<"button"> {

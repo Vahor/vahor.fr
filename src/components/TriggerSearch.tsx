@@ -1,6 +1,6 @@
 "use client";
-import { searchStore } from "@/stores/search.store";
 import { useStore } from "zustand";
+import { searchStore } from "@/stores/search.store";
 import { Button, type ButtonProps } from "./ui/button";
 
 export const TriggerSearch = ({

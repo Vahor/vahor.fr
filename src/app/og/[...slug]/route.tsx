@@ -1,7 +1,7 @@
-import { BASE_URL } from "@/lib/constants";
-import { type BlogPageProps, getPost } from "@/lib/posts";
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
+import { BASE_URL } from "@/lib/constants";
+import { type BlogPageProps, getPost } from "@/lib/posts";
 
 export const size = {
 	width: 1200,

@@ -1,5 +1,7 @@
 "use client";
 
+import { TooltipPortal } from "@radix-ui/react-tooltip";
+import { CheckIcon, SendIcon } from "lucide-react";
 import {
 	Tooltip,
 	TooltipContent,
@@ -8,8 +10,6 @@ import {
 } from "@/components/ui/tooltip";
 import { EMAIL } from "@/lib/constants";
 import { useClipboard } from "@/lib/useClipboard";
-import { TooltipPortal } from "@radix-ui/react-tooltip";
-import { CheckIcon, SendIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 export const CopyMailBadge = () => {

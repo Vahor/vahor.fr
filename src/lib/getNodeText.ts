@@ -1,4 +1,3 @@
-// biome-ignore lint/suspicious/noExplicitAny: can be any type
 export const getNodeText = (node: any): string => {
 	if (node.props?.dangerouslySetInnerHTML) {
 		return getNodeTextFromHtml(node.props.dangerouslySetInnerHTML.__html);

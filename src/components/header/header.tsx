@@ -1,5 +1,5 @@
-import { HEADER_LINKS } from "@/lib/constants";
 import Link from "next/link";
+import { HEADER_LINKS } from "@/lib/constants";
 import { Logo } from "./logo";
 import { SearchMenu } from "./search";
 import { ThemeSwitcher } from "./theme-switcher";

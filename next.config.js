@@ -3,6 +3,7 @@ import {
 	createContentlayerPlugin,
 	defaultPluginOptions,
 } from "next-contentlayer2";
+
 const securityHeaders = [
 	// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
 	{

@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { type Post, allPosts } from "contentlayer/generated";
+import { allPosts, type Post } from "contentlayer/generated";
 import { format, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const ALL_TAG = "all";
 

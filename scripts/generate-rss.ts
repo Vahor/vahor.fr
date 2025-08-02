@@ -1,8 +1,7 @@
 import { writeFileSync } from "node:fs";
-import { globalMetadata } from "@/lib/constants";
 import { allDocuments } from "contentlayer/generated";
-
 import RSS from "rss";
+import { globalMetadata } from "@/lib/constants";
 
 const site_url = globalMetadata.metadataBase.toString().replace(/\/$/, "");
 
