@@ -1,13 +1,65 @@
 ---
-title: typed-ts
+title: typed-es
 description: Détecter les types de sorties de vos requêtes elasticsearch automatiquement.
 datePublished: 2025-08-01
 ---
 
 tldr: [https://github.com/Vahor/typed-es](https://github.com/Vahor/typed-es)
 
-<Wip>
-	- Pourquoi ?
-	- Comment ça marche ?
-	- Types interessants
-</Wip>
+## Pourquoi cette librairie ?
+
+Actuellement avec la librairie node elasticsearch, lorsqu'on fait une requête search, on a des types de retour très minces. Les `_souce` sont de type `unknown`. Il n'y a aucune sécurité sur les champs ou non d'index.
+Le seul moyen d'ajouter quelques types est de tout déclarer manuellement.
+
+```typescript
+const result = await client.search<
+  { id: number; name: string },
+  { categories: { buckets: Array<{ key: string; doc_count: number }> } }
+>(query);
+```
+
+Mais rien n'assure que les types sont correctes ni à jour par rapport à la requête..
+
+
+## La solution
+
+**typed-es** génère automatiquement des types précis à partir de la requête Elasticsearch.
+
+```typescript
+
+type Indexes = {
+    products: {
+        id: number;
+        name: string;
+        price: number;
+        category: string;
+        created_at: string;
+    },
+    users: {
+        id: number;
+        first_name: string;
+        last_name: string;
+        email: string;
+    }
+};
+
+const query = typedEs(client, {
+    index: "products",
+    _source: ["*_at", "price"],
+    track_total_hits: true,
+    rest_total_hits_as_int: true,
+    aggs: {
+        categories: { terms: { field: "category" } }
+    }
+});
+
+const result = await client.search(query);
+const total = result.hits.total; // number
+const firstHit = result.hits.hits[0]._source; // { price: number; created_at: string }
+const categories = result.aggregations.categories.buckets;  // Array<{ key: unknown; doc_count: number; }>
+```
+
+🎉 Types parfaitement inférés, sans déclaration manuelle
+
+### Fonctionnalités
+
