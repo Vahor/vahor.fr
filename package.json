@@ -59,9 +59,9 @@
 		"zustand": "^5.0.7"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.1.3",
+		"@biomejs/biome": "2.2.2",
 		"@tailwindcss/postcss": "^4.1.11",
-		"@terrastruct/d2": "^0.1.23",
+		"@terrastruct/d2": "0.1.23",
 		"@total-typescript/ts-reset": "^0.6.1",
 		"@types/jsdom": "^21.1.7",
 		"@types/node": "^24.1.0",
@@ -70,7 +70,7 @@
 		"@types/rss": "^0.0.32",
 		"@vahor/llms-txt": "^0.1.0",
 		"@vahor/next-broken-links": "^0.4.0",
-		"@vahor/rehype-d2": "^0.0.8",
+		"@vahor/rehype-d2": "0.0.8",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.1.2",
 		"postcss": "^8.5.6",
