@@ -1,0 +1,132 @@
+---
+title: n8n-kit
+description: Générer et déployer des workflows n8n avec du code TypeScript.
+datePublished: 2025-09-02
+---
+
+tldr: [https://github.com/Vahor/n8n-kit](https://github.com/Vahor/n8n-kit)
+
+# Pourquoi cet outil ?
+
+Faire des workflows n8n à la main c'est bien, mais quand on est plusieurs à travailler dessus, c'est compliqué.
+Il faut faire des copies, lorsqu'on a terminé, merger les JSONs, les diffs sont horribles.
+
+Lorsqu'on ajoute à ça le fait que le workflow contient des dizaines de nœuds, la page devient longue à charger, on ne s'y retrouve plus.
+
+Si on veut gérer un environnement de pré-production et un de production, les mises en prod sont toutes manuelles et il est très facile de faire une erreur.
+
+
+À côté de ça on connaît des outils comme aws cdk, terraform, où on peut décrire les ressources et les gérer avec du code. Gérer les environnements est très simple, merger deux branches est aussi facile.
+
+Du coup j'ai cherché s'il existait un outil de ce type pour n8n, mais je n'ai rien trouvé. C'est pourquoi j'ai créé **n8n-kit**.
+
+# La solution
+
+**n8n-kit** permet de créer des workflows n8n avec du code TypeScript, avec du typage automatique.
+
+```typescript
+// Une application contient tous les workflows
+const app = new App();
+
+// Les credentials ne peuvent pas être créées par l'api, mais on peut quand même les typer
+const nasaCredentials = Credentials.byId({
+    name: "nasaApi", // cette partie est typée, ici nasaCredentials est de type NasaApiCredentials. Si un nœud attend un autre type il y a une erreur
+    id: "credential-id", // id du credential sur n8n, ici on va utiliser une variable d'env
+});
+
+new Workflow(app, "my-workflow", {
+    active: true,
+    name: "Super workflow",
+    definition: [
+        Chain.start(
+            new ScheduleTrigger("schedule", {
+                label: "Schedule trigger",
+                parameters: {
+                    rule: {
+                        interval: [{
+                            field: "weeks",
+                            triggerAtDay: [1],
+                            triggerAtHour: 9,
+                            weeksInterval: 1,
+                        }],
+                    },
+                },
+            }),
+        )
+        .next(({ $ }) =>
+            new If("if", {
+                parameters: {
+                    conditions: {
+                        conditions: [{
+                            operator: { type: "string", operation: "contains" },
+                            // Ici json.timestamp vient du type de sortie du nœud ScheduleTrigger. Si on utilise un autre nœud ou une autre clé, il y a une erreur
+                            leftValue: $("schedule.timestamp"), // Lors du build ce sera remplacé par ={{ $('Schedule trigger').item.json.timestamp }}
+                            rightValue: "C", // Là l'exemple n'a aucun sens
+                        }],
+                    },
+                },
+            })
+            .true(
+                new PostBin("alert", {
+                    parameters: {
+                         // On a aussi des méthodes typées comme toLowerCase() => ={{ $('Schedule trigger').item.schedule.timestamp.toLowerCase() }}
+                        binContent: expr`TimeStamp ${$("schedule.timestamp").toLowerCase()}`,
+                    },
+                }),
+            )
+        ),
+    ],
+});
+```
+
+🎉 Types automatiques, auto-complétion parfaite
+
+## Génération automatique des types
+
+Une partie intéressante du projet : **tous les nœuds n8n sont générés automatiquement depuis le code source officiel**.
+
+Le script de génération :
+1. Clone le repository n8n officiel
+2. Crée une instance du nœud
+3. Extrait les propriétés intéressantes
+4. Génère du code TypeScript à partir des propriétés
+
+```typescript
+// Exemple de types générés automatiquement
+export interface HttpRequestV3NodeParameters {
+    /**
+     * The request method to use
+     * Default: "GET"
+     */
+    readonly method?: "DELETE" | "GET" | "HEAD" | "OPTIONS" | "PATCH" | "POST" | "PUT";
+
+    /** The URL to make the request to */
+    readonly url?: string;
+
+    ...
+}
+```
+
+Note: Chaque propriété a le bon type, bon nom mais aussi une description.
+
+### Pourquoi c'est cool
+
+Actuellement n8n contient **600+** nœuds, les ajouter manuellement et les mettre à jour en même temps qu'eux serait impossible.
+
+Mais aussi faire le clone, lancer le script et commiter manuellement c'est pas très pratique, donc cette partie est aussi automatisée par un [job schedulé sur GitHub Actions](https://github.com/Vahor/n8n-kit/blob/main/.github/workflows/automatic-n8n-update.yml).
+
+Donc en soi, rien à faire, les nœuds sont automatiquement générés et ajoutés au repo. Plus qu'à valider les PRs automatiques et release.
+
+
+## Autres trucs intéressants
+
+- Un `--watch` est disponible pour déployer un workflow en temps réel
+- Sur n8n chaque nœud a une position dans le graphe, en utilisant [dagre](https://github.com/dagrejs/dagre) ces nœuds sont automatiquement placés.
+- Comparer un JSON depuis n8n est impossible, chaque nœud a une position, un id généré automatiquement et plein d'autres propriétés qui rendent un diff impossible à lire. La cli ajoute une commande `diff` qui fait le nettoyage nécessaire, trie les propriétés et ne montre que ce qui a réellement changé.
+
+# Installation
+
+```bash
+npm install @vahor/n8n-kit @vahor/n8n-kit-cli
+```
+
