@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -7,17 +7,16 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": [
-			"**",
-			"!dist/**",
-			"!node_modules/**",
-			"!.contentlayer/**",
-			"!.next/**"
-		]
+		"includes": ["**", "!dist", "!node_modules", "!.contentlayer", "!.next"]
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab"
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
 	},
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
@@ -25,7 +24,8 @@
 		"rules": {
 			"recommended": true,
 			"complexity": {
-				"noBannedTypes": "off"
+				"noBannedTypes": "off",
+				"noImportantStyles": "off"
 			},
 			"suspicious": {
 				"noRedeclare": "off",
