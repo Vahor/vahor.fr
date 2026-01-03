@@ -61,7 +61,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.3.10",
 		"@tailwindcss/postcss": "^4.1.18",
-		"@terrastruct/d2": "0.1.33",
+		"@terrastruct/d2": "0.1.23",
 		"@total-typescript/ts-reset": "^0.6.1",
 		"@types/jsdom": "^27.0.0",
 		"@types/node": "^25.0.3",
