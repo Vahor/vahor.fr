@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "next dev --webpack",
 		"start": "next start --webpack",
-		"build": "next build && bun generate:llms.txt && bun generate:rss && bunx @vahor/next-broken-links --domain vahor.fr",
+		"build": "next build --webpack && bun generate:llms.txt && bun generate:rss && bunx @vahor/next-broken-links --domain vahor.fr",
 		"generate:llms.txt": "bun ./scripts/generate-llms.txt.ts",
 		"generate:rss": "bun ./scripts/generate-rss.ts",
 		"format": "bunx @biomejs/biome check ./ --write",
