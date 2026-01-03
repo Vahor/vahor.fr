@@ -66,10 +66,6 @@ const nextConfig = {
 		BUILD_TIME: new Date().toISOString(),
 	},
 
-	eslint: {
-		ignoreDuringBuilds: true,
-	},
-
 	typescript: {
 		ignoreBuildErrors: true,
 	},

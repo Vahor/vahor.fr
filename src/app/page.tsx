@@ -37,7 +37,7 @@ export default function Home() {
 					<UrlBadge url="https://www.mewo.fr" title="Mewo" /> effectué en
 					alternance chez{" "}
 					<UrlBadge url="https://www.sesamm.com/" title="SESAMm" />, j'occupe
-					désormais le poste de développeur fullstack depuis plus de 2 ans.
+					désormais le poste de développeur fullstack depuis plus de 3 ans.
 				</p>
 			</section>
 
@@ -78,6 +78,13 @@ export default function Home() {
 			<section className="mt-8">
 				<p>
 					Vous pouvez me retrouver sur <GithubIcon />{" "}
+					<UrlBadge
+						url="https://discordapp.com/users/132552926689230848"
+						title="Discord"
+						alt="Discord icon"
+						favicon="/icons/discord.svg"
+					/>
+					{", "}
 					<UrlBadge
 						url={TWITTER_PROFILE}
 						title="Twitter"
