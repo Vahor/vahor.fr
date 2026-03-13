@@ -51,9 +51,7 @@ export default function Home() {
 				<p className="mt-2">
 					Par exemple, j'essaie d'apprendre{" "}
 					<UrlBadge url="https://www.rust-lang.org/" title="Rust" /> et{" "}
-					<UrlBadge url="https://go.dev/" title="Go" />. Mes principaux projets
-					sont <UrlBadge url="https://pedaki.fr" title="Pedaki" /> et{" "}
-					<UrlBadge url="https://helosion.net" title="Helosion" />.
+					<UrlBadge url="https://go.dev/" title="Go" />.
 				</p>
 			</section>
 
