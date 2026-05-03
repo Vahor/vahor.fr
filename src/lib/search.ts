@@ -24,12 +24,12 @@ const contact_links = [
 	{
 		label: "Linkedin",
 		href: LINKEDIN_PROFILE,
-		extrnal: true,
+		external: true,
 	},
 	{
 		label: "Email",
 		href: `mailto:${EMAIL}`,
-		extrnal: true,
+		external: true,
 	},
 ];
 
