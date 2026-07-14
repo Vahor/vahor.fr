@@ -1,4 +1,3 @@
-"use client";
 import type { CollectionEntry } from "astro:content";
 import { urlFromEntry } from "@/lib/posts";
 import { Button } from "../ui/button";

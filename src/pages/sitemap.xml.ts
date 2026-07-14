@@ -1,11 +1,8 @@
-import { fullTagsFromEntry, getAllPosts, urlFromEntry } from "@/lib/posts";
+import { getAllPosts, getAllTags, urlFromEntry } from "@/lib/posts";
 
 export async function GET() {
 	const posts = await getAllPosts();
-	const allTags = Array.from(
-		new Set(posts.flatMap((p) => fullTagsFromEntry(p))),
-	);
-	allTags.push("all");
+	const allTags = await getAllTags();
 
 	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

@@ -18,7 +18,7 @@ const searchData = allPosts.map((post) => ({
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="h-full">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -39,7 +39,7 @@ const searchData = allPosts.map((post) => ({
 			})();
 		</script>
 	</head>
-	<body class="min-h-[100svh] bg-background text-foreground antialiased">
+	<body class="h-full min-h-[100svh] bg-background text-foreground antialiased">
 		<Providers client:load>
 			<Header client:load posts={searchData} />
 			<slot />

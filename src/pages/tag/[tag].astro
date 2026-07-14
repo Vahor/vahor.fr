@@ -6,26 +6,19 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import {
 	fullTagsFromEntry,
 	getAllPosts,
+	getAllTags,
 	timeToRead,
 	urlFromEntry,
 } from "@/lib/posts";
 
 export async function getStaticPaths() {
-	const posts = await getAllPosts();
-	const allTags = Array.from(
-		new Set(posts.flatMap((post) => fullTagsFromEntry(post))),
-	).toSorted((a, b) => b.localeCompare(a));
-	allTags.unshift("all");
-	return allTags.map((tag) => ({ params: { tag } }));
+	const tags = await getAllTags();
+	return tags.map((tag) => ({ params: { tag } }));
 }
 
 const { tag } = Astro.params;
 const allPosts = await getAllPosts();
-
-const allTags = Array.from(
-	new Set(allPosts.flatMap((post) => fullTagsFromEntry(post))),
-).toSorted((a, b) => b.localeCompare(a));
-allTags.unshift("all");
+const allTags = await getAllTags();
 
 if (!allTags.includes(tag)) return Astro.redirect("/404");
 

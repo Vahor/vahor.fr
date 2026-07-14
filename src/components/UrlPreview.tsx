@@ -38,7 +38,7 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 				<img
 					src={metadata.image || metadata.favicon}
 					alt={metadata.title}
-					className="rounded-r-md"
+					className="rounded-r-md object-cover w-full h-full absolute inset-0"
 				/>
 			</div>
 		</a>

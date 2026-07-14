@@ -190,18 +190,18 @@ export const mdxComponents = {
 	B: ({ children }) => <MarkColor color="b">{children}</MarkColor>,
 	Y: ({ children }) => <MarkColor color="y">{children}</MarkColor>,
 
-	callout: ({ type, ...props }: any) => {
+	callout: ({ type, ...props }) => {
 		switch (type) {
 			case "info":
-				return <Info {...(props as any)} />;
+				return <Info {...props} />;
 			case "warning":
-				return <Warning {...(props as any)} />;
+				return <Warning {...props} />;
 			case "note":
-				return <Note {...(props as any)} />;
+				return <Note {...props} />;
 			case "tip":
-				return <Tip {...(props as any)} />;
+				return <Tip {...props} />;
 			case "check":
-				return <Check {...(props as any)} />;
+				return <Check {...props} />;
 			default:
 				throw new Error(`Unknown callout type: ${type}`);
 		}

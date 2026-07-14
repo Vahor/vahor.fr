@@ -1,0 +1,10 @@
+/* Tailwindcss-animate utilities (inlined for TW v4 compat) */
+.animate-in {
+	animation-name: enter;
+	animation-duration: 0.15s;
+	--tw-enter-opacity: initial;
+	--tw-enter-scale: initial;
+	--tw-enter-rotate: initial;
+	--tw-enter-translate-x: initial;
+	--tw-enter-translate-y: initial;
+}

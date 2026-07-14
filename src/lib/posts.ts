@@ -40,3 +40,12 @@ export function timeToRead(content: string): number {
 export function githubEditUrl(post: Post): string {
 	return `https://github.com/vahor/vahor.fr/edit/main/src/content/${post.id}`;
 }
+
+export async function getAllTags() {
+	const posts = await getAllPosts();
+	const tags = Array.from(
+		new Set(posts.flatMap((post) => fullTagsFromEntry(post))),
+	).toSorted((a, b) => b.localeCompare(a));
+	tags.unshift("all");
+	return tags;
+}
