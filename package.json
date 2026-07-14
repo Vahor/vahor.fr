@@ -7,10 +7,9 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "astro build && bun generate:llms.txt && bun generate:rss",
+		"build": "astro build && bun generate:llms.txt",
 		"preview": "astro preview",
 		"generate:llms.txt": "bun ./scripts/generate-llms.txt.ts",
-		"generate:rss": "bun ./scripts/generate-rss.ts",
 		"format": "bunx @biomejs/biome check ./ --write",
 		"format:check": "bunx @biomejs/biome format ./",
 		"lint": "bunx @biomejs/biome lint ./ --write",
