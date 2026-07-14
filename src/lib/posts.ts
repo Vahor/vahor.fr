@@ -2,10 +2,6 @@ import { type CollectionEntry, getCollection } from "astro:content";
 
 export type Post = CollectionEntry<"posts">;
 
-export async function getAllPosts() {
-	return getCollection("posts");
-}
-
 export function slugFromEntry(post: Post): string {
 	return post.id.replace(/^posts\//, "").replace(/\.mdx?$/, "");
 }
@@ -42,7 +38,7 @@ export function githubEditUrl(post: Post): string {
 }
 
 export async function getAllTags() {
-	const posts = await getAllPosts();
+	const posts = await getCollection("posts");
 	const tags = Array.from(
 		new Set(posts.flatMap((post) => fullTagsFromEntry(post))),
 	).toSorted((a, b) => b.localeCompare(a));
