@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getAllPosts, urlFromEntry, fullTagsFromEntry, timeToRead } from "@/lib/posts";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
+import { Button } from "@/components/ui/button";
+
+export async function getStaticPaths() {
+	const posts = await getAllPosts();
+	const allTags = Array.from(new Set(posts.flatMap((post) => fullTagsFromEntry(post)))).toSorted((a, b) => b.localeCompare(a));
+	allTags.unshift("all");
+	return allTags.map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const allPosts = await getAllPosts();
+
+const allTags = Array.from(new Set(allPosts.flatMap((post) => fullTagsFromEntry(post)))).toSorted((a, b) => b.localeCompare(a));
+allTags.unshift("all");
+
+if (!allTags.includes(tag)) return Astro.redirect("/404");
+
+const filteredPosts = allPosts
+	.filter((post) => tag === "all" || fullTagsFromEntry(post).includes(tag))
+	.toSorted((a, b) => b.data.datePublished.getTime() - a.data.datePublished.getTime());
+---
+
+<BaseLayout>
+	<div class="container relative grid gap-4 pb-8 md:grid-cols-4 md:pb-16">
+		<nav class="top-0 col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:sticky md:col-span-1 md:h-max md:max-h-none">
+			{allTags.map((t) => {
+				const active = t === tag;
+				return (
+					<a href={`/tag/${t}`} class="w-full md:w-max">
+						<Button disabled={active} className="w-full justify-start capitalize" variant="ghost">{t}</Button>
+					</a>
+				);
+			})}
+		</nav>
+		<hr class="col-span-4 md:hidden" />
+		<main class="col-span-4 px-4 md:col-span-3 md:px-0">
+			<h1 class="font-semibold text-3xl text-black capitalize dark:text-white">{tag}</h1>
+			<ul class="mt-8 flex flex-col">
+				{filteredPosts.map((post) => (
+					<li class="list-none border-b px-0 py-4 first:pt-0 last:border-none">
+						<div class="flex justify-between gap-2">
+							<div>
+								<a href={urlFromEntry(post)} class="hover:text-black dark:hover:text-white"><h2 class="my-0">{post.data.title}</h2></a>
+								<p class="text-muted-foreground text-sm">{post.data.description}</p>
+							</div>
+							<div class="text-right text-muted-foreground text-sm">
+								<time datetime={post.data.datePublished.toISOString()}>{format(post.data.datePublished, "d MMMM yyyy", { locale: fr })}</time>
+								<p class="text-xs">{timeToRead(post.body ?? "")} min de lecture</p>
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+		</main>
+	</div>
+</BaseLayout>

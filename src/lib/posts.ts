@@ -1,11 +1,42 @@
-import { allPosts } from "contentlayer/generated";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-export interface BlogPageProps {
-	params: { slug: string[] };
+export type Post = CollectionEntry<"posts">;
+
+export async function getAllPosts() {
+	return getCollection("posts");
 }
 
-export const getPost = ({ params }: BlogPageProps) => {
-	if (!params.slug) return null;
-	const slug = params.slug.join("/");
-	return allPosts.find((post) => post.slug === slug);
-};
+export function slugFromEntry(post: Post): string {
+	return post.id.replace(/^posts\//, "").replace(/\.mdx?$/, "");
+}
+
+export function urlFromEntry(post: Post): string {
+	const filePath = post.id.replace(/^posts\//, "").replace(/\.mdx?$/, "");
+	const segments = filePath.split("/");
+	if (segments.length < 2) return `/${filePath}`;
+	const pageType = segments[0]!;
+	const slug = segments[segments.length - 1]!;
+	return `/${pageType}/${slug}`;
+}
+
+export function pageTypeFromEntry(post: Post): string {
+	const filePath = post.id.replace(/^posts\//, "").replace(/\.mdx?$/, "");
+	const segments = filePath.split("/");
+	return segments.length < 2 ? "blog" : (segments[0] ?? "blog");
+}
+
+export function fullTagsFromEntry(post: Post): string[] {
+	const tags = post.data.tags ?? [];
+	const type = pageTypeFromEntry(post);
+	const year = new Date(post.data.datePublished).getFullYear();
+	return [type, ...tags, year.toString()];
+}
+
+export function timeToRead(content: string): number {
+	const words = content.split(/\s+/).length;
+	return Math.ceil(words / 140);
+}
+
+export function githubEditUrl(post: Post): string {
+	return `https://github.com/vahor/vahor.fr/edit/main/src/content/${post.id}`;
+}

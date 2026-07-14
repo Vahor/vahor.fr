@@ -1,0 +1,41 @@
+---
+import { Header } from "@/components/header/header";
+import { Providers } from "@/components/Providers";
+import { getAllPosts, urlFromEntry } from "@/lib/posts";
+import type { SearchItem } from "@/lib/search";
+import "@/styles/globals.css";
+
+const allPosts = await getAllPosts();
+const searchItems: SearchItem[] = allPosts.map((post) => ({
+	title: post.data.title,
+	description: post.data.description,
+	fullTags: post.data.tags,
+	pageType: post.id.split("/")[0]!,
+	datePublished: post.data.datePublished.toISOString(),
+	url: urlFromEntry(post),
+	external: false,
+}));
+---
+
+<!doctype html>
+<html lang="fr" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark light" />
+		<link rel="sitemap" href="/sitemap.xml" />
+		<link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	</head>
+	<body class="min-h-[100svh] bg-background text-foreground antialiased">
+		<Providers client:load>
+			<Header posts={searchItems} client:load />
+			<slot />
+		</Providers>
+	</body>
+</html>
+
+<style is:global>
+	@import url('@shikijs/twoslash/style-rich.css');
+</style>

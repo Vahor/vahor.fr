@@ -1,37 +1,41 @@
-import {
-	generate,
-	LLMS_TXT_FILENAME,
-	type PluginOptions,
-} from "@vahor/llms-txt";
-import { allDocuments } from "contentlayer/generated";
-import { visit } from "unist-util-visit";
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { extname, join } from "node:path";
+import { generate, LLMS_TXT_FILENAME, type PluginOptions } from "@vahor/llms-txt";
+import matter from "gray-matter";
 
-function fixRelativeLinks() {
-	return (tree: any) => {
-		const pattern = /(..\/)*public\//g;
-		visit(tree, "image", (node) => {
-			node.url = (node.url as string).replace(pattern, "/");
-		});
-		visit(tree, "html", (node) => {
-			node.value = (node.value as string).replace(pattern, "/");
-		});
-		visit(tree, "code", (node) => {
-			node.value = (node.value as string).replace(pattern, "/");
-		});
+const BASE_URL = "https://vahor.fr";
+const contentDir = "src/content/posts";
 
-		return tree;
-	};
+function findAllMdxFiles(dir: string): string[] {
+	const files: string[] = [];
+	for (const entry of readdirSync(dir)) {
+		const fullPath = join(dir, entry);
+		if (statSync(fullPath).isDirectory()) files.push(...findAllMdxFiles(fullPath));
+		else if (extname(entry) === ".mdx") files.push(fullPath);
+	}
+	return files;
 }
 
-const options = {
+const mdxFiles = findAllMdxFiles(contentDir);
+
+const posts = mdxFiles.map((filePath) => {
+	const content = readFileSync(filePath, "utf-8");
+	const { data } = matter(content);
+	const relative = filePath.replace(contentDir + "/", "").replace(/\.mdx$/, "");
+	const segments = relative.split("/");
+	const pageType = segments.length < 2 ? "blog" : segments[0]!;
+	const slug = segments[segments.length - 1]!;
+	return { title: data.title, description: data.description ?? "", pageType, slug };
+});
+
+const options: PluginOptions = {
 	outputPath: (path) => {
-		if (path === LLMS_TXT_FILENAME) {
-			return "./public/llms.txt";
-		}
-		// path is "./content/posts/[slug].mdx"
-		const slug = path.split("/").slice(3).join("/");
-		const withoutExtension = slug.split(".").slice(0, -1).join(".");
-		return `./public/${withoutExtension}.md`;
+		if (path === LLMS_TXT_FILENAME) return "./public/llms.txt";
+		const relative = path.replace(contentDir + "/", "").replace(/\.mdx$/, "");
+		const segments = relative.split("/");
+		const pageType = segments.length < 2 ? "blog" : segments[0]!;
+		const slug = segments[segments.length - 1]!;
+		return `./public/${pageType}/${slug}.md`;
 	},
 	formatFrontmatter: (frontmatter) => ({
 		title: frontmatter.title,
@@ -39,22 +43,11 @@ const options = {
 		datePublished: frontmatter.datePublished,
 	}),
 	sections: [
-		{
-			title: "Vahor.fr",
-		},
-		{
-			title: "Posts",
-			links: allDocuments.map((doc) => ({
-				title: doc.title,
-				url: `https://vahor.fr/${doc.pageType}/${doc.slug}.md`,
-				description: doc.description,
-			})),
-		},
+		{ title: "Vahor.fr" },
+		{ title: "Posts", links: posts.map((post) => ({ title: post.title, url: `${BASE_URL}/${post.pageType}/${post.slug}.md`, description: post.description })) },
 	],
-	content: allDocuments.map((doc) => ({
-		path: `./content/${doc._raw.sourceFilePath}`,
-	})),
-	remarkPlugins: [fixRelativeLinks],
-} satisfies PluginOptions;
+	content: mdxFiles.map((path) => ({ path })),
+};
 
 generate(options);
+console.log("Generated llms.txt and markdown files");
