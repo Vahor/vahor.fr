@@ -1,7 +1,7 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useTheme } from "@/components/Providers";
 import { GITHUB_PROFILE } from "@/lib/constants";
 import { UrlBadgeWithMetadata } from "../UrlBadge";
 

@@ -1,0 +1,23 @@
+---
+import { TriggerSearch } from "@/components/TriggerSearch";
+import { Button } from "@/components/ui/button";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+	<div class="container flex w-full flex-col items-center gap-8 sm:h-full sm:justify-center md:mt-[-105px] md:gap-12 lg:flex-row">
+		<img src="/where-am-i.gif" alt="Where am I?" class="rounded-md shadow-sm" />
+		<main class="flex flex-col gap-4">
+			<h1 class="font-semibold text-6xl text-black dark:text-white">Oops !</h1>
+			<div class="text-muted-foreground">
+				<p>La page que vous cherchez n'existe pas.</p>
+				<p>Peut-être que vous avez mal tapé l'adresse ou que la page a été supprimée.</p>
+			</div>
+			<div class="flex items-center gap-2">
+				<Button asChild variant="secondary" className="w-max" client:load><a href="/">Returner à l'accueil</a></Button>
+				<span class="text-sm">ou</span>
+				<TriggerSearch variant="secondary" client:load>Chercher une page</TriggerSearch>
+			</div>
+		</main>
+	</div>
+</BaseLayout>

@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -9,12 +7,10 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
+# astro
+/dist/
+/.astro/
+/.vercel/
 
 # misc
 .DS_Store
@@ -33,16 +29,12 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
-
-# contentlayer
-.contentlayer
 
 # local
 .envrc
 *.local
 
-# md in public
+# generated md in public
 public/**/*.md
 public/llms.txt
 public/rss.xml

@@ -1,0 +1,55 @@
+---
+title: rss 
+description: Comment générer un fichier rss.xml pour votre site.
+datePublished: 2025-04-18
+---
+
+# Qu'est-ce que le rss ?
+
+Le rss est un fichier XML qui contient des informations sur vos articles, et est utilisé pour suivre les actualités d'un site.
+
+Par exemple, sur ce site cela donne [rss.xml](https://vahor.fr/rss.xml).\
+N'importe qui peut s'abonner à ce flux, ainsi dès qu'un nouveau post est publié la personne n'aura qu'à actualiser son flux pour voir qu'il y a de nouveaux articles.
+
+# Comment générer un fichier rss.xml ?
+
+Avec Astro, la génération du flux RSS se fait nativement via [`@astrojs/rss`](https://docs.astro.build/en/guides/rss/).
+
+Il suffit de créer un endpoint `src/pages/rss.xml.ts` :
+
+```ts title="src/pages/rss.xml.ts"
+import rss from "@astrojs/rss";
+import { getCollection } from "astro:content";
+
+export async function GET() {
+  const posts = await getCollection("posts");
+
+  return rss({
+    title: "Vahor",
+    description: "Développeur full-stack",
+    site: "https://vahor.fr",
+    items: posts.map((post) => ({
+      title: post.data.title,
+      description: post.data.description,
+      pubDate: post.data.datePublished,
+      link: `/blog/${post.id.replace("posts/", "").replace(".mdx", "")}`,
+    })),
+  });
+}
+```
+
+`getCollection("posts")` récupère tous les articles avec leur frontmatter parsé — plus besoin de parser le markdown manuellement. Le fichier est généré automatiquement au build.
+
+# Comment voir si ça marche ?
+
+Pour tester j'ai utilisé la cli [nom](https://github.com/guyfedwards/nom)
+
+```bash title="Comment utiliser nom ?"
+nom add https://vahor.fr/rss.xml
+nom
+```
+
+![main page in nom tui](/blog/rss/nom-menu.png)
+![post in nom tui](/blog/rss/nom-page.png)
+
+On se retrouve maintenant avec un [sitemap.xml](https://vahor.fr/sitemap.xml), un [llms.txt](https://vahor.fr/llms.txt) et un [rss.xml](https://vahor.fr/rss.xml), je pense que les 5 articles du site ont assez de visibilité 🤣

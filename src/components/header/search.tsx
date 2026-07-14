@@ -1,8 +1,7 @@
 "use client";
+import Fuse from "fuse.js";
 import { Search } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useTransition } from "react";
+import React, { useEffect, useMemo, useTransition } from "react";
 import { useStore } from "zustand";
 import {
 	CommandDialog,
@@ -13,8 +12,23 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
-import { INITIAL_DATA, SEARCH_INDEX } from "@/lib/search";
+import {
+	EMAIL,
+	GITHUB_PROFILE,
+	LINKEDIN_PROFILE,
+	TWITTER_PROFILE,
+} from "@/lib/constants";
+import type { SearchItem } from "@/lib/search";
 import { searchStore } from "@/stores/search.store";
+
+const contactLinks = [
+	{ label: "Github", href: GITHUB_PROFILE, external: true },
+	{ label: "Twitter", href: TWITTER_PROFILE, external: true },
+	{ label: "Linkedin", href: LINKEDIN_PROFILE, external: true },
+	{ label: "Email", href: `mailto:${EMAIL}`, external: true },
+];
+
+type SearchResult = { score: number; refIndex: number; item: SearchItem };
 
 const commandProps: CommandDialogProps["commandProps"] = {
 	loop: true,
@@ -24,10 +38,10 @@ const commandProps: CommandDialogProps["commandProps"] = {
 	label: "Chercher une page",
 };
 
-export function SearchMenu() {
+export function SearchMenu({ posts }: { posts: SearchItem[] }) {
 	return (
 		<SearchWrapper>
-			<SearchInput />
+			<SearchInput posts={posts} />
 		</SearchWrapper>
 	);
 }
@@ -77,26 +91,16 @@ function SearchWrapper({ children }: React.PropsWithChildren) {
 	);
 }
 
-const filterResults = (query: string) => {
-	const results = SEARCH_INDEX.search(`"${query}" | '"${query}"`);
-	return results;
-};
-
-const scoreDiff = (
-	a: (typeof INITIAL_DATA)[0],
-	b: (typeof INITIAL_DATA)[0],
-) => {
-	const aScore = a.score!;
-	const bScore = b.score!;
-	if (aScore === bScore) {
+const scoreDiff = (a: SearchResult, b: SearchResult) => {
+	if (a.score === b.score) {
 		return a.item.datePublished > b.item.datePublished
 			? -1
 			: a.item.title.localeCompare(b.item.title);
 	}
-	return aScore - bScore;
+	return a.score - b.score;
 };
 
-const groupByType = (results: typeof INITIAL_DATA) => {
+const groupByType = (results: SearchResult[]) => {
 	const grouped = results.reduce(
 		(acc, item) => {
 			const type = item.item.pageType;
@@ -104,11 +108,10 @@ const groupByType = (results: typeof INITIAL_DATA) => {
 			acc[type].push(item);
 			return acc;
 		},
-		{} as Record<string, typeof INITIAL_DATA>,
+		{} as Record<string, SearchResult[]>,
 	);
 
 	for (const key in grouped) {
-		// fuse.js sorts by score (0 = best) by default
 		grouped[key].sort(scoreDiff);
 	}
 
@@ -119,20 +122,71 @@ const groupByType = (results: typeof INITIAL_DATA) => {
 	return Object.fromEntries(sortedGroups);
 };
 
-function SearchInput() {
+function SearchInput({ posts }: { posts: SearchItem[] }) {
 	const setOpen = useStore(searchStore, (state) => state.setOpen);
 
+	const searchContent = useMemo(() => {
+		return [
+			...posts,
+			...contactLinks.map((l) => ({
+				title: l.label,
+				description: "",
+				fullTags: [] as string[],
+				pageType: "contact",
+				datePublished: new Date().toISOString(),
+				raw: "",
+				url: l.href,
+				external: l.external ?? true,
+			})),
+		];
+	}, [posts]);
+
+	const searchIndex = useMemo(
+		() =>
+			new Fuse(searchContent, {
+				keys: [
+					{ name: "title", weight: 0.8 },
+					{ name: "description", weight: 0.3 },
+					{ name: "fullTags", weight: 0.2 },
+					{ name: "raw", weight: 0.3 },
+					{ name: "pageType", weight: 0.1 },
+				],
+				includeMatches: true,
+				ignoreDiacritics: true,
+				includeScore: true,
+				isCaseSensitive: false,
+				useExtendedSearch: true,
+				shouldSort: false,
+				findAllMatches: true,
+				threshold: 0.5,
+			}),
+		[searchContent],
+	);
+
+	const initialData: SearchResult[] = useMemo(
+		() =>
+			searchContent.map((post, index) => ({
+				score: 1,
+				refIndex: index,
+				item: post,
+			})),
+		[searchContent],
+	);
+
 	const [query, setQuery] = React.useState("");
-	const router = useRouter();
 	const [_, startTransition] = useTransition();
 
-	const [results, setResults] = React.useState(() => groupByType(INITIAL_DATA));
+	const [results, setResults] = React.useState(() => groupByType(initialData));
 
 	const handleQueryChange = (query: string) => {
 		startTransition(() => {
 			setQuery(query);
-			if (!query) return setResults(groupByType(INITIAL_DATA));
-			return setResults(groupByType(filterResults(query)));
+			if (!query) return setResults(groupByType(initialData));
+			return setResults(
+				groupByType(
+					searchIndex.search(`"${query}" | '"${query}"`) as SearchResult[],
+				),
+			);
 		});
 	};
 
@@ -152,17 +206,17 @@ function SearchInput() {
 				{Object.entries(results).map(([type, data]) => (
 					<CommandGroup key={type} heading={type}>
 						{data.map((item) => (
-							<Link href={item.item.url} key={item.refIndex}>
+							<a href={item.item.url} key={item.refIndex}>
 								<CommandItem
 									value={item.item.title}
 									onSelect={() => {
-										router.push(item.item.url);
+										window.location.href = item.item.url;
 										setOpen(false);
 									}}
 								>
 									{item.item.title}
 								</CommandItem>
-							</Link>
+							</a>
 						))}
 					</CommandGroup>
 				))}

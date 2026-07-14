@@ -1,7 +1,7 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useTheme } from "@/components/Providers";
 import { Button } from "@/components/ui/button";
 
 // https://www.radix-ui.com/icons

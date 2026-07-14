@@ -1,1 +1,1 @@
-type OneOrMany<T> = T | T[];
+declare type OneOrMany<T> = T | T[];

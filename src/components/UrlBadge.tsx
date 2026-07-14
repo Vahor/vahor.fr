@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { extractMetaTags } from "@/lib/scraper";
 import { Badge } from "./ui/badge";
 
@@ -33,12 +32,11 @@ export const UrlBadgeWithMetadata = ({
 	return (
 		<Badge asChild>
 			<a href={`${url}?ref=vahor.fr`} target="_blank" rel="noopener noreferrer">
-				<Image
+				<img
 					src={favicon}
 					alt={alt ?? title}
 					width={16}
 					height={16}
-					unoptimized={true}
 					className="mb-0.5 inline-block select-none"
 				/>
 				<span>{title}</span>

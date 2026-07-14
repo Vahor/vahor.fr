@@ -1,25 +1,22 @@
-"use client";
-
-import type { Post } from "contentlayer/generated";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import type { CollectionEntry } from "astro:content";
+import { urlFromEntry } from "@/lib/posts";
 import { Button } from "../ui/button";
 
-export function TocLink({ post }: { post: Post }) {
-	const pathname = usePathname();
-
-	const active = post.url === pathname;
+export function TocLink({ post }: { post: CollectionEntry<"posts"> }) {
+	const pathname =
+		typeof window !== "undefined" ? window.location.pathname : "";
+	const url = urlFromEntry(post);
 
 	return (
-		<Link href={post.url}>
+		<a href={url}>
 			<Button
 				size="sm"
-				disabled={active}
+				disabled={url === pathname}
 				className="w-full justify-start capitalize"
 				variant="ghost"
 			>
-				{post.title}
+				{post.data.title}
 			</Button>
-		</Link>
+		</a>
 	);
 }

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { z } from "zod";
 import { getSpotifyAccessToken } from "@/lib/spotify";
 
@@ -51,14 +50,20 @@ async function getTopTrack() {
 }
 
 export async function SpotifyTopTrackBadge() {
-	const tracks = await getTopTrack();
-
-	if (tracks.length === 0) {
+	try {
+		const tracks = await getTopTrack();
+		if (tracks.length === 0) return null;
+		return <TrackDisplay track={tracks[0]!} />;
+	} catch {
 		return null;
 	}
+}
 
-	const topTrack = tracks[0];
-
+function TrackDisplay({
+	track: topTrack,
+}: {
+	track: NonNullable<Awaited<ReturnType<typeof getTopTrack>>>[number];
+}) {
 	return (
 		<div>
 			<a
@@ -68,7 +73,7 @@ export async function SpotifyTopTrackBadge() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<Image
+				<img
 					src={topTrack.album.images[0].url}
 					alt={topTrack.album.name}
 					width={64}

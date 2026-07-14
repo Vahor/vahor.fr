@@ -1,5 +1,3 @@
-"use server";
-
 import { JSDOM } from "jsdom";
 import sharp from "sharp";
 import { kv } from "@/lib/redis";
@@ -46,11 +44,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cached = await kv.get<MetaTags>(urlKey);
 	if (cached) return cached;
 
-	const page = await fetch(url, {
-		next: {
-			revalidate: 24 * 60 * 60, // 24 hours
-		},
-	});
+	const page = await fetch(url);
 
 	const html = await page.text();
 

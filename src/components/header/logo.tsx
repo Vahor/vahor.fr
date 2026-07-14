@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import darkLogo from "../../../public/logo-dark.svg";
-import whiteLogo from "../../../public/logo-white.svg";
+import { useTheme } from "@/components/Providers";
+
+const darkLogo = "/logo-dark.svg";
+const whiteLogo = "/logo-white.svg";
 
 export function Logo() {
 	const { resolvedTheme: theme } = useTheme();
@@ -16,8 +15,12 @@ export function Logo() {
 	}, []);
 
 	return (
-		<Link href="/" className="flex shrink-0 cursor-pointer items-center gap-3">
-			<Image
+		<a
+			href="/"
+			data-astro-prefetch
+			className="flex shrink-0 cursor-pointer items-center gap-3"
+		>
+			<img
 				src={mounted && theme === "dark" ? darkLogo : whiteLogo}
 				alt="Logo"
 				width={24}
@@ -26,6 +29,6 @@ export function Logo() {
 			<span className="hidden font-semibold text-dark text-lg sm:inline dark:text-white">
 				Vahor
 			</span>
-		</Link>
+		</a>
 	);
 }

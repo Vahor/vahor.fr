@@ -7,7 +7,15 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!dist", "!node_modules", "!.contentlayer", "!.next"]
+		"includes": [
+			"**",
+			"!dist",
+			"!node_modules",
+			"!.contentlayer",
+			"!.next",
+			"!.vercel",
+			"!.astro"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -30,6 +38,9 @@
 			"suspicious": {
 				"noRedeclare": "off",
 				"noExplicitAny": "off"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off"
 			},
 			"style": {
 				"noDescendingSpecificity": "off",

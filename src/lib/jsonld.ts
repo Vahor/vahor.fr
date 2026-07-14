@@ -1,5 +1,4 @@
 import type { Article, Person, ProfilePage, WithContext } from "schema-dts";
-import { env } from "@/env";
 import {
 	AVATAR_URL,
 	GITHUB_PROFILE,
@@ -16,18 +15,25 @@ export const author: Person = {
 	sameAs: [TWITTER_PROFILE, LINKEDIN_PROFILE, GITHUB_PROFILE],
 };
 
-export const profilePage: WithContext<ProfilePage> = {
-	"@context": "https://schema.org",
-	"@type": "ProfilePage",
-	dateCreated: "2021-09-17T00:00:00.000Z",
-	dateModified: env.BUILD_TIME,
-	mainEntity: author,
-};
+export function profilePage(buildTime: string): WithContext<ProfilePage> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "ProfilePage",
+		dateCreated: "2021-09-17T00:00:00.000Z",
+		dateModified: buildTime,
+		mainEntity: author,
+	};
+}
 
-export const articlePage = (props: Partial<Article>): WithContext<Article> => ({
-	"@context": "https://schema.org",
-	"@type": "BlogPosting",
-	author,
-	dateModified: env.BUILD_TIME,
-	...props,
-});
+export function articlePage(
+	props: Partial<Article>,
+	buildTime: string,
+): WithContext<Article> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		author,
+		dateModified: buildTime,
+		...props,
+	};
+}

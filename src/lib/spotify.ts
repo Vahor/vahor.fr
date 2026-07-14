@@ -46,7 +46,10 @@ export async function getSpotifyAccessToken(refresh = false) {
 		throw new Error("Failed to refresh Spotify access token");
 	}
 
-	const data = await response.json();
+	const data = (await response.json()) as {
+		access_token: string;
+		expires_in: number;
+	};
 	const { access_token, expires_in } = data;
 	kv.set(cacheKeyAccessToken, access_token, { ex: expires_in });
 

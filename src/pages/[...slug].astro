@@ -1,0 +1,83 @@
+---
+import { getCollection } from "astro:content";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
+import { Calendar, Clock, Pencil } from "lucide-react";
+import CommentSection from "@/components/Comments";
+import Hr from "@/components/Hr";
+import { JsonLd } from "@/components/jsonld/profile-page";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { articlePage } from "@/lib/jsonld";
+import { mdxComponents } from "@/lib/mdx-components";
+import {
+	fullTagsFromEntry,
+	githubEditUrl,
+	timeToRead,
+	urlFromEntry,
+} from "@/lib/posts";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("posts");
+	return posts.map((post) => {
+		const segments = urlFromEntry(post).split("/").filter(Boolean);
+		return {
+			params: { slug: segments.length ? segments.join("/") : undefined },
+		};
+	});
+}
+
+const { slug } = Astro.params;
+const posts = await getCollection("posts");
+const post = posts.find((p) => urlFromEntry(p) === `/${slug ?? ""}`);
+
+if (!post) return Astro.redirect("/404");
+
+const { Content } = await post.render();
+const formatDateTime = (d: Date) => format(d, "d MMMM yyyy", { locale: fr });
+const buildTime = new Date().toISOString();
+const tags = fullTagsFromEntry(post);
+const pageJsonLd = articlePage(
+	{
+		headline: post.data.title,
+		datePublished: post.data.datePublished.toISOString(),
+		image: `https://vahor.fr/og/${slug}`,
+		description: post.data.description,
+	},
+	buildTime,
+);
+---
+
+<BaseLayout title={post.data.title}>
+	<main class="post-content container mx-auto pb-16" id="skip-nav">
+		<JsonLd jsonLd={pageJsonLd} />
+		<header class="mb-10 flex flex-col gap-6">
+			<h1 class="text-balance font-semibold text-3xl text-black dark:text-white">{post.data.title}</h1>
+			<p>{post.data.description}</p>
+			<div class="flex flex-row items-center gap-6 font-mono">
+				<div class="flex flex-row items-center gap-2">
+					<Clock className="size-4" />
+					<span class="text-xs">{timeToRead(post.body ?? "")} min de lecture</span>
+				</div>
+				<div class="flex flex-row items-center gap-2">
+					<Calendar className="size-4" />
+					<span class="text-xs"><time datetime={post.data.datePublished.toISOString()}>{formatDateTime(post.data.datePublished)}</time></span>
+				</div>
+			</div>
+			<div class="flex flex-row items-center gap-2" id="tags">
+				{tags.map((tag: string) => <a href={`/tag/${tag}`} class="rounded-md bg-accent px-2 py-1 font-mono text-black text-xs capitalize dark:text-white">{tag}</a>)}
+			</div>
+		</header>
+		<article class="text-pretty">
+			<Content components={mdxComponents} />
+		</article>
+		<Hr />
+		<footer class="mb-16">
+			<a href={githubEditUrl(post)} class="flex w-max flex-row items-center gap-2 font-mono text-sm hover:text-black dark:hover:text-white">
+				<Pencil className="size-3" /><span>Suggérer une modification</span>
+			</a>
+		</footer>
+		<section class="larger-post-content">
+			<CommentSection client:load />
+		</section>
+	</main>
+</BaseLayout>

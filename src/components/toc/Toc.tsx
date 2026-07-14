@@ -1,16 +1,17 @@
-import { allPosts } from "contentlayer/generated";
+import { getCollection } from "astro:content";
 import { TocLink } from "./TocLink";
 
 interface TocProps {
 	group: string;
 }
 
-export function Toc({ group }: TocProps) {
+export async function Toc({ group }: TocProps) {
+	const allPosts = await getCollection("posts");
 	const matchingPosts = allPosts
-		.filter((post) => post.toc && post.toc.group === group)
+		.filter((post) => post.data.toc && post.data.toc.group === group)
 		.toSorted((a, b) => {
-			const aOrder = a.toc!.order;
-			const bOrder = b.toc!.order;
+			const aOrder = a.data.toc!.order;
+			const bOrder = b.data.toc!.order;
 			return aOrder - bOrder;
 		});
 
@@ -21,7 +22,7 @@ export function Toc({ group }: TocProps) {
 				<ul className="space-y-1">
 					{matchingPosts.map((post) => {
 						return (
-							<li key={post._id} className="list-none">
+							<li key={post.id} className="list-none">
 								<TocLink post={post} />
 							</li>
 						);

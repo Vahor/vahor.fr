@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { extractMetaTags } from "@/lib/scraper";
 
 interface UrlPreviewProps {
@@ -25,28 +24,21 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 					{metadata.description.slice(0, 200)}
 				</p>
 				<div className="space-x-2 overflow-hidden text-ellipsis whitespace-nowrap">
-					<Image
+					<img
 						src={metadata.favicon}
 						alt={metadata.title}
 						width={16}
 						height={16}
-						unoptimized={true}
 						className="inline-block rounded-lg"
 					/>
 					<span>{url}</span>
 				</div>
 			</div>
 			<div className="relative hidden w-full md:block">
-				<Image
+				<img
 					src={metadata.image || metadata.favicon}
 					alt={metadata.title}
-					fill
-					unoptimized={true}
-					className="rounded-r-md"
-					style={{
-						objectFit: "cover",
-						objectPosition: "center",
-					}}
+					className="rounded-r-md object-cover w-full h-full absolute inset-0"
 				/>
 			</div>
 		</a>

@@ -1,0 +1,170 @@
+---
+title: Simple Schematics
+description: Plugin minecraft pour simplifier la gestion des schématics. 
+datePublished: 2022-02-26
+tags:
+ - minecraft
+---
+
+<UrlPreview url="https://github.com/Vahor/SimpleSchematics"/>
+
+## Fonctions
+
+- Créer des schematics
+- Rotation automatique lors de l’application du schematic
+- Prévisualisation du schematic dans la description de l’objet
+- Sauvegarde des schematics dans des dossiers avec icons customisables
+- Traductions de tous les messages à l’aide d’un fichier `messages.properties`
+
+## Dépendances
+
+- WorldEdit *(FastAsyncWorldEdit)*
+- Spigot 1.8+ *(testé sur 1.8 → 1.12)*
+
+## Permissions
+
+- simpleschematics.default\
+    Donne accès à toutes les commandes liées au plugin
+
+## Commandes principales
+
+### \/s schematic create \<dossier> \<nom>
+
+Sauvegarde la sélection actuelle dans un fichier.
+
+```bash  /trees/#r /small/#g /test/#b
+/s schematic create trees.small test
+```
+
+:::info
+    Cette commande va sauvegarder la sélection dans le fichier <B>test.schematics</B>.
+    Ce fichier sera situé dans le dossier <G>small</G>, lui même dans le dossier <R>trees</R>. 
+
+    *Chemin final `{rootFolder}/trees/small/test.schematics`*
+:::
+
+### \/s to
+
+Envoie votre sélection vers WorldEdit.
+
+### \/s from
+
+Import une sélection WorldEdit.
+
+
+### \/s trim [-c]
+
+Redimensionne la zone de sélection au plus proche de la construction.\
+Avec le flag `-c` des coins sont ajoutés.
+
+<Vimeo id="722709583" title="Trim demo"/>
+
+### \/s folder icon \<dossier>
+
+Remplace l'icon du dossier avec l'objet que vous tenez en main.
+
+### \/s toggle
+
+Alterne le mode de selection entre deux modes `mode sélection` et `mode création`.
+
+## Menus
+
+### Menu Principal
+
+![Menu minecraft avec 4 livres dans la première ligne et des boutons d'action en dernière ligne](/projects/simple-schematics/menu-main.png)
+
+#### Actions
+
+:::info
+    Les actions sont les éléments présent en dernière ligne sur l'inventaire en haut de l'image.<br/>
+    Ils vont être présenté de gauche à droite.
+:::
+
+
+##### Activer l’auto rotation des schematics
+
+Lorsque cette option est désactivée, la copie se fait avec un angle aléatoire *(multiple de 90°)*.\
+L'objet passe au vert lorsqu'il est actif.
+
+##### TODO
+
+##### Page précédente
+
+Symbolisé par une flèche, ce bouton permet de retourner au dossier parent.
+
+##### Tout sélectionner
+
+Permet de sélectionner ou de déselectionner les schématics affichés.
+
+##### Filtre
+
+Permet de filtrer la liste: par ordre `alphabétique` ou par `date de création`.
+
+### Liste de schématics
+
+:::info
+    Similaire à une structure de fichier, il y a des dossiers et des schématics.
+
+    Un dossier est représenté par un livre, un schématic par une carte.
+:::
+
+![Tooltip d'information d'un dossier montrant les actions possibles](/projects/simple-schematics/menu-list.png)
+
+
+## Configuration par dossier
+
+```yaml showLineNumbers title="folder_data.yml"
+material: SKULL_ITEM
+data: 3
+skull_base64: <base64>
+generate_thumbnail: false
+```
+
+### `generate_thumbnail`
+
+<small>Type: __boolean__</small>
+
+`true{:java}` Génère automatiquement les miniatures.\
+`false{:java}` Désactive la fonctionalité. 
+
+:::info
+Les miniatures fonctionnent mieux avec les éléments imposants comme les arbres.
+:::
+
+### `skull_base64`
+
+<small>Type: __base64__</small>
+
+Base64 de l'icon du dossier, se remplis automatiquement à l'aide de la commande [`/s folder icon <folder>`](#s-folder-icon-dossier)
+
+
+## Outils
+
+:::info
+    Pour changer le mode de l'outil, utilisez [`/s toggle`](#s-toggle)
+:::
+
+### Mode séléction
+
+**Clic droit** : Colle la sélection\
+**Clic gauche** : Ouvre le menu de sélection de schématics.
+
+### Mode création
+
+**Clic droit** : Successivement, `pos1`, `pos2` puis point de `copie`\
+**Shift clic droit** : Reset historique, on recommence à `pos1`
+
+### Schématics
+
+**Clic droit** : Colle le schématic dans la direction visée
+
+----
+
+## TODOs
+
+- si possible rendre la description de l'item rotation plus joli 
+- Auto import/remove schematics when something change in folders
+- Add javadoc
+- Add sound on inventory clicks
+- Add interface for API. And remove statics
+- Doc: Ajouter la configuration de base
