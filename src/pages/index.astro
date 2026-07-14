@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import A from "@/components/A";
 import { CopyMailBadge } from "@/components/CopyMailBadge";
 import { CurrentlyListeningSvg } from "@/components/CurrentlyListeningSvg";
@@ -9,9 +10,8 @@ import { UrlBadge } from "@/components/UrlBadge";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { TWITTER_PROFILE } from "@/lib/constants";
 import { profilePage } from "@/lib/jsonld";
-import { getAllPosts } from "@/lib/posts";
 
-const allPosts = await getAllPosts();
+const allPosts = await getCollection("posts");
 const postCount = allPosts.length;
 const pageJsonLd = profilePage(new Date().toISOString());
 ---
