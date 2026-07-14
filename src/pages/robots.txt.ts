@@ -4,7 +4,7 @@ export function GET() {
 User-agent: *
 Allow: /
 
-Sitemap: https://vahor.fr/sitemap.xml
+Sitemap: https://vahor.fr/sitemap-index.xml
 Host: https://vahor.fr
 
 # Content Signals: https://contentsignals.org/
