@@ -74,7 +74,18 @@ export default defineConfig({
 				includeMarkdown,
 			],
 		}),
-		sitemap(),
+		sitemap({
+			filter: (page) => !page.includes("/og/"),
+			serialize(item) {
+				if (item.url === "https://vahor.fr/") {
+					return { ...item, changefreq: "daily", priority: 1 };
+				}
+				if (item.url.includes("/tag/")) {
+					return { ...item, changefreq: "monthly", priority: 0.5 };
+				}
+				return { ...item, changefreq: "monthly", priority: 0.6 };
+			},
+		}),
 	],
 	adapter: vercel(),
 	vite: {
