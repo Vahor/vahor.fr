@@ -1,4 +1,4 @@
-import { getAllPosts } from "@/lib/posts";
+import { getCollection } from "astro:content";
 import { TocLink } from "./TocLink";
 
 interface TocProps {
@@ -6,7 +6,7 @@ interface TocProps {
 }
 
 export async function Toc({ group }: TocProps) {
-	const allPosts = await getAllPosts();
+	const allPosts = await getCollection("posts");
 	const matchingPosts = allPosts
 		.filter((post) => post.data.toc && post.data.toc.group === group)
 		.toSorted((a, b) => {
