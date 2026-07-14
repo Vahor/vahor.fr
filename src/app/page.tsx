@@ -37,7 +37,7 @@ export default function Home() {
 					<UrlBadge url="https://www.mewo.fr" title="Mewo" /> effectué en
 					alternance chez{" "}
 					<UrlBadge url="https://www.sesamm.com/" title="SESAMm" />, j'occupe
-					désormais le poste de développeur fullstack depuis plus de 3 ans.
+					désormais le poste de développeur fullstack depuis plus de 4 ans.
 				</p>
 			</section>
 
