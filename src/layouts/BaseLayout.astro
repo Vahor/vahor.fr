@@ -18,7 +18,7 @@ const searchItems: SearchItem[] = allPosts.map((post) => ({
 ---
 
 <!doctype html>
-<html lang="fr" class="dark">
+<html lang="fr">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,6 +27,17 @@ const searchItems: SearchItem[] = allPosts.map((post) => ({
 		<link rel="alternate" type="application/rss+xml" href="/rss.xml" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<script is:inline>
+			(() => {
+				const theme = (() => {
+					const stored = localStorage.getItem("theme");
+					if (stored) return stored;
+					return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+				})();
+				document.documentElement.classList.toggle("dark", theme === "dark");
+				document.documentElement.style.colorScheme = theme;
+			})();
+		</script>
 	</head>
 	<body class="min-h-[100svh] bg-background text-foreground antialiased">
 		<Providers client:load>

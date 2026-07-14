@@ -1,5 +1,4 @@
 "use client";
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -15,15 +14,32 @@ const SunIcon = () => (
 	</svg>
 );
 
+function getTheme(): "dark" | "light" {
+	return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
+function setThemeDOM(t: "dark" | "light") {
+	document.documentElement.classList.toggle("dark", t === "dark");
+	document.documentElement.style.colorScheme = t;
+	localStorage.setItem("theme", t);
+}
+
 export function ThemeSwitcher() {
-	const { resolvedTheme: theme, setTheme } = useTheme();
-	const [mounted, setMounted] = useState(false);
-	const updateTheme = () => { setTheme(theme === "dark" ? "light" : "dark"); };
-	useEffect(() => { setMounted(true); }, []);
+	const [theme, setTheme] = useState<"dark" | "light" | null>(null);
+
+	useEffect(() => {
+		setTheme(getTheme());
+	}, []);
+
+	const toggle = () => {
+		const next = theme === "dark" ? "light" : "dark";
+		setThemeDOM(next);
+		setTheme(next);
+	};
 
 	return (
-		<Button variant="ghost" size="icon" onClick={updateTheme}>
-			{mounted && (theme === "dark" ? <MoonIcon /> : <SunIcon />)}
+		<Button variant="ghost" size="icon" onClick={toggle}>
+			{theme === "dark" ? <MoonIcon /> : <SunIcon />}
 		</Button>
 	);
 }
