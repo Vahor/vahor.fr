@@ -11,7 +11,9 @@ export function Header({ posts }: { posts: SearchItem[] }) {
 			<div className="flex items-center justify-end gap-3">
 				<nav className="flex gap-6">
 					{HEADER_LINKS.map(({ label, href }) => (
-						<a href={href} key={label} className="hover:text-black dark:hover:text-white">{label}</a>
+						<a href={href} key={label} className="hover:text-black dark:hover:text-white">
+							{label}
+						</a>
 					))}
 				</nav>
 				<ThemeSwitcher />

@@ -1,17 +1,17 @@
 ---
 import { Header } from "@/components/header/header";
 import { Providers } from "@/components/Providers";
-import { getAllPosts, urlFromEntry } from "@/lib/posts";
-import type { SearchItem } from "@/lib/search";
+import { getAllPosts, urlFromEntry, fullTagsFromEntry } from "@/lib/posts";
 import "@/styles/globals.css";
 
 const allPosts = await getAllPosts();
-const searchItems: SearchItem[] = allPosts.map((post) => ({
+const searchData = allPosts.map((post) => ({
 	title: post.data.title,
 	description: post.data.description,
-	fullTags: post.data.tags,
+	fullTags: fullTagsFromEntry(post),
 	pageType: post.id.split("/")[0]!,
 	datePublished: post.data.datePublished.toISOString(),
+	raw: post.body ?? "",
 	url: urlFromEntry(post),
 	external: false,
 }));
@@ -41,7 +41,7 @@ const searchItems: SearchItem[] = allPosts.map((post) => ({
 	</head>
 	<body class="min-h-[100svh] bg-background text-foreground antialiased">
 		<Providers client:load>
-			<Header posts={searchItems} client:load />
+			<Header client:load posts={searchData} />
 			<slot />
 		</Providers>
 	</body>

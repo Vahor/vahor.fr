@@ -44,7 +44,14 @@ const options: PluginOptions = {
 	}),
 	sections: [
 		{ title: "Vahor.fr" },
-		{ title: "Posts", links: posts.map((post) => ({ title: post.title, url: `${BASE_URL}/${post.pageType}/${post.slug}.md`, description: post.description })) },
+		{
+			title: "Posts",
+			links: posts.map((post) => ({
+				title: post.title,
+				url: `${BASE_URL}/${post.pageType}/${post.slug}.md`,
+				description: post.description,
+			})),
+		},
 	],
 	content: mdxFiles.map((path) => ({ path })),
 };

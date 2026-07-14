@@ -1,20 +1,10 @@
 "use client";
+
 import Giscus from "@giscus/react";
-import { useEffect, useState } from "react";
+import { useTheme } from "@/components/Providers";
 
 export default function CommentSection() {
-	const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-	useEffect(() => {
-		const current = document.documentElement.classList.contains("dark") ? "dark" : "light";
-		setTheme(current);
-
-		const observer = new MutationObserver(() => {
-			setTheme(document.documentElement.classList.contains("dark") ? "dark" : "light");
-		});
-		observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-		return () => observer.disconnect();
-	}, []);
+	const { resolvedTheme: theme } = useTheme();
 
 	return (
 		<Giscus
@@ -27,7 +17,7 @@ export default function CommentSection() {
 			reactionsEnabled="1"
 			emitMetadata="0"
 			inputPosition="top"
-			theme={theme}
+			theme={theme === "dark" ? "dark" : "light"}
 			strict="0"
 			loading="lazy"
 			lang="fr"

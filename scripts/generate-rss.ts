@@ -28,12 +28,14 @@ function getPostMeta(filePath: string) {
 	const year = new Date(data.datePublished).getFullYear();
 	return {
 		title: data.title, description: data.description ?? "",
-		datePublished: new Date(data.datePublished), tags,
+		datePublished: new Date(data.datePublished),
 		url, fullTags: [pageType, ...tags, year.toString()],
 	};
 }
 
-const posts = findAllMdxFiles("src/content/posts").map(getPostMeta).filter((p): p is NonNullable<ReturnType<typeof getPostMeta>> => p !== null);
+const posts = findAllMdxFiles("src/content/posts")
+	.map(getPostMeta)
+	.filter((p): p is NonNullable<ReturnType<typeof getPostMeta>> => p !== null);
 
 const feed = new RSS({
 	title: "Vahor", description: "Développeur full-stack",

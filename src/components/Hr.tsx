@@ -1,3 +1,6 @@
-export default function Hr({ className, ...props }: React.HTMLAttributes<HTMLHRElement>) {
-	return <hr className={`my-16 w-full border-border md:my-24 lg:my-32 ${className ?? ""}`} {...props} />;
+import type { HTMLProps } from "react";
+import { cn } from "@/lib/utils";
+
+export default function Hr({ className, ...props }: HTMLProps<HTMLHRElement>) {
+	return <hr className={cn("my-4 md:my-8", className)} {...props} />;
 }
