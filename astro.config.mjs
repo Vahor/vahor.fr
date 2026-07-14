@@ -45,6 +45,15 @@ const highlightPlugin = [
 
 export default defineConfig({
 	site: "https://vahor.fr",
+	markdown: {
+		remarkPlugins: [
+			remarkGfm,
+			remarkDirective,
+			addCalloutComponent,
+			includeMarkdown,
+		],
+		rehypePlugins: [highlightPlugin, rehypeSlug],
+	},
 	integrations: [
 		react(),
 		mdx({
@@ -64,8 +73,6 @@ export default defineConfig({
 						},
 					},
 				],
-				highlightPlugin,
-				rehypeSlug,
 			],
 			remarkPlugins: [
 				remarkGfm,
