@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Calendar, Clock, Pencil } from "lucide-react";
@@ -10,14 +11,13 @@ import { articlePage } from "@/lib/jsonld";
 import { mdxComponents } from "@/lib/mdx-components";
 import {
 	fullTagsFromEntry,
-	getAllPosts,
 	githubEditUrl,
 	timeToRead,
 	urlFromEntry,
 } from "@/lib/posts";
 
 export async function getStaticPaths() {
-	const posts = await getAllPosts();
+	const posts = await getCollection("posts");
 	return posts.map((post) => {
 		const segments = urlFromEntry(post).split("/").filter(Boolean);
 		return {
@@ -27,7 +27,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const posts = await getAllPosts();
+const posts = await getCollection("posts");
 const post = posts.find((p) => urlFromEntry(p) === `/${slug ?? ""}`);
 
 if (!post) return Astro.redirect("/404");
@@ -47,7 +47,7 @@ const pageJsonLd = articlePage(
 );
 ---
 
-<BaseLayout>
+<BaseLayout title={post.data.title}>
 	<main class="post-content container mx-auto pb-16" id="skip-nav">
 		<JsonLd jsonLd={pageJsonLd} />
 		<header class="mb-10 flex flex-col gap-6">
