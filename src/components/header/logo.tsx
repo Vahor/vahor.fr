@@ -15,7 +15,11 @@ export function Logo() {
 	}, []);
 
 	return (
-		<a href="/" className="flex shrink-0 cursor-pointer items-center gap-3">
+		<a
+			href="/"
+			data-astro-prefetch
+			className="flex shrink-0 cursor-pointer items-center gap-3"
+		>
 			<img
 				src={mounted && theme === "dark" ? darkLogo : whiteLogo}
 				alt="Logo"
