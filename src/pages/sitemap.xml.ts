@@ -1,8 +1,10 @@
-import { getAllPosts, urlFromEntry, fullTagsFromEntry } from "@/lib/posts";
+import { fullTagsFromEntry, getAllPosts, urlFromEntry } from "@/lib/posts";
 
 export async function GET() {
 	const posts = await getAllPosts();
-	const allTags = Array.from(new Set(posts.flatMap((p) => fullTagsFromEntry(p))));
+	const allTags = Array.from(
+		new Set(posts.flatMap((p) => fullTagsFromEntry(p))),
+	);
 	allTags.push("all");
 
 	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -12,5 +14,7 @@ export async function GET() {
 	${allTags.map((tag) => `<url><loc>https://vahor.fr/tag/${tag}</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>`).join("")}
 </urlset>`;
 
-	return new Response(sitemap, { headers: { "Content-Type": "application/xml" } });
+	return new Response(sitemap, {
+		headers: { "Content-Type": "application/xml" },
+	});
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GITHUB_PROFILE } from "@/lib/constants";
 import { useTheme } from "@/components/Providers";
+import { GITHUB_PROFILE } from "@/lib/constants";
 import { UrlBadgeWithMetadata } from "../UrlBadge";
 
 export function GithubIcon() {

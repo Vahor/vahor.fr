@@ -1,20 +1,28 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getAllPosts, urlFromEntry, fullTagsFromEntry, timeToRead, githubEditUrl } from "@/lib/posts";
-import { articlePage } from "@/lib/jsonld";
-import Hr from "@/components/Hr";
-import { JsonLd } from "@/components/jsonld/profile-page";
-import CommentSection from "@/components/Comments";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Calendar, Clock, Pencil } from "lucide-react";
+import CommentSection from "@/components/Comments";
+import Hr from "@/components/Hr";
+import { JsonLd } from "@/components/jsonld/profile-page";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { articlePage } from "@/lib/jsonld";
 import { mdxComponents } from "@/lib/mdx-components";
+import {
+	fullTagsFromEntry,
+	getAllPosts,
+	githubEditUrl,
+	timeToRead,
+	urlFromEntry,
+} from "@/lib/posts";
 
 export async function getStaticPaths() {
 	const posts = await getAllPosts();
 	return posts.map((post) => {
 		const segments = urlFromEntry(post).split("/").filter(Boolean);
-		return { params: { slug: segments.length ? segments.join("/") : undefined } };
+		return {
+			params: { slug: segments.length ? segments.join("/") : undefined },
+		};
 	});
 }
 
@@ -28,12 +36,15 @@ const { Content } = await post.render();
 const formatDateTime = (d: Date) => format(d, "d MMMM yyyy", { locale: fr });
 const buildTime = new Date().toISOString();
 const tags = fullTagsFromEntry(post);
-const pageJsonLd = articlePage({
-	headline: post.data.title,
-	datePublished: post.data.datePublished.toISOString(),
-	image: `https://vahor.fr/og/${slug}`,
-	description: post.data.description,
-}, buildTime);
+const pageJsonLd = articlePage(
+	{
+		headline: post.data.title,
+		datePublished: post.data.datePublished.toISOString(),
+		image: `https://vahor.fr/og/${slug}`,
+		description: post.data.description,
+	},
+	buildTime,
+);
 ---
 
 <BaseLayout>

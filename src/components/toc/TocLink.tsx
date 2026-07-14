@@ -4,7 +4,8 @@ import { urlFromEntry } from "@/lib/posts";
 import { Button } from "../ui/button";
 
 export function TocLink({ post }: { post: CollectionEntry<"posts"> }) {
-	const pathname = typeof window !== "undefined" ? window.location.pathname : "";
+	const pathname =
+		typeof window !== "undefined" ? window.location.pathname : "";
 	const url = urlFromEntry(post);
 
 	return (

@@ -29,7 +29,6 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 						alt={metadata.title}
 						width={16}
 						height={16}
-						
 						className="inline-block rounded-lg"
 					/>
 					<span>{url}</span>
@@ -39,7 +38,6 @@ export const UrlPreview = async ({ url }: UrlPreviewProps) => {
 				<img
 					src={metadata.image || metadata.favicon}
 					alt={metadata.title}
-					
 					className="rounded-r-md"
 				/>
 			</div>

@@ -20,5 +20,10 @@ export async function GET({ params }: { params: { slug: string } }) {
 	<text x="100" y="540" font-family="system-ui, sans-serif" font-size="24" fill="#a0a0a0"><tspan font-weight="bold" fill="white">Nathan David</tspan> — vahor.fr</text>
 </svg>`;
 
-	return new Response(svg, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=31536000, immutable" } });
+	return new Response(svg, {
+		headers: {
+			"Content-Type": "image/svg+xml",
+			"Cache-Control": "public, max-age=31536000, immutable",
+		},
+	});
 }

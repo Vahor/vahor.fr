@@ -2,8 +2,6 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
 import {
 	transformerNotationDiff,
 	transformerNotationErrorLevel,
@@ -11,7 +9,9 @@ import {
 	transformerRenderWhitespace,
 } from "@shikijs/transformers";
 import { transformerTwoslash } from "@shikijs/twoslash";
+import tailwindcss from "@tailwindcss/vite";
 import rehypeD2 from "@vahor/rehype-d2";
+import { defineConfig } from "astro/config";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive";
@@ -55,10 +55,7 @@ export default defineConfig({
 						cwd: "./public/blog/d2/imports",
 						defaultThemes: ["light", "dark"],
 						globalImports: {
-							light: [
-								{ filename: "light.d2", mode: "prepend" },
-								"config.d2",
-							],
+							light: [{ filename: "light.d2", mode: "prepend" }, "config.d2"],
 							dark: [
 								{ filename: "light.d2", mode: "prepend" },
 								{ filename: "dark.d2", mode: "prepend" },
@@ -70,7 +67,12 @@ export default defineConfig({
 				highlightPlugin,
 				rehypeSlug,
 			],
-			remarkPlugins: [remarkGfm, remarkDirective, addCalloutComponent, includeMarkdown],
+			remarkPlugins: [
+				remarkGfm,
+				remarkDirective,
+				addCalloutComponent,
+				includeMarkdown,
+			],
 		}),
 		sitemap(),
 	],

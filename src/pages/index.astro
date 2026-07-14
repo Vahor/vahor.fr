@@ -1,7 +1,4 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getAllPosts } from "@/lib/posts";
-import { profilePage } from "@/lib/jsonld";
 import A from "@/components/A";
 import { CopyMailBadge } from "@/components/CopyMailBadge";
 import { CurrentlyListeningSvg } from "@/components/CurrentlyListeningSvg";
@@ -9,7 +6,10 @@ import { GithubIcon } from "@/components/icons/Github";
 import { JsonLd } from "@/components/jsonld/profile-page";
 import { SpotifyTopTrackBadge } from "@/components/SpotifyTopArtist";
 import { UrlBadge } from "@/components/UrlBadge";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { TWITTER_PROFILE } from "@/lib/constants";
+import { profilePage } from "@/lib/jsonld";
+import { getAllPosts } from "@/lib/posts";
 
 const allPosts = await getAllPosts();
 const postCount = allPosts.length;

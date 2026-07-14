@@ -10,11 +10,16 @@ export function includeMarkdown() {
 			try {
 				if (node.type === "code") return;
 				const targetNode = node.children?.[0] ?? node;
-				const includeMatch = targetNode.value?.match(/^@include\s['"](.*)['"]$/);
+				const includeMatch = targetNode.value?.match(
+					/^@include\s['"](.*)['"]$/,
+				);
 				if (!includeMatch) return;
 				let filePath = includeMatch[1];
 				const isFake = filePath.startsWith("fake:");
-				if (isFake) { targetNode.value = `@include "${filePath.slice(5)}"`; return; }
+				if (isFake) {
+					targetNode.value = `@include "${filePath.slice(5)}"`;
+					return;
+				}
 				const isRaw = filePath.startsWith("raw:");
 				if (isRaw) filePath = filePath.slice(4);
 				const dirname = file.dirname ?? file.cwd ?? ".";
@@ -30,9 +35,16 @@ export function includeMarkdown() {
 					node.position = result.position;
 					return;
 				}
-				if (isRaw) { targetNode.value = contents.replace(/\n$/, ""); }
-				else { node.type = "code"; node.lang = extension; node.value = contents.replace(/\n$/, ""); }
-			} catch (err) { console.error(err); }
+				if (isRaw) {
+					targetNode.value = contents.replace(/\n$/, "");
+				} else {
+					node.type = "code";
+					node.lang = extension;
+					node.value = contents.replace(/\n$/, "");
+				}
+			} catch (err) {
+				console.error(err);
+			}
 		});
 	};
 }

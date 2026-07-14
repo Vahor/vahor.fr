@@ -1,5 +1,10 @@
 import type { Article, Person, ProfilePage, WithContext } from "schema-dts";
-import { AVATAR_URL, GITHUB_PROFILE, LINKEDIN_PROFILE, TWITTER_PROFILE } from "./constants";
+import {
+	AVATAR_URL,
+	GITHUB_PROFILE,
+	LINKEDIN_PROFILE,
+	TWITTER_PROFILE,
+} from "./constants";
 
 export const author: Person = {
 	"@type": "Person",
@@ -20,7 +25,10 @@ export function profilePage(buildTime: string): WithContext<ProfilePage> {
 	};
 }
 
-export function articlePage(props: Partial<Article>, buildTime: string): WithContext<Article> {
+export function articlePage(
+	props: Partial<Article>,
+	buildTime: string,
+): WithContext<Article> {
 	return {
 		"@context": "https://schema.org",
 		"@type": "BlogPosting",

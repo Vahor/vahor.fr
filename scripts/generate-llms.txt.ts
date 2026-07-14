@@ -1,6 +1,10 @@
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { extname, join } from "node:path";
-import { generate, LLMS_TXT_FILENAME, type PluginOptions } from "@vahor/llms-txt";
+import {
+	generate,
+	LLMS_TXT_FILENAME,
+	type PluginOptions,
+} from "@vahor/llms-txt";
 import matter from "gray-matter";
 
 const BASE_URL = "https://vahor.fr";
@@ -10,7 +14,8 @@ function findAllMdxFiles(dir: string): string[] {
 	const files: string[] = [];
 	for (const entry of readdirSync(dir)) {
 		const fullPath = join(dir, entry);
-		if (statSync(fullPath).isDirectory()) files.push(...findAllMdxFiles(fullPath));
+		if (statSync(fullPath).isDirectory())
+			files.push(...findAllMdxFiles(fullPath));
 		else if (extname(entry) === ".mdx") files.push(fullPath);
 	}
 	return files;
@@ -25,7 +30,12 @@ const posts = mdxFiles.map((filePath) => {
 	const segments = relative.split("/");
 	const pageType = segments.length < 2 ? "blog" : segments[0]!;
 	const slug = segments[segments.length - 1]!;
-	return { title: data.title, description: data.description ?? "", pageType, slug };
+	return {
+		title: data.title,
+		description: data.description ?? "",
+		pageType,
+		slug,
+	};
 });
 
 const options: PluginOptions = {

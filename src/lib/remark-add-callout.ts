@@ -4,7 +4,11 @@ import { visit } from "unist-util-visit";
 export function addCalloutComponent() {
 	return (tree: any) => {
 		visit(tree, (node: any) => {
-			if (node.type === "containerDirective" || node.type === "leafDirective" || node.type === "textDirective") {
+			if (
+				node.type === "containerDirective" ||
+				node.type === "leafDirective" ||
+				node.type === "textDirective"
+			) {
 				node.attributes = node.attributes || {};
 				node.attributes.type = node.attributes.type || node.name || "note";
 				const data = node.data || {};

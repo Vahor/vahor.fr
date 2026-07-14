@@ -1,6 +1,6 @@
-import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
-import { urlFromEntry, fullTagsFromEntry } from "@/lib/posts";
+import rss from "@astrojs/rss";
+import { fullTagsFromEntry, urlFromEntry } from "@/lib/posts";
 
 export async function GET() {
 	const posts = await getCollection("posts");

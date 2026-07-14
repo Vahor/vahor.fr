@@ -1,4 +1,5 @@
 "use client";
+import Fuse from "fuse.js";
 import { Search } from "lucide-react";
 import React, { useEffect, useMemo, useTransition } from "react";
 import { useStore } from "zustand";
@@ -11,8 +12,12 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
-import Fuse from "fuse.js";
-import { EMAIL, GITHUB_PROFILE, LINKEDIN_PROFILE, TWITTER_PROFILE } from "@/lib/constants";
+import {
+	EMAIL,
+	GITHUB_PROFILE,
+	LINKEDIN_PROFILE,
+	TWITTER_PROFILE,
+} from "@/lib/constants";
 import type { SearchItem } from "@/lib/search";
 import { searchStore } from "@/stores/search.store";
 
@@ -194,8 +199,9 @@ function SearchInput({ posts }: { posts: SearchItem[] }) {
 			/>
 			<CommandList>
 				<CommandEmpty>
-					Aucun résultat pour{" "}
-					<span className="text-foreground">{query}</span>{" "}
+					Aucun résultat pour <span className="text-foreground">
+						{query}
+					</span>{" "}
 				</CommandEmpty>
 				{Object.entries(results).map(([type, data]) => (
 					<CommandGroup key={type} heading={type}>

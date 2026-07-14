@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import type React from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 
 type Theme = "dark" | "light";
 
@@ -20,7 +27,9 @@ export function Providers({ children }: React.PropsWithChildren) {
 	const [theme, setThemeState] = useState<Theme | null>(null);
 
 	useEffect(() => {
-		const current = document.documentElement.classList.contains("dark") ? "dark" : "light";
+		const current = document.documentElement.classList.contains("dark")
+			? "dark"
+			: "light";
 		setThemeState(current);
 	}, []);
 
