@@ -1,24 +1,24 @@
 ---
+import { getCollection } from "astro:content";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import {
 	fullTagsFromEntry,
-	getAllPosts,
 	getAllTags,
 	timeToRead,
 	urlFromEntry,
 } from "@/lib/posts";
 
 export async function getStaticPaths() {
-	const tags = await getAllTags();
-	return tags.map((tag) => ({ params: { tag } }));
+	const allTags = await getAllTags();
+	return allTags.map((tag) => ({ params: { tag }, props: { allTags } }));
 }
 
 const { tag } = Astro.params;
-const allPosts = await getAllPosts();
-const allTags = await getAllTags();
+const { allTags } = Astro.props;
+const allPosts = await getCollection("posts");
 
 if (!allTags.includes(tag)) return Astro.redirect("/404");
 
@@ -29,7 +29,7 @@ const filteredPosts = allPosts
 	);
 ---
 
-<BaseLayout>
+<BaseLayout title={tag}>
 	<div class="container relative grid gap-4 pb-8 md:grid-cols-4 md:pb-16">
 		<nav class="top-0 col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:sticky md:col-span-1 md:h-max md:max-h-none">
 			{allTags.map((t) => {
