@@ -53,6 +53,11 @@ const nextConfig = {
 		],
 	},
 
+	experimental: {
+		optimizeCss: true,
+	},
+	productionBrowserSourceMaps: true,
+
 	async headers() {
 		return [
 			{
