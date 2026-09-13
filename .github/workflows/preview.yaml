@@ -20,7 +20,7 @@ jobs:
       packages: write
       pull-requests: write
     env:
-      PREVIEW_HOST: vahor-fr-pr-${{ github.event.pull_request.number }}.vahor.fr
+      PREVIEW_HOST: vahor-fr-pr-${{ github.event.pull_request.number }}.preview.vahor.fr
     steps:
       - uses: actions/checkout@v7
         with:
