@@ -62,12 +62,6 @@ jobs:
           ghcr-token: ${{ secrets.GHCR_TOKEN }}
           ghcr-username: ${{ secrets.GHCR_USERNAME }}
 
-      - name: Comment preview URL
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: vahor-preview
-          message: |
-            ✅ Preview: https://${{ env.PREVIEW_HOST }}/
 
       - name: Remove preview
         uses: vahor-org/ansible-configs/.github/actions/preview@main
