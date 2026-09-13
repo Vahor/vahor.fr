@@ -6,7 +6,7 @@ const cacheKeyAccessToken = cacheKey("accessToken");
 const cacheKeyRefreshToken = cacheKey("refreshToken");
 
 const getCachedAccessToken = async () => {
-	const cachedToken = await kv.get(cacheKeyAccessToken);
+	const cachedToken = await kv?.get(cacheKeyAccessToken);
 	if (cachedToken) {
 		return cachedToken;
 	}
@@ -14,6 +14,8 @@ const getCachedAccessToken = async () => {
 };
 
 export async function getSpotifyAccessToken(refresh = false) {
+	if (!kv || !env.SPOTIFY_CLIENT_ID || !env.SPOTIFY_CLIENT_SECRET) return null;
+
 	const cachedToken = await getCachedAccessToken();
 	if (cachedToken && !refresh) {
 		return cachedToken;

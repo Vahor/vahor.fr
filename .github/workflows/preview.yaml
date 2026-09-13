@@ -1,0 +1,120 @@
+name: Pull request preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    if: >-
+      github.event.action != 'closed' &&
+      github.actor != 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: write
+    env:
+      PREVIEW_HOST: vahor-fr-pr-${{ github.event.pull_request.number }}.vahor.fr
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish immutable image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/vahor/vahor.fr:sha-${{ github.event.pull_request.head.sha }}
+          build-args: |
+            BUILD_TIME=${{ github.event.pull_request.updated_at }}
+            NEXT_PUBLIC_VERCEL_ENV=preview
+            NEXT_PUBLIC_VERCEL_URL=${{ env.PREVIEW_HOST }}
+          cache-from: type=gha,scope=vahor-fr
+          cache-to: type=gha,scope=vahor-fr,mode=min
+
+      - name: Request preview deployment
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.VAHOR_BOT_TOKEN }}
+          repository: vahor-org/ansible-configs
+          event-type: preview-deploy
+          client-payload: >-
+            {"app":"vahor-fr","pr":${{ github.event.pull_request.number }},"sha":"${{ github.event.pull_request.head.sha }}"}
+
+      - name: Wait for preview
+        run: |
+          for _ in $(seq 1 90); do
+            code="$(curl -sS -o /dev/null -w '%{http_code}' "https://$PREVIEW_HOST/" || true)"
+            if [[ "$code" == 200 ]]; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Preview did not become ready: https://$PREVIEW_HOST/" >&2
+          exit 1
+
+      - name: Comment preview URL
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const marker = "<!-- vahor-preview -->";
+            const body = `${marker}\n✅ Preview: https://${process.env.PREVIEW_HOST}/`;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find(
+              (comment) => comment.user?.type === "Bot" && comment.body?.includes(marker),
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+  remove:
+    if: >-
+      github.event.action == 'closed' &&
+      github.actor != 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Request preview removal
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.VAHOR_BOT_TOKEN }}
+          repository: vahor-org/ansible-configs
+          event-type: preview-remove
+          client-payload: >-
+            {"app":"vahor-fr","pr":${{ github.event.pull_request.number }}}

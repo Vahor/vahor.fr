@@ -1,0 +1,7 @@
+.git
+.github
+.husky
+.next
+node_modules
+.env*
+npm-debug.log*
