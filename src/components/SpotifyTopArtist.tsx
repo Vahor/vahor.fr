@@ -34,6 +34,8 @@ const apiSchema = z.object({
 
 async function getTopTrack() {
 	const token = await getSpotifyAccessToken();
+	if (!token) return [];
+
 	const res = await fetch(API_URL, {
 		method: "GET",
 		headers: {

@@ -40,17 +40,30 @@ type MetaTags = Record<XPathsKeys, string>;
 
 const cacheKey = (url: string) => `meta:${url}`;
 
+const fallbackMetaTags = (url: string): MetaTags => ({
+	title: new URL(url).hostname,
+	description: "",
+	image: EMPTY_BASE64_IMAGE,
+	favicon: EMPTY_BASE64_IMAGE,
+});
+
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
 	const urlKey = cacheKey(cleanUrl);
-	const cached = await kv.get<MetaTags>(urlKey);
+	const cached = await kv?.get<MetaTags>(urlKey);
 	if (cached) return cached;
 
-	const page = await fetch(url, {
-		next: {
-			revalidate: 24 * 60 * 60, // 24 hours
-		},
-	});
+	let page: Response;
+	try {
+		page = await fetch(url, {
+			next: {
+				revalidate: 24 * 60 * 60, // 24 hours
+			},
+		});
+	} catch {
+		return fallbackMetaTags(url);
+	}
+	if (!page.ok) return fallbackMetaTags(url);
 
 	const html = await page.text();
 
@@ -69,7 +82,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 		? await imageToBase64(image)
 		: await imageToBase64(favicon); // fallback to favicon
 
-	const previousValue = (await kv.get<MetaTags>(urlKey)) ?? properties;
+	const previousValue = (await kv?.get<MetaTags>(urlKey)) ?? properties;
 
 	const newProperties = {
 		...properties,
@@ -83,7 +96,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 				: properties.favicon,
 	} as MetaTags;
 
-	kv.set(urlKey, newProperties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
+	void kv?.set(urlKey, newProperties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
 
 	return newProperties;
 };
@@ -111,7 +124,7 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 
 	try {
 		const contentType = response.headers.get("content-type");
-		if (!contentType || !contentType.startsWith("image")) {
+		if (!contentType?.startsWith("image")) {
 			throw new Error("Invalid content type");
 		}
 

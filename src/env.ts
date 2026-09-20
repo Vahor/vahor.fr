@@ -6,8 +6,8 @@ export const env = createEnv({
 		NODE_ENV: z.enum(["development", "production"]).default("development"),
 		BUILD_TIME: z.coerce.string(),
 
-		SPOTIFY_CLIENT_ID: z.string(),
-		SPOTIFY_CLIENT_SECRET: z.string(),
+		SPOTIFY_CLIENT_ID: z.string().optional(),
+		SPOTIFY_CLIENT_SECRET: z.string().optional(),
 	},
 
 	client: {
