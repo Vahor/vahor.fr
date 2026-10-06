@@ -77,7 +77,7 @@
 		"remark": "^15.0.1",
 		"remark-code-import": "^1.2.0",
 		"rss": "^1.2.2",
-		"schema-dts": "^1.1.5",
+		"schema-dts": "^2.0.0",
 		"tailwindcss": "^4.3.2",
 		"typescript": "^5.9.3"
 	},
