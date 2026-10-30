@@ -207,7 +207,7 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 	await expect(result).toBeVisible();
 	await page.keyboard.press("ArrowDown");
 	await page.keyboard.press("Enter");
-	await expect(page).toHaveURL(/\/project\/charts\.vahor\.fr\/?$/);
+	await expect(page).toHaveURL(/\/project\/llms-txt\/?$/);
 	await expect(page.locator("html")).toHaveClass("dark");
 	await page
 		.getByRole("button", { name: "Chercher une page", exact: true })
@@ -218,6 +218,60 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 	await expect(
 		page.getByRole("button", { name: "Chercher une page", exact: true }),
 	).toBeFocused();
+});
+
+test("search finds matches deep inside article content", async ({ page }) => {
+	await page.goto("/blog/rss");
+	await page.keyboard.press("Control+k");
+	const query = page.getByRole("searchbox");
+	const results = page.locator("#search-results");
+	await query.fill("simple-schematics");
+	await expect(
+		results.getByRole("link", { name: "Simple Schematics", exact: true }),
+	).toBeVisible();
+	await expect(
+		results.getByRole("link", { name: "llms.txt", exact: true }),
+	).toBeVisible();
+	await query.fill("charts");
+	await expect(
+		results.getByRole("link", { name: "Charts", exact: true }),
+	).toBeVisible();
+	await results.getByRole("link", { name: "llms.txt", exact: true }).click();
+	await expect(page).toHaveURL(/\/project\/llms-txt$/);
+});
+
+test("search locks background scrolling and releases it on every close path", async ({
+	page,
+}) => {
+	await page.setViewportSize({ width: 1100, height: 800 });
+	await page.goto("/blog/rss");
+	const dialog = page.getByRole("dialog");
+	for (const close of ["escape", "button", "backdrop", "shortcut"]) {
+		await page.keyboard.press("Control+k");
+		await expect(dialog).toBeVisible();
+		await expect(dialog.getByRole("link").first()).toBeVisible();
+		const initialScroll = await page.evaluate(() => scrollY);
+		const results = page.locator("#search-results");
+		await results.hover();
+		await page.mouse.wheel(0, 150);
+		await expect
+			.poll(() => results.evaluate((element) => element.scrollTop))
+			.toBeGreaterThan(0);
+		await page.mouse.move(20, 780);
+		await page.mouse.wheel(0, 200);
+		await page.waitForTimeout(250);
+		expect(await page.evaluate(() => scrollY)).toBe(initialScroll);
+		if (close === "button")
+			await page.getByRole("button", { name: "Fermer la recherche" }).click();
+		else if (close === "backdrop") await page.mouse.click(20, 780);
+		else await page.keyboard.press(close === "escape" ? "Escape" : "Control+k");
+		await expect(dialog).not.toBeVisible();
+		await page.mouse.move(20, 780);
+		await page.mouse.wheel(0, 150);
+		await expect
+			.poll(() => page.evaluate(() => scrollY))
+			.toBeGreaterThan(initialScroll);
+	}
 });
 
 test("related articles identify only the current page", async ({ page }) => {

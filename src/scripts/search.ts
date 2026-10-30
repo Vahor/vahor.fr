@@ -40,6 +40,7 @@ function loadSearch() {
 				],
 				ignoreDiacritics: true,
 				includeScore: true,
+				useExtendedSearch: true,
 				threshold: 0.5,
 				findAllMatches: true,
 			}),
@@ -85,7 +86,7 @@ async function renderResults() {
 	const query = input.value.trim();
 	const matches = query
 		? index
-				.search(query)
+				.search(`"${query}" | '"${query}"`)
 				.map((result) => ({ ...result.item, score: result.score ?? 1 }))
 		: entries.map((entry) => ({ ...entry, score: 1 }));
 	matches.sort(

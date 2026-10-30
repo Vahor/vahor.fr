@@ -51,6 +51,10 @@ import Icon from "./Icon.astro";
 <script src="../scripts/search.ts"></script>
 
 <style>
+	:global(html:has(#search-dialog[open])) {
+		overflow: hidden;
+	}
+
 	dialog {
 		opacity: 0;
 		transform: translate(-50%, -50%) scale(0.95);
