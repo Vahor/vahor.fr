@@ -94,6 +94,25 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 	).toBeFocused();
 });
 
+test("related articles identify only the current page", async ({ page }) => {
+	await page.goto("/tutorial/add-comments-to-blog");
+	const related = page.getByRole("navigation", {
+		name: "Pages sur le même sujet",
+	});
+	const current = related.locator('[aria-current="page"]');
+	await expect(current).toHaveCount(1);
+	await expect(current).toHaveAttribute(
+		"href",
+		"/tutorial/add-comments-to-blog",
+	);
+	await related.locator('a:not([aria-current="page"])').first().click();
+	await expect(related.locator('[aria-current="page"]')).toHaveCount(1);
+	await expect(related.locator('[aria-current="page"]')).not.toHaveAttribute(
+		"href",
+		"/tutorial/add-comments-to-blog",
+	);
+});
+
 test("article code controls copy real text and toggle wrapping", async ({
 	page,
 	context,

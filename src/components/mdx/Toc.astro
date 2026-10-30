@@ -5,12 +5,27 @@ const { group } = Astro.props;
 const posts = (await getPosts())
 	.filter((post) => post.toc?.group === group)
 	.sort((a, b) => a.toc!.order - b.toc!.order);
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
 ---
+
 <div class="border-y py-4">
 	<nav class="space-y-2" aria-label="Pages sur le même sujet">
 		<h2 class="font-semibold text-lg">Pages sur le même sujet</h2>
 		<ul class="space-y-1">
-			{posts.map((post) => <li class="list-none"><a href={post.url} aria-current={Astro.url.pathname === post.url ? "page" : undefined} class:list={["inline-flex h-8 w-full items-center justify-start rounded-md px-3 text-sm font-medium capitalize transition-colors hover:bg-accent hover:text-accent-foreground", Astro.url.pathname === post.url && "pointer-events-none opacity-50"]}>{post.title}</a></li>)}
+			{posts.map((post) => (
+				<li class="list-none">
+					<a
+						href={post.url}
+						aria-current={currentPath === post.url ? "page" : undefined}
+						class:list={[
+							"inline-flex h-8 w-full items-center justify-start rounded-md px-3 text-sm font-medium capitalize transition-colors hover:bg-accent hover:text-accent-foreground",
+							currentPath === post.url && "pointer-events-none opacity-50",
+						]}
+					>
+						{post.title}
+					</a>
+				</li>
+			))}
 		</ul>
 	</nav>
 </div>
