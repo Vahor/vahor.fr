@@ -8,6 +8,11 @@ the initial HTML and cached by Vercel ISR for 24 hours. There is no Spotify brow
 fetch or generic fallback. Other pages and social-image PNGs remain static;
 legacy social-image redirects are server endpoints.
 
+Sitemaps use `@astrojs/sitemap` at `/sitemap-index.xml`; the previous
+`/sitemap.xml` URL redirects there. The server-rendered homepage is explicitly
+included alongside discovered static pages. RSS uses `@astrojs/rss` at the
+unchanged `/rss.xml` URL, retaining article GUIDs and feed metadata.
+
 ### Development and verification
 
 Use Node 24 and Bun, then `bun install --frozen-lockfile` and `bun dev`.

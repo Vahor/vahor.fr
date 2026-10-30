@@ -1,4 +1,3 @@
-export const BASE_URL = "https://vahor.fr";
 export const GITHUB_PROFILE = "https://github.com/vahor";
 export const GITHUB_REPOSITORY = `${GITHUB_PROFILE}/vahor.fr`;
 export const TWITTER_PROFILE = "https://twitter.com/vahor_";

@@ -3,7 +3,6 @@ import { render } from "astro:content";
 import Icon from "../components/Icon.astro";
 import { mdxComponents } from "../components/mdx";
 import Layout from "../layouts/Layout.astro";
-import { BASE_URL } from "../lib/constants";
 import { articlePage } from "../lib/jsonld";
 import { getPosts } from "../lib/posts";
 import "../styles/code.css";
@@ -34,7 +33,7 @@ const date = (value: string) =>
 		headline: post.title,
 		datePublished: post.datePublished,
 		dateModified: post.dateModified,
-		image: `${BASE_URL}/og/${post.slug}.png`,
+		image: new URL(`/og/${post.slug}.png`, Astro.site).href,
 		description: post.description,
 	})}
 >

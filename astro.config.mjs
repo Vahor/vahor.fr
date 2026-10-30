@@ -1,20 +1,26 @@
 import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import node from "@astrojs/node";
+import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import { mdxOptions } from "./src/lib/markdown";
 
 const localPreview = process.env.ASTRO_LOCAL_PREVIEW === "1";
+const site = "https://vahor.fr";
 
 export default defineConfig({
-	site: "https://vahor.fr",
+	site,
+	trailingSlash: "never",
+	redirects: {
+		"/sitemap.xml": { destination: "/sitemap-index.xml", status: 301 },
+	},
 	adapter: localPreview
 		? node({ mode: "standalone" })
 		: vercel({ isr: { expiration: 86400, exclude: ["/og/[slug]"] } }),
 	outDir: localPreview ? ".local-dist" : "dist",
-	integrations: [mdx()],
+	integrations: [mdx(), sitemap({ customPages: [new URL("/", site).href] })],
 	markdown: {
 		syntaxHighlight: false,
 		processor: unified({ ...mdxOptions, smartypants: false }),

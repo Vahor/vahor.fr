@@ -5,7 +5,7 @@ import "@fontsource-variable/geist-mono/wght.css";
 import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import "../styles/globals.css";
 import Header from "../components/Header.astro";
-import { BASE_URL, globalMetadata } from "../lib/constants";
+import { globalMetadata } from "../lib/constants";
 
 interface Props {
 	title?: string;
@@ -26,7 +26,7 @@ const {
 const pageTitle = title ? `${title} | Vahor` : "Vahor";
 const canonical = new URL(
 	Astro.url.pathname.replace(/\/$/, "") || "/",
-	BASE_URL,
+	Astro.site,
 ).href;
 ---
 <!doctype html>
@@ -43,7 +43,7 @@ const canonical = new URL(
 		<link rel="canonical" href={canonical} />
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-		<link rel="sitemap" href="/sitemap.xml" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<link rel="alternate" type="application/rss+xml" title="Vahor" href="/rss.xml" />
 		{article && <link rel="alternate" type="text/markdown" href={`${canonical}.md`} />}
 		<meta property="og:title" content={pageTitle} />
@@ -52,10 +52,10 @@ const canonical = new URL(
 		<meta property="og:url" content={canonical} />
 		<meta property="og:site_name" content="Vahor" />
 		<meta property="og:locale" content="fr_FR" />
-		<meta property="og:image" content={new URL(image, BASE_URL).href} />
+		<meta property="og:image" content={new URL(image, Astro.site).href} />
 		<meta name="twitter:card" content={article ? "summary_large_image" : "summary"} />
 		<meta name="twitter:creator" content="@vahor_" />
-		<meta name="twitter:image" content={new URL(image, BASE_URL).href} />
+		<meta name="twitter:image" content={new URL(image, Astro.site).href} />
 		{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")} />}
 		<script is:inline>
 			try {

@@ -1,7 +1,6 @@
 import type { APIRoute } from "astro";
-import { BASE_URL } from "../lib/constants";
-export const GET: APIRoute = () =>
+export const GET: APIRoute = ({ site }) =>
 	new Response(
-		`User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\nHost: ${BASE_URL}\n`,
+		`User-agent: *\nAllow: /\nSitemap: ${new URL("sitemap-index.xml", site)}\nHost: ${site!.origin}\n`,
 		{ headers: { "Content-Type": "text/plain; charset=utf-8" } },
 	);

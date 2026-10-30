@@ -1,16 +1,30 @@
 import { readdirSync } from "node:fs";
 import { expect, test } from "@playwright/test";
+import { JSDOM } from "jsdom";
 
 test("published routes, feeds, Markdown and social images remain available", async ({
 	request,
 }) => {
-	const sitemap = await request.get("/sitemap.xml");
+	const legacySitemap = await request.get("/sitemap.xml", { maxRedirects: 0 });
+	expect(legacySitemap.status()).toBe(301);
+	expect(legacySitemap.headers().location).toBe("/sitemap-index.xml");
+	const sitemapIndex = await request.get("/sitemap-index.xml");
+	expect(sitemapIndex.ok()).toBeTruthy();
+	const indexDocument = new JSDOM(await sitemapIndex.text(), {
+		contentType: "application/xml",
+	}).window.document;
+	const sitemapPath = new URL(
+		indexDocument.querySelector("sitemap > loc")!.textContent!,
+	).pathname;
+	const sitemap = await request.get(sitemapPath);
 	expect(sitemap.ok()).toBeTruthy();
 	const paths = [
 		...(await sitemap.text()).matchAll(
 			/<loc>https:\/\/vahor\.fr([^<]*)<\/loc>/g,
 		),
 	].map((match) => match[1] || "/");
+	expect(new Set(paths).size).toBe(paths.length);
+	expect(paths).toContain("/");
 	expect(paths).toContain("/tag/all");
 	expect(paths).toContain("/project/charts.vahor.fr");
 	const contentPaths = readdirSync("content/posts", { recursive: true })
@@ -19,6 +33,47 @@ test("published routes, feeds, Markdown and social images remain available", asy
 				typeof file === "string" && file.endsWith(".mdx"),
 		)
 		.map((file) => `/${file.replace(/\.mdx$/, "")}`);
+	expect(
+		paths.every(
+			(path) =>
+				path === "/" || path.startsWith("/tag/") || contentPaths.includes(path),
+		),
+	).toBe(true);
+	const feed = await request.get("/rss.xml");
+	const feedDocument = new JSDOM(await feed.text(), {
+		contentType: "application/xml",
+	}).window.document;
+	const items = [...feedDocument.querySelectorAll("item")];
+	expect(
+		items
+			.map((item) => new URL(item.querySelector("link")!.textContent!).pathname)
+			.sort(),
+	).toEqual([...contentPaths].sort());
+	for (const item of items) {
+		expect(item.querySelector("guid")!.textContent).toBe(
+			item.querySelector("link")!.textContent,
+		);
+		expect(item.querySelector("guid")!.getAttribute("isPermaLink")).toBe(
+			"true",
+		);
+	}
+	const rssPost = items.find(
+		(item) =>
+			item.querySelector("link")!.textContent === "https://vahor.fr/blog/rss",
+	)!;
+	expect(rssPost.querySelector("title")!.textContent).toBe("rss");
+	expect(
+		new Date(rssPost.querySelector("pubDate")!.textContent!).toISOString(),
+	).toBe("2025-04-18T00:00:00.000Z");
+	expect(
+		[...rssPost.querySelectorAll("category")].map((node) => node.textContent),
+	).toEqual(["blog", "2025"]);
+	expect(feedDocument.querySelector("channel > language")!.textContent).toBe(
+		"fr_FR",
+	);
+	expect(
+		feedDocument.querySelector("channel > managingEditor")!.textContent,
+	).toBe("me@vahor.fr (Nathan David)");
 	for (const path of contentPaths) {
 		expect(paths).toContain(path);
 		expect((await request.get(`${path}.md`)).status(), path).toBe(200);
@@ -34,7 +89,11 @@ test("published routes, feeds, Markdown and social images remain available", asy
 		["/rss.xml", "xml", "<rss"],
 		["/llms.txt", "text/plain", "# Vahor.fr"],
 		["/project/charts.vahor.fr.md", "text/markdown", "Charts"],
-		["/robots.txt", "text/plain", "Sitemap: https://vahor.fr/sitemap.xml"],
+		[
+			"/robots.txt",
+			"text/plain",
+			"Sitemap: https://vahor.fr/sitemap-index.xml",
+		],
 	]) {
 		const response = await request.get(path);
 		expect(response.ok(), path).toBeTruthy();
@@ -132,14 +191,16 @@ test("article code controls copy real text and toggle wrapping", async ({
 	await context.grantPermissions(["clipboard-read", "clipboard-write"]);
 	await page.goto("/blog/rss");
 	const block = page.locator("[data-code-block]").first();
-	await expect(block.locator("code")).toContainText("import RSS");
+	await expect(block.locator("code")).toContainText(
+		'import rss from "@astrojs/rss"',
+	);
 	await block.getByRole("button", { name: "Wrap code", exact: true }).click();
 	await expect(block).toHaveAttribute("data-wrap-code", "true");
 	await block.getByRole("button", { name: "Wrap code", exact: true }).click();
 	await expect(block).toHaveAttribute("data-wrap-code", "false");
 	await block.getByRole("button", { name: "Copy code to clipboard" }).click();
 	expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(
-		"import RSS",
+		'import rss from "@astrojs/rss"',
 	);
 	await page.locator("#comments").scrollIntoViewIfNeeded();
 	await expect(
