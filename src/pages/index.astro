@@ -1,0 +1,51 @@
+---
+import Icon from "../components/Icon.astro";
+import UrlBadge from "../components/UrlBadge.astro";
+import Layout from "../layouts/Layout.astro";
+import { profilePage } from "../lib/jsonld";
+import { getPosts } from "../lib/posts";
+
+const postCount = (await getPosts()).length;
+---
+<Layout jsonLd={profilePage}>
+	<main class="post-content container mx-auto py-16 **:leading-7">
+		<h1 class="mb-8 font-semibold text-2xl text-black dark:text-white">Nathan David</h1>
+		<section><p>Hello <span class="inline-block hover:animate-wiggle">👋🏻</span> Je suis un développeur fullstack passioné par les automatisations, la performance et l'open-source.</p></section>
+		<section class="mt-8"><p>Après un master informatique à <UrlBadge url="https://www.mewo.fr" title="Mewo" /> effectué en alternance chez <UrlBadge url="https://www.sesamm.com/" title="SESAMm" />, j'occupe désormais le poste de développeur fullstack depuis plus de 4 ans.</p></section>
+		<section class="mt-8">
+			<p>En parallèle, je réalise des projets personnels que je documente sur ce site. Vous pouvez retrouver mes <span class="font-semibold">{postCount} articles</span> sur la page <a class="text-primary underline decoration-dashed" href="/tag/all">blog</a>.</p>
+			<p class="mt-2">Par exemple, j'essaie d'apprendre <UrlBadge url="https://www.rust-lang.org/" title="Rust" /> et <UrlBadge url="https://go.dev/" title="Go" />.</p>
+		</section>
+		<section class="mt-8">
+			<p>En dehors de la programation, j'aime regarder des séries, <a class="text-primary underline decoration-dashed" href="https://www.kenmei.co/user/vahor?ref=vahor.fr" target="_blank" rel="noopener noreferrer">lire</a> et écouter de la musique.</p>
+			<div class="grid grid-cols-1 gap-2 sm:mt-5 sm:grid-cols-2">
+				<div class="hidden justify-end sm:flex"><img src="/currently-listening.svg" alt="En ce moment j'écoute:" width="294" height="94" class="dark:invert" /></div>
+				<div class="font-semibold sm:hidden"><p>En ce moment j'écoute:</p></div>
+				<div id="spotify-track" aria-live="polite" class="min-h-20"><a href="https://open.spotify.com/" class="flex flex-row gap-4 rounded-md border bg-card p-2 text-card-foreground" title="Ma musique préférée du moment"><img data-spotify-image src="/icons/spotify.png" alt="Spotify" width="64" height="64" class="inline-block h-16 w-16 rounded-lg" /><div><div data-spotify-title class="font-semibold">Spotify</div><div data-spotify-artists class="text-neutral-700 text-sm dark:text-neutral-300">Ma musique préférée du moment</div></div></a></div>
+			</div>
+		</section>
+		<section class="mt-8">
+			<p>Vous pouvez me retrouver sur <UrlBadge url="https://github.com/vahor" title="GitHub" favicon="/icons/github-mark.svg" darkFavicon="/icons/github-mark-white.svg" /> <UrlBadge url="https://discordapp.com/users/132552926689230848" title="Discord" alt="Discord icon" favicon="/icons/discord.svg" />, <UrlBadge url="https://twitter.com/vahor_" title="Twitter" alt="Twitter icon" favicon="/icons/twitter.svg" />.</p>
+			<p class="mt-2">Ou me contacter par mail: <button type="button" data-copy="me@vahor.fr" title="Copier l’adresse e-mail" class="inline w-max cursor-pointer space-x-1 whitespace-nowrap rounded-md border border-neutral-200 bg-card p-1 text-accent-foreground text-sm leading-4 hover:border-neutral-300 dark:border-neutral-700"><Icon name="send" class="inline-block size-4" /><span>me@vahor.fr</span></button><span data-copy-status role="status" class="ml-2 text-sm"></span></p>
+		</section>
+	</main>
+</Layout>
+<script>
+	const container = document.querySelector<HTMLElement>("#spotify-track");
+	if (container) {
+		fetch("/api/spotify").then(async (response) => {
+			if (!response.ok) return;
+			const track = await response.json() as { name: string; artists: string; album: string; image: string; url: string } | null;
+			if (!track) { container.hidden = true; return; }
+			const link = container.querySelector("a")!;
+			link.href = track.url;
+			link.target = "_blank";
+			link.rel = "noopener noreferrer";
+			const image = container.querySelector("img")!;
+			image.src = track.image;
+			image.alt = track.album;
+			container.querySelector("[data-spotify-title]")!.textContent = track.name;
+			container.querySelector("[data-spotify-artists]")!.textContent = track.artists;
+		}).catch(() => { /* Keep the Spotify link available when the service is offline. */ });
+	}
+</script>

@@ -1,0 +1,11 @@
+---
+import Anchor from "./Anchor.astro";
+import Callout from "./Callout.astro";
+
+const { title = "Work in progress", ...props } = Astro.props;
+---
+<Callout type="warning" title={title} {...props}>
+	<slot />
+	<hr class="mt-4" />
+	<p class="mt-2">Cette page n'est pas encore terminée.<br />Ajoutez un <Anchor href="#comments">commentaire</Anchor> si les sujets abordés vous intéressent.</p>
+</Callout>

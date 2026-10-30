@@ -1,12 +1,4 @@
-import type { Metadata } from "next";
-import { env } from "@/env";
-
-const HOSTNAME =
-	env.NEXT_PUBLIC_VERCEL_ENV === "production"
-		? "vahor.fr"
-		: env.NEXT_PUBLIC_VERCEL_URL;
-const PROTOCOL = HOSTNAME.includes("localhost") ? "http" : "https";
-export const BASE_URL = `${PROTOCOL}://${HOSTNAME}`;
+export const BASE_URL = "https://vahor.fr";
 export const GITHUB_PROFILE = "https://github.com/vahor";
 export const GITHUB_REPOSITORY = `${GITHUB_PROFILE}/vahor.fr`;
 export const TWITTER_PROFILE = "https://twitter.com/vahor_";
@@ -81,4 +73,4 @@ export const globalMetadata = {
 			"application/rss+xml": "rss.xml",
 		},
 	},
-} as const satisfies Metadata;
+} as const;

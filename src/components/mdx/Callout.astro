@@ -1,0 +1,45 @@
+---
+const { type = "note", title, class: className, ...props } = Astro.props;
+const variants: Record<
+	string,
+	{ box: string; text: string; icon: string; path: string }
+> = {
+	info: {
+		box: "border-zinc-500/20 bg-zinc-50/50 dark:border-zinc-500/30 dark:bg-zinc-900",
+		text: "text-zinc-900 dark:text-zinc-200",
+		icon: "text-zinc-400 dark:text-zinc-300",
+		path: "M12 8h.01M11 12h1v4h1M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0",
+	},
+	warning: {
+		box: "border-amber-500/80 bg-amber-50/80 dark:border-amber-500/30 dark:bg-amber-500/10",
+		text: "text-amber-900 dark:text-amber-200 [--list-counter-background:theme(colors.amber.500)] [--list-counter-foreground:theme(colors.amber.900)]",
+		icon: "text-amber-400 dark:text-amber-300/80",
+		path: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z",
+	},
+	note: {
+		box: "border-sky-500/20 bg-sky-50/50 dark:border-sky-500/30 dark:bg-sky-500/10",
+		text: "text-sky-900 dark:text-sky-200",
+		icon: "text-sky-500",
+		path: "M12 8v5m0 3h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0",
+	},
+	tip: {
+		box: "border-emerald-500/20 bg-emerald-50/50 dark:border-emerald-500/30 dark:bg-emerald-500/10",
+		text: "text-emerald-900 dark:text-emerald-200",
+		icon: "text-emerald-600 dark:text-emerald-400/80",
+		path: "M9 18h6m-6 3h6M9 15c0-2-4-3-4-7a7 7 0 0 1 14 0c0 4-4 5-4 7z",
+	},
+	check: {
+		box: "border-emerald-500/20 bg-emerald-50/50 dark:border-emerald-500/30 dark:bg-emerald-500/10",
+		text: "text-emerald-900 dark:text-emerald-200",
+		icon: "text-green-600 dark:text-green-400/80",
+		path: "m4 12 5 5L20 6",
+	},
+};
+const variant = variants[type];
+if (!variant) throw new Error(`Unknown callout type: ${type}`);
+---
+<div class:list={["relative my-4 overflow-hidden rounded-xl border px-5 py-4", variant.box, className]} {...props}>
+	<svg role="img" aria-label={type} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class:list={["absolute top-4 left-4 size-6", variant.icon]}><path d={variant.path} /></svg>
+	{title && <h3 class:list={["-translate-y-1 pl-7 font-semibold text-lg", variant.text]}>{title}</h3>}
+	<div class:list={["prose flex-1 pl-7 text-sm", variant.text]}><slot /></div>
+</div>

@@ -1,0 +1,17 @@
+---
+import { extractMetaTags } from "../../lib/scraper";
+
+const { url } = Astro.props;
+const metadata = await extractMetaTags(url);
+const href = new URL(url);
+href.searchParams.set("ref", "vahor.fr");
+---
+<a href={href.toString()} class="no-underline! group lg:-mx-20 relative mt-6 grid grid-cols-3 rounded-md border bg-white dark:bg-black" aria-label={metadata.title} title={metadata.title}>
+	<div class="pointer-events-none absolute inset-0 rounded-md bg-black opacity-0 transition duration-250 ease-in-out group-hover:opacity-10 dark:bg-white" />
+	<div class="col-span-3 flex flex-col justify-between p-4 text-sm md:col-span-2">
+		<div class="truncate text-black text-md dark:text-white">{metadata.title}</div>
+		<p class="flex min-h-[3.5rem] items-center overflow-hidden break-words py-1 font-light text-muted-foreground">{metadata.description.slice(0, 200)}</p>
+		<div class="space-x-2 overflow-hidden text-ellipsis whitespace-nowrap"><img src={metadata.favicon} alt={metadata.title} width="16" height="16" class="inline-block rounded-lg" loading="lazy" /><span>{url}</span></div>
+	</div>
+	<div class="relative hidden w-full md:block"><img src={metadata.image || metadata.favicon} alt={metadata.title} class="absolute inset-0 h-full w-full rounded-r-md object-cover object-center" loading="lazy" /></div>
+</a>

@@ -1,0 +1,29 @@
+---
+import Icon from "./Icon.astro";
+---
+<header class="mx-auto flex max-w-(--breakpoint-xl) items-center justify-between px-8 py-4 sm:px-12 sm:py-8">
+	<a href="/" class="flex shrink-0 cursor-pointer items-center gap-3">
+		<img src="/logo-white.svg" alt="Logo" width="24" height="24" class="h-6 w-6 transition-transform hover:rotate-12 dark:hidden" />
+		<img src="/logo-dark.svg" alt="Logo" width="24" height="24" class="hidden h-6 w-6 transition-transform hover:rotate-12 dark:block" />
+		<span class="hidden font-semibold text-dark text-lg sm:inline dark:text-white">Vahor</span>
+	</a>
+	<div class="flex items-center justify-end gap-3">
+		<nav><a href="/tag/all" class="hover:text-black dark:hover:text-white">Blog</a></nav>
+		<button type="button" data-theme-toggle aria-label="Changer le thème" class="flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent">
+			<Icon name="sun" class="size-4 dark:hidden" /><Icon name="moon" class="hidden size-4 dark:block" />
+		</button>
+		<button type="button" data-search-open aria-label="Chercher une page" class="relative flex items-center text-left text-sm">
+			<Icon name="search" class="mr-2 size-4 shrink-0 opacity-50" /><span class="w-24 sm:w-48">Chercher...</span>
+			<kbd class="pointer-events-none absolute right-0 hidden h-5 items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground sm:flex"><span class="text-xs">⌘</span>K</kbd>
+		</button>
+	</div>
+</header>
+<dialog id="search-dialog" aria-labelledby="search-title" class="fixed top-[20%] m-0 mx-auto w-[calc(100%-2rem)] max-w-lg overflow-hidden rounded-lg border bg-popover p-0 text-popover-foreground shadow-lg backdrop:bg-black/80">
+	<h2 id="search-title" class="sr-only">Chercher une page</h2>
+	<form method="dialog" class="flex items-center gap-2 border-b px-3">
+		<Icon name="search" /><input id="search-query" type="search" aria-label="Chercher une page" placeholder="Chercher une page..." autocomplete="off" class="h-12 min-w-0 flex-1 bg-transparent outline-hidden" />
+		<button aria-label="Fermer la recherche" class="p-2 text-muted-foreground">×</button>
+	</form>
+	<div id="search-results" aria-live="polite" class="max-h-80 overflow-y-auto p-2"></div>
+</dialog>
+<script src="../scripts/search.ts"></script>

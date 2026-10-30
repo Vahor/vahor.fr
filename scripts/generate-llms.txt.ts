@@ -1,10 +1,11 @@
+import * as fs from "node:fs";
 import {
 	generate,
 	LLMS_TXT_FILENAME,
 	type PluginOptions,
 } from "@vahor/llms-txt";
-import { allDocuments } from "contentlayer/generated";
 import { visit } from "unist-util-visit";
+import type { Post } from "../src/lib/posts";
 
 function fixRelativeLinks() {
 	return (tree: any) => {
@@ -23,38 +24,47 @@ function fixRelativeLinks() {
 	};
 }
 
-const options = {
-	outputPath: (path) => {
-		if (path === LLMS_TXT_FILENAME) {
-			return "./public/llms.txt";
-		}
-		// path is "./content/posts/[slug].mdx"
-		const slug = path.split("/").slice(3).join("/");
-		const withoutExtension = slug.split(".").slice(0, -1).join(".");
-		return `./public/${withoutExtension}.md`;
-	},
-	formatFrontmatter: (frontmatter) => ({
-		title: frontmatter.title,
-		description: frontmatter.description,
-		datePublished: frontmatter.datePublished,
-	}),
-	sections: [
-		{
-			title: "Vahor.fr",
+export function generateLlms(posts: Post[]) {
+	const output = new Map<string, string>();
+	const options = {
+		fs: {
+			readFileSync: fs.readFileSync,
+			mkdirSync: () => undefined,
+			writeFileSync: (path, data) => {
+				output.set(String(path), String(data));
+			},
 		},
-		{
-			title: "Posts",
-			links: allDocuments.map((doc) => ({
-				title: doc.title,
-				url: `https://vahor.fr/${doc.pageType}/${doc.slug}.md`,
-				description: doc.description,
-			})),
+		outputPath: (path) => {
+			if (path === LLMS_TXT_FILENAME) {
+				return "/llms.txt";
+			}
+			const post = posts.find((post) => post.entry.filePath === path);
+			return post ? `${post.url}.md` : null;
 		},
-	],
-	content: allDocuments.map((doc) => ({
-		path: `./content/${doc._raw.sourceFilePath}`,
-	})),
-	remarkPlugins: [fixRelativeLinks],
-} satisfies PluginOptions;
+		formatFrontmatter: (frontmatter) => ({
+			title: frontmatter.title,
+			description: frontmatter.description,
+			datePublished: frontmatter.datePublished,
+		}),
+		sections: [
+			{
+				title: "Vahor.fr",
+			},
+			{
+				title: "Posts",
+				links: posts.map((doc) => ({
+					title: doc.title,
+					url: `https://vahor.fr/${doc.pageType}/${doc.slug}.md`,
+					description: doc.description,
+				})),
+			},
+		],
+		content: posts.map((doc) => ({
+			path: doc.entry.filePath!,
+		})),
+		remarkPlugins: [fixRelativeLinks],
+	} satisfies PluginOptions;
 
-generate(options);
+	generate(options);
+	return output;
+}

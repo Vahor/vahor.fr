@@ -8,6 +8,8 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/
@@ -15,6 +17,9 @@
 
 # production
 /build
+/dist/
+/.astro/
+/.local-dist/
 
 # misc
 .DS_Store

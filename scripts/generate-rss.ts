@@ -1,33 +1,28 @@
-import { writeFileSync } from "node:fs";
-import { allDocuments } from "contentlayer/generated";
 import RSS from "rss";
-import { globalMetadata } from "@/lib/constants";
+import { BASE_URL, globalMetadata } from "../src/lib/constants";
+import type { Post } from "../src/lib/posts";
 
-const site_url = globalMetadata.metadataBase.toString().replace(/\/$/, "");
-
-const allCategories = new Set(allDocuments.flatMap((post) => post.fullTags));
-
-const feed = new RSS({
-	title: globalMetadata.title.default,
-	description: globalMetadata.description,
-	site_url: site_url,
-	feed_url: `${site_url}/rss.xml`,
-	image_url: `${site_url}${globalMetadata.openGraph.images[0].url}`,
-	pubDate: new Date(),
-	language: globalMetadata.openGraph.locale,
-	managingEditor: `me@vahor.fr (${globalMetadata.creator})`,
-	generator: "Vahor",
-	categories: Array.from(allCategories),
-});
-
-for (const post of allDocuments) {
-	feed.item({
-		title: post.title,
-		description: post.description,
-		url: `${site_url}${post.url}`,
-		date: post.datePublished,
-		categories: post.fullTags,
+export function generateRss(posts: Post[]) {
+	const feed = new RSS({
+		title: globalMetadata.title.default,
+		description: globalMetadata.description,
+		site_url: BASE_URL,
+		feed_url: `${BASE_URL}/rss.xml`,
+		image_url: `${BASE_URL}${globalMetadata.openGraph.images[0].url}`,
+		pubDate: new Date(),
+		language: globalMetadata.openGraph.locale,
+		managingEditor: `me@vahor.fr (${globalMetadata.creator})`,
+		generator: "Vahor",
+		categories: [...new Set(posts.flatMap((post) => post.fullTags))],
 	});
+	for (const post of posts) {
+		feed.item({
+			title: post.title,
+			description: post.description,
+			url: `${BASE_URL}${post.url}`,
+			date: post.datePublished,
+			categories: post.fullTags,
+		});
+	}
+	return feed.xml({ indent: true });
 }
-
-writeFileSync("./public/rss.xml", feed.xml({ indent: true }));

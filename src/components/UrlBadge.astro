@@ -1,0 +1,20 @@
+---
+import { extractMetaTags } from "../lib/scraper";
+
+interface Props {
+	url: string;
+	title: string;
+	favicon?: string;
+	alt?: string;
+	darkFavicon?: string;
+}
+const { url, title, favicon, alt, darkFavicon } = Astro.props;
+const icon = favicon ?? (await extractMetaTags(url)).favicon;
+const href = new URL(url);
+href.searchParams.set("ref", "vahor.fr");
+---
+<a href={href.href} target="_blank" rel="noopener noreferrer" class="no-underline! inline w-max cursor-pointer space-x-1 whitespace-nowrap rounded-md border border-neutral-200 bg-card p-1 text-accent-foreground text-sm leading-4 hover:border-neutral-300 dark:border-neutral-700 hover:dark:border-neutral-600">
+	<img src={icon} alt={alt ?? title} width="16" height="16" class:list={["mb-0.5 inline-block select-none", darkFavicon && "dark:hidden"]} />
+	{darkFavicon && <img src={darkFavicon} alt={alt ?? title} width="16" height="16" class="mb-0.5 hidden select-none dark:inline-block" />}
+	<span>{title}</span>
+</a>

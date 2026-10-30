@@ -1,0 +1,8 @@
+---
+const { class: className, ...props } = Astro.props;
+const html = await Astro.slots.render("default");
+const Tag = /<(?:div|figure|video|nav|section|aside|p|h[1-6])\b/.test(html)
+	? "div"
+	: "p";
+---
+<Tag class:list={["not-first:mt-4", className]} {...props} set:html={html} />

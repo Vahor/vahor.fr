@@ -1,5 +1,3 @@
-"use server";
-
 import { JSDOM } from "jsdom";
 import sharp from "sharp";
 import { kv } from "@/lib/redis";
@@ -43,14 +41,12 @@ const cacheKey = (url: string) => `meta:${url}`;
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
 	const urlKey = cacheKey(cleanUrl);
-	const cached = await kv.get<MetaTags>(urlKey);
+	const cached = await kv?.get<MetaTags>(urlKey);
 	if (cached) return cached;
 
-	const page = await fetch(url, {
-		next: {
-			revalidate: 24 * 60 * 60, // 24 hours
-		},
-	});
+	const page = await fetch(url, { signal: AbortSignal.timeout(15000) });
+	if (!page.ok)
+		throw new Error(`Metadata request failed: ${url} (${page.status})`);
 
 	const html = await page.text();
 
@@ -69,7 +65,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 		? await imageToBase64(image)
 		: await imageToBase64(favicon); // fallback to favicon
 
-	const previousValue = (await kv.get<MetaTags>(urlKey)) ?? properties;
+	const previousValue = (await kv?.get<MetaTags>(urlKey)) ?? properties;
 
 	const newProperties = {
 		...properties,
@@ -83,7 +79,7 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 				: properties.favicon,
 	} as MetaTags;
 
-	kv.set(urlKey, newProperties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
+	await kv?.set(urlKey, newProperties, { ex: 60 * 60 * 24 }); // 24 hours
 
 	return newProperties;
 };
@@ -95,6 +91,7 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 	if (!url) return EMPTY_BASE64_IMAGE;
 	const response = await fetch(url, {
 		method: "GET",
+		signal: AbortSignal.timeout(15000),
 		headers: {
 			Accept: "image/*",
 		},
@@ -111,7 +108,7 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 
 	try {
 		const contentType = response.headers.get("content-type");
-		if (!contentType || !contentType.startsWith("image")) {
+		if (!contentType?.startsWith("image")) {
 			throw new Error("Invalid content type");
 		}
 
@@ -126,11 +123,12 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 					fit: "contain",
 					background: { r: 0, g: 0, b: 0, alpha: 0 },
 				})
+				.png()
 				.toBuffer();
 			base64 = resized.toString("base64");
 		}
 
-		return `data:${contentType};base64,${base64}`;
+		return `data:${isIcoFavicon(url) ? contentType : "image/png"};base64,${base64}`;
 	} catch (error) {
 		console.error(`Failed to convert image to base64 url: ${url}`, error);
 		return EMPTY_BASE64_IMAGE;

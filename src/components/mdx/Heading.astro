@@ -1,0 +1,15 @@
+---
+const { level, id, class: className, ...props } = Astro.props;
+const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5";
+const styles: Record<number, string> = {
+	1: "mt-12 gap-3 font-semibold text-4xl",
+	2: "mt-12 gap-2 pb-2 font-semibold text-3xl tracking-tight first:mt-0",
+	3: "mt-8 gap-2 pb-2 font-medium text-xl tracking-tight",
+	4: "mt-8 gap-2 font-heading font-medium text-lg tracking-tight",
+	5: "mt-8 gap-2 font-semibold text-lg tracking-tight",
+};
+---
+<Tag id={id} class:list={["group flex scroll-m-20 items-center text-black dark:text-white", styles[level], className]} {...props}>
+	<slot />
+	{id && <a href={`#${id}`} aria-label={`${id} permalink`} class="invisible text-primary no-underline group-hover:visible"><svg class:list={[level === 1 ? "size-6" : level === 2 ? "size-5" : "size-4", "shrink-0"]} aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg></a>}
+</Tag>
