@@ -48,18 +48,31 @@ document.addEventListener("click", async (event) => {
 	}
 	const text =
 		button.dataset.copy ?? block?.querySelector("code")?.textContent ?? "";
+	if (button.dataset.copyState) return;
+	const originalTitle = button.title;
+	const feedback = button.parentElement?.querySelector<HTMLElement>(
+		"[data-copy-feedback]",
+	);
+	let message = "Copié";
 	try {
 		await navigator.clipboard.writeText(text);
-		button.title = "Copié !";
-		const status = button.parentElement?.querySelector("[data-copy-status]");
-		if (status) status.textContent = "Copié !";
-		setTimeout(() => {
-			if (status) status.textContent = "";
-			button.title = "Copier";
-		}, 2000);
+		button.dataset.copyState = "success";
 	} catch {
-		button.title = "La copie a échoué";
+		button.dataset.copyState = "error";
+		message = "La copie a échoué";
 	}
+	if (feedback) {
+		feedback.querySelector("[data-copy-message]")!.textContent = message;
+		feedback.hidden = false;
+		button.setAttribute("aria-describedby", feedback.id);
+	} else button.title = message;
+	setTimeout(() => {
+		delete button.dataset.copyState;
+		if (feedback) {
+			feedback.hidden = true;
+			button.removeAttribute("aria-describedby");
+		} else button.title = originalTitle;
+	}, 2000);
 });
 
 const comments = document.querySelector<HTMLElement>("#comments");

@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import Icon from "../components/Icon.astro";
+import CopyMailBadge from "../components/CopyMailBadge.astro";
 import UrlBadge from "../components/UrlBadge.astro";
 import Layout from "../layouts/Layout.astro";
 import { profilePage } from "../lib/jsonld";
@@ -28,7 +28,7 @@ const track = await getSpotifyTopTrack();
 						<img src="/currently-listening.svg" alt="En ce moment j'écoute:" width="294" height="94" class="dark:invert" />
 					</div>
 					<div class="font-semibold sm:hidden"><p>En ce moment j'écoute:</p></div>
-					<a href={track.url} target="_blank" rel="noopener noreferrer" class="flex min-h-20 flex-row gap-4 rounded-md border bg-card p-2 text-card-foreground">
+					<a href={track.url} title="Ma musique préférée du moment" target="_blank" rel="noopener noreferrer" class="flex flex-row self-start gap-4 rounded-md border bg-card p-2 text-card-foreground">
 						<img src={track.image} alt={track.album} width="64" height="64" class="inline-block h-16 w-16 rounded-lg" />
 						<div>
 							<div class="font-semibold">{track.name}</div>
@@ -40,7 +40,7 @@ const track = await getSpotifyTopTrack();
 		</section>
 		<section class="mt-8">
 			<p>Vous pouvez me retrouver sur <UrlBadge url="https://github.com/vahor" title="GitHub" favicon="/icons/github-mark.svg" darkFavicon="/icons/github-mark-white.svg" /> <UrlBadge url="https://discordapp.com/users/132552926689230848" title="Discord" alt="Discord icon" favicon="/icons/discord.svg" />, <UrlBadge url="https://twitter.com/vahor_" title="Twitter" alt="Twitter icon" favicon="/icons/twitter.svg" />.</p>
-			<p class="mt-2">Ou me contacter par mail: <button type="button" data-copy="me@vahor.fr" title="Copier l’adresse e-mail" class="inline w-max cursor-pointer space-x-1 whitespace-nowrap rounded-md border border-neutral-200 bg-card p-1 text-accent-foreground text-sm leading-4 hover:border-neutral-300 dark:border-neutral-700"><Icon name="send" class="inline-block size-4" /><span>me@vahor.fr</span></button><span data-copy-status role="status" class="ml-2 text-sm"></span></p>
+			<p class="mt-2">Ou me contacter par mail: <CopyMailBadge /></p>
 		</section>
 	</main>
 </Layout>

@@ -328,7 +328,9 @@ test("article code controls copy real text and toggle wrapping", async ({
 
 test("homepage needs no Spotify browser request or generic fallback", async ({
 	page,
+	context,
 }) => {
+	await context.grantPermissions(["clipboard-read", "clipboard-write"]);
 	const requests: string[] = [];
 	page.on("request", (request) => requests.push(request.url()));
 	await page.goto("/");
@@ -336,4 +338,17 @@ test("homepage needs no Spotify browser request or generic fallback", async ({
 	await expect(page.locator('a[href="https://open.spotify.com/"]')).toHaveCount(
 		0,
 	);
+	const copy = page.getByRole("button", { name: "Copier l’adresse e-mail" });
+	const tooltip = page.getByRole("tooltip");
+	await expect(tooltip).not.toBeVisible();
+	await copy.focus();
+	await page.keyboard.press("Enter");
+	expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+		"me@vahor.fr",
+	);
+	await expect(tooltip).toHaveText("Copié");
+	await expect(tooltip).toBeVisible();
+	await expect(copy).toHaveAccessibleDescription("Copié");
+	await expect(tooltip).not.toBeVisible();
+	await expect(copy).not.toHaveAttribute("aria-describedby");
 });
