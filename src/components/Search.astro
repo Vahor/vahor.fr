@@ -1,0 +1,47 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<dialog
+	id="search-dialog"
+	aria-labelledby="search-title"
+	class="fixed top-[20%] m-0 mx-auto w-[calc(100%-2rem)] max-w-lg overflow-hidden rounded-lg border bg-popover p-0 text-popover-foreground shadow-lg backdrop:bg-black/80"
+>
+	<h2 id="search-title" class="sr-only">
+		Chercher une page
+	</h2>
+	<form class="flex items-center gap-2 border-b px-3">
+		<Icon name="search" />
+		<input
+			id="search-query"
+			type="search"
+			aria-label="Chercher une page"
+			placeholder="Chercher une page..."
+			autocomplete="off"
+			class="h-12 min-w-0 flex-1 bg-transparent outline-hidden"
+		/>
+		<button
+			type="button"
+			data-search-close
+			aria-label="Fermer la recherche"
+			class="p-2 text-muted-foreground"
+		>
+			×
+		</button>
+	</form>
+	<div
+		id="search-results"
+		aria-live="polite"
+		class="max-h-80 overflow-y-auto p-2"
+	></div>
+	<template id="search-group-template">
+		<section>
+			<h3 class="mb-1 px-2 py-1 text-xs font-medium text-muted-foreground"></h3>
+		</section>
+	</template>
+	<template id="search-result-template">
+		<a class="block rounded-sm px-2 py-1.5 text-sm hover:bg-accent focus:bg-accent focus:outline-none"></a>
+	</template>
+</dialog>
+
+<script src="../scripts/search.ts"></script>

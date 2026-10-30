@@ -3,11 +3,61 @@ import type { SearchEntry } from "../lib/search";
 const dialog = document.querySelector<HTMLDialogElement>("#search-dialog")!;
 const input = document.querySelector<HTMLInputElement>("#search-query")!;
 const results = document.querySelector<HTMLElement>("#search-results")!;
-let entries: SearchEntry[];
-let index: import("fuse.js").default<SearchEntry>;
-let loading: Promise<void> | undefined;
+const groupTemplate = dialog.querySelector<HTMLTemplateElement>(
+	"#search-group-template",
+)!;
+const resultTemplate = dialog.querySelector<HTMLTemplateElement>(
+	"#search-result-template",
+)!;
+let loading:
+	| Promise<{
+			entries: SearchEntry[];
+			index: import("fuse.js").default<SearchEntry>;
+	  }>
+	| undefined;
 
-function renderResults() {
+function loadSearch() {
+	if (loading) return loading;
+	loading = Promise.all([
+		import("fuse.js"),
+		fetch("/search.json").then((response) => {
+			if (!response.ok) throw new Error("Search index unavailable");
+			return response.json() as Promise<SearchEntry[]>;
+		}),
+	])
+		.then(([{ default: Fuse }, entries]) => ({
+			entries,
+			index: new Fuse(entries, {
+				keys: [
+					{ name: "title", weight: 0.8 },
+					{ name: "description", weight: 0.3 },
+					{ name: "fullTags", weight: 0.2 },
+					{ name: "raw", weight: 0.3 },
+					{ name: "pageType", weight: 0.1 },
+				],
+				ignoreDiacritics: true,
+				includeScore: true,
+				threshold: 0.5,
+				findAllMatches: true,
+			}),
+		}))
+		.catch((error) => {
+			loading = undefined;
+			throw error;
+		});
+	return loading;
+}
+
+async function renderResults() {
+	let search: Awaited<ReturnType<typeof loadSearch>>;
+	try {
+		search = await loadSearch();
+	} catch {
+		results.textContent =
+			"La recherche est indisponible. Réessayez ou consultez la page Blog.";
+		return;
+	}
+	const { entries, index } = search;
 	const query = input.value.trim();
 	const matches = query
 		? index
@@ -29,72 +79,40 @@ function renderResults() {
 	for (const entry of matches) {
 		let group = groups.get(entry.pageType);
 		if (!group) {
-			group = document.createElement("section");
-			const heading = document.createElement("h3");
-			heading.className =
-				"mb-1 px-2 py-1 text-xs font-medium text-muted-foreground";
-			heading.textContent = entry.pageType;
-			group.append(heading);
+			group = groupTemplate.content.firstElementChild!.cloneNode(
+				true,
+			) as HTMLElement;
+			group.querySelector("h3")!.textContent = entry.pageType;
 			groups.set(entry.pageType, group);
 			results.append(group);
 		}
-		const link = document.createElement("a");
+		const link = resultTemplate.content.firstElementChild!.cloneNode(
+			true,
+		) as HTMLAnchorElement;
 		link.href = entry.url;
 		link.textContent = entry.title;
-		link.className =
-			"block rounded-sm px-2 py-1.5 text-sm hover:bg-accent focus:bg-accent focus:outline-none";
 		group.append(link);
 	}
 }
 
-async function openSearch() {
+function openSearch() {
 	if (dialog.open) return;
 	dialog.showModal();
 	input.focus();
-	if (!loading) {
-		results.textContent = "Chargement…";
-		loading = Promise.all([
-			import("fuse.js"),
-			fetch("/search.json").then((response) => {
-				if (!response.ok) throw new Error("Search index unavailable");
-				return response.json();
-			}),
-		])
-			.then(([{ default: Fuse }, data]) => {
-				entries = data as SearchEntry[];
-				index = new Fuse(entries, {
-					keys: [
-						{ name: "title", weight: 0.8 },
-						{ name: "description", weight: 0.3 },
-						{ name: "fullTags", weight: 0.2 },
-						{ name: "raw", weight: 0.3 },
-						{ name: "pageType", weight: 0.1 },
-					],
-					ignoreDiacritics: true,
-					includeScore: true,
-					threshold: 0.5,
-					findAllMatches: true,
-				});
-			})
-			.catch(() => {
-				loading = undefined;
-			});
-	}
-	await loading;
-	if (index) renderResults();
-	else
-		results.textContent =
-			"La recherche est indisponible. Réessayez ou consultez la page Blog.";
+	if (!loading) results.textContent = "Chargement…";
+	void renderResults();
 }
 
 document.querySelectorAll("[data-search-open]").forEach((button) => {
 	button.addEventListener("click", openSearch);
 });
 input.addEventListener("input", () => {
-	if (index) renderResults();
+	void renderResults();
 });
+dialog
+	.querySelector("[data-search-close]")!
+	.addEventListener("click", () => dialog.close());
 dialog.querySelector("form")?.addEventListener("submit", (event) => {
-	if (event.submitter) return;
 	event.preventDefault();
 	results.querySelector<HTMLAnchorElement>("a")?.click();
 });

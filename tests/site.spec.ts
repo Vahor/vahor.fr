@@ -66,6 +66,20 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 		.getByRole("link", { name: "Charts", exact: true });
 	await expect(result).toBeVisible();
 	expect(requests.some((url) => url.includes("/search.json"))).toBe(true);
+	await query.press("Enter");
+	await expect(page).toHaveURL(/\/project\/charts\.vahor\.fr\/?$/);
+	await page
+		.getByRole("button", { name: "Chercher une page", exact: true })
+		.click();
+	await query.fill("zzzzzzzzzzzzzzzzzzzz");
+	await expect(page.locator("#search-results")).toContainText("Aucun résultat");
+	await query.press("Enter");
+	await expect(page.locator("#search-dialog")).toBeVisible();
+	await page.getByRole("button", { name: "Fermer la recherche" }).click();
+	await expect(page.locator("#search-dialog")).not.toBeVisible();
+	await page.keyboard.press("Control+k");
+	await query.fill("charts");
+	await expect(result).toBeVisible();
 	await page.keyboard.press("ArrowDown");
 	await page.keyboard.press("Enter");
 	await expect(page).toHaveURL(/\/project\/charts\.vahor\.fr\/?$/);
