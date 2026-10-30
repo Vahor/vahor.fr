@@ -41,5 +41,3 @@ export const mdxComponents = {
 	Vimeo,
 	Wip,
 };
-
-export default mdxComponents;
