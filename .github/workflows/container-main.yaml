@@ -1,14 +1,9 @@
-name: Container image
+name: Container image (main)
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
   workflow_dispatch:
 
 permissions:
@@ -17,7 +12,7 @@ permissions:
 
 jobs:
   image:
-    name: Build image
+    name: Build main image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,16 +24,9 @@ jobs:
       - name: Compute image tag
         id: image
         run: |
-          image="ghcr.io/${GITHUB_REPOSITORY,,}"
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            tag="pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
-          else
-            tag="sha-${{ github.sha }}"
-          fi
-          echo "name=${image}:${tag}" >> "$GITHUB_OUTPUT"
+          echo "name=ghcr.io/${GITHUB_REPOSITORY,,}:sha-${{ github.sha }}" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
@@ -50,7 +38,7 @@ jobs:
         with:
           context: .
           platforms: linux/amd64
-          push: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+          push: true
           tags: ${{ steps.image.outputs.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
