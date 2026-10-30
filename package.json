@@ -12,7 +12,6 @@
 		"start": "ASTRO_LOCAL_PREVIEW=1 astro preview --host --ignore-lock",
 		"build": "astro build",
 		"build:local": "ASTRO_LOCAL_PREVIEW=1 astro build",
-		"test": "playwright test",
 		"format": "bunx @biomejs/biome check ./ --write",
 		"format:check": "bunx @biomejs/biome format ./",
 		"lint": "bunx @biomejs/biome lint ./ --write",
@@ -57,7 +56,6 @@
 	"devDependencies": {
 		"@astrojs/check": "^0.9.12",
 		"@biomejs/biome": "2.6.4",
-		"@playwright/test": "^1.64.1",
 		"@tailwindcss/vite": "^4.3.3",
 		"@terrastruct/d2": "0.1.23",
 		"@total-typescript/ts-reset": "^0.6.1",
