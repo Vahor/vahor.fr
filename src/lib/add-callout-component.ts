@@ -17,6 +17,11 @@ export function addCalloutComponent() {
 				},
 			) => {
 				if (
+					!node.name ||
+					!["info", "warning", "note", "tip", "check"].includes(node.name)
+				)
+					return;
+				if (
 					node.type === "containerDirective" ||
 					node.type === "leafDirective" ||
 					node.type === "textDirective"

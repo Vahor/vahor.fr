@@ -1,7 +1,19 @@
 ---
 const { href = "", class: className, ...props } = Astro.props;
-const external = href.startsWith("http");
+const external = /^https?:\/\//.test(href) && URL.canParse(href);
 const url = external ? new URL(href) : null;
 if (url) url.searchParams.set("ref", "vahor.fr");
 ---
-<a href={url?.toString() ?? href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined} class:list={["group inline-flex w-max items-center gap-2 font-medium text-primary underline decoration-dashed transition-colors duration-200 hover:text-primary has-[code]:no-underline", className]} {...props}><slot /></a>
+
+<a
+	href={url?.toString() ?? href}
+	target={external ? "_blank" : undefined}
+	rel={external ? "noopener noreferrer" : undefined}
+	class:list={[
+		"group inline-flex w-max items-center gap-2 font-medium text-primary underline decoration-dashed transition-colors duration-200 hover:text-primary has-[code]:no-underline",
+		className,
+	]}
+	{...props}
+>
+	<slot />
+</a>

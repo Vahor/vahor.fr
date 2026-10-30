@@ -3,18 +3,19 @@ import Layout from "../../layouts/Layout.astro";
 import { getPosts, getTags } from "../../lib/posts";
 export async function getStaticPaths() {
 	const posts = await getPosts();
-	return (await getTags()).map((tag) => ({
+	const allTags = await getTags(posts);
+	return allTags.map((tag) => ({
 		params: { tag },
 		props: {
 			tag,
+			allTags,
 			posts: posts
 				.filter((post) => tag === "all" || post.fullTags.includes(tag))
 				.toSorted((a, b) => b.datePublished.localeCompare(a.datePublished)),
 		},
 	}));
 }
-const { tag, posts } = Astro.props;
-const allTags = await getTags();
+const { tag, posts, allTags } = Astro.props;
 const date = (value: string) =>
 	new Intl.DateTimeFormat("fr-FR", {
 		day: "numeric",
@@ -23,16 +24,54 @@ const date = (value: string) =>
 		timeZone: "UTC",
 	}).format(new Date(value));
 ---
+
 <Layout>
 	<div class="container relative grid gap-4 pb-8 md:grid-cols-4 md:pb-16">
-		<nav class="top-0 col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:sticky md:col-span-1 md:h-max md:max-h-none" aria-label="Tags">
-			{allTags.map((item) => <a href={`/tag/${item}`} aria-current={item === tag ? "page" : undefined} aria-disabled={item === tag ? "true" : undefined} class:list={["inline-flex h-10 w-full items-center justify-start rounded-md px-4 py-2 text-sm font-medium capitalize hover:bg-accent md:w-max", item === tag && "pointer-events-none opacity-50"]}>{item}</a>)}
+		<nav
+			class="top-0 col-span-4 flex max-h-64 flex-col gap-2 overflow-y-auto md:sticky md:col-span-1 md:h-max md:max-h-none"
+			aria-label="Tags"
+		>
+			{allTags.map((item) => (
+				<a
+					href={`/tag/${item}`}
+					aria-current={item === tag ? "page" : undefined}
+					aria-disabled={item === tag ? "true" : undefined}
+					class:list={[
+						"inline-flex h-10 w-full items-center justify-start rounded-md px-4 py-2 text-sm font-medium capitalize hover:bg-accent md:w-max",
+						item === tag && "pointer-events-none opacity-50",
+					]}
+				>
+					{item}
+				</a>
+			))}
 		</nav>
 		<hr class="col-span-4 md:hidden" />
 		<main class="col-span-4 px-4 md:col-span-3 md:px-0">
-			<h1 class="font-semibold text-3xl text-black capitalize dark:text-white">{tag}</h1>
+			<h1 class="font-semibold text-3xl text-black capitalize dark:text-white">
+				{tag}
+			</h1>
 			<ul class="mt-8 flex flex-col">
-				{posts.map((post) => <li class="list-none border-b px-0 py-4 first:pt-0 last:border-none"><div class="flex justify-between gap-2"><div><a href={post.url} class="hover:text-black dark:hover:text-white"><h2 class="my-0">{post.title}</h2></a><p class="text-muted-foreground text-sm">{post.description}</p></div><div class="text-right text-muted-foreground text-sm"><time datetime={post.datePublished}>{date(post.datePublished)}</time><p class="text-xs">{post.timeToRead} min de lecture</p></div></div></li>)}
+				{posts.map((post) => (
+					<li class="list-none border-b px-0 py-4 first:pt-0 last:border-none">
+						<div class="flex justify-between gap-2">
+							<div>
+								<a
+									href={post.url}
+									class="hover:text-black dark:hover:text-white"
+								>
+									<h2 class="my-0">{post.title}</h2>
+								</a>
+								<p class="text-muted-foreground text-sm">{post.description}</p>
+							</div>
+							<div class="text-right text-muted-foreground text-sm">
+								<time datetime={post.datePublished}>
+									{date(post.datePublished)}
+								</time>
+								<p class="text-xs">{post.timeToRead} min de lecture</p>
+							</div>
+						</div>
+					</li>
+				))}
 			</ul>
 		</main>
 	</div>

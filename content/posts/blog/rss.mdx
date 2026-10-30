@@ -13,9 +13,15 @@ N'importe qui peut s'abonner à ce flux, ainsi dès qu'un nouveau post est publi
 
 # Comment générer un fichier rss.xml ?
 
+Avec Astro, la fonction suivante utilise `@astrojs/rss` pour construire la réponse XML :
+
 @include "../../../scripts/generate-rss.ts"
 
-[@astrojs/rss](https://docs.astro.build/en/recipes/rss/)
+L'endpoint `src/pages/rss.xml.ts` appelle cette fonction avec les articles et l'URL du site. Astro génère ensuite `/rss.xml` pendant le build :
+
+@include "../../../src/pages/rss.xml.ts"
+
+Voir la [documentation de `@astrojs/rss`](https://docs.astro.build/en/recipes/rss/).
 
 # Comment voir si ça marche ?
 

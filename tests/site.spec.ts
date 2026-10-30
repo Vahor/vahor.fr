@@ -103,6 +103,15 @@ test("published routes, feeds, Markdown and social images remain available", asy
 	const image = await request.get("/og/charts.vahor.fr");
 	expect(image.headers()["content-type"]).toContain("image/png");
 	expect((await image.body()).subarray(1, 4).toString()).toBe("PNG");
+	for (const path of [
+		"/og/not-a-real-post",
+		"/og/not-a-real-post.png",
+		"/og/not-a-real-post.png.png",
+	]) {
+		const missing = await request.get(path, { maxRedirects: 0 });
+		expect(missing.status()).toBe(404);
+		expect(missing.headers().location).toBeUndefined();
+	}
 	expect((await request.get("/tag/not-a-real-tag")).status()).toBe(404);
 });
 
@@ -176,13 +185,20 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 	await expect(query).toBeFocused();
 	const links = page.locator("#search-results").getByRole("link");
 	await expect(links.nth(1)).toBeVisible();
+	await expect(page.locator("#search-results h3").first()).toHaveText(
+		"contact",
+	);
+	await query.fill("charts");
+	await expect(links.first()).toHaveText("Charts");
+	await expect(links).toHaveCount(2);
 	const nextUrl = new URL(
 		(await links.nth(1).getAttribute("href"))!,
 		page.url(),
 	).href;
 	await query.press("ArrowDown");
-	await expect(query).toBeFocused();
-	await query.press("Enter");
+	await expect(links.nth(1)).toBeFocused();
+	await expect(query).not.toHaveAttribute("aria-activedescendant");
+	await page.keyboard.press("Enter");
 	await expect(page).toHaveURL(nextUrl);
 	await page.keyboard.press("Control+k");
 	await query.fill("charts");
@@ -213,6 +229,16 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 		.getByRole("button", { name: "Chercher une page", exact: true })
 		.click();
 	await query.fill("charts");
+	await expect(result).toBeVisible();
+	await expect(page.locator("#search-results").getByRole("link")).toHaveCount(
+		2,
+	);
+	await page.keyboard.press("ArrowDown");
+	await expect(
+		page
+			.locator("#search-results")
+			.getByRole("link", { name: "llms.txt", exact: true }),
+	).toBeFocused();
 	await page.keyboard.press("Escape");
 	await expect(page.locator("#search-dialog")).not.toBeVisible();
 	await expect(
@@ -308,6 +334,7 @@ test("article code controls copy real text and toggle wrapping", async ({
 	await block.getByRole("button", { name: "Wrap code", exact: true }).click();
 	await expect(block).toHaveAttribute("data-wrap-code", "false");
 	await block.getByRole("button", { name: "Copy code to clipboard" }).click();
+	await expect(block.getByRole("status")).toHaveText("Copié");
 	expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(
 		'import rss from "@astrojs/rss"',
 	);
@@ -349,6 +376,7 @@ test("homepage needs no Spotify browser request or generic fallback", async ({
 	await expect(tooltip).toHaveText("Copié");
 	await expect(tooltip).toBeVisible();
 	await expect(copy).toHaveAccessibleDescription("Copié");
+	await expect(page.getByRole("status")).toHaveText("Copié");
 	await expect(tooltip).not.toBeVisible();
 	await expect(copy).not.toHaveAttribute("aria-describedby");
 });

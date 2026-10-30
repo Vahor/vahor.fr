@@ -10,6 +10,22 @@ const {
 	large = false,
 } = Astro.props;
 ---
-<div class:list={["translate-z-0 mt-6 aspect-video rounded-md", large && "larger-content"]}>
-	<video title={title} src={src.replace(/^.*public\//, "/")} controls={controls} class="mx-auto rounded-md" muted={muted} autoplay={autoplay} playsinline loop={loop} preload={preload} />
+
+<div
+	class:list={[
+		"translate-z-0 mt-6 aspect-video rounded-md",
+		large && "larger-content",
+	]}
+>
+	<video
+		title={title}
+		src={src.replace(/^.*public\//, "/")}
+		controls={controls}
+		class="mx-auto rounded-md"
+		muted={muted}
+		autoplay={autoplay}
+		playsinline
+		loop={loop}
+		preload={preload}
+	/>
 </div>

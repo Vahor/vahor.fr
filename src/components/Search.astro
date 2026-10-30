@@ -41,17 +41,25 @@ import Icon from "./Icon.astro";
 		</section>
 	</template>
 	<template id="search-result-template">
-		<a class="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-3 text-sm leading-5 outline-hidden data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"></a>
+		<a class="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-3 text-sm leading-5 outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"></a>
 	</template>
 	<template id="search-status-template">
-		<p class="py-6 text-center text-muted-foreground text-sm leading-5"><span></span><span class="text-foreground"></span></p>
+		<p class="py-6 text-center text-muted-foreground text-sm leading-5">
+			<span></span>
+			<span class="text-foreground"></span>
+		</p>
 	</template>
 </dialog>
 
 <script src="../scripts/search.ts"></script>
 
 <style>
-	:global(html:has(#search-dialog[open])) {
+	:global(html) {
+		scrollbar-gutter: stable;
+	}
+
+	:global(html:has(#search-dialog[open])),
+	:global(body:has(#search-dialog[open])) {
 		overflow: hidden;
 	}
 

@@ -1,5 +1,5 @@
 import { type CollectionEntry, getCollection } from "astro:content";
-import { stat } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 
 export type Post = Omit<CollectionEntry<"posts">["data"], "datePublished"> & {
@@ -25,6 +25,17 @@ export async function getPosts(): Promise<Post[]> {
 			const pageType = path.basename(path.dirname(filePath));
 			const datePublished = entry.data.datePublished.toISOString();
 			const raw = entry.body ?? "";
+			let dateModified = datePublished;
+			try {
+				const committed = execFileSync(
+					"git",
+					["log", "-1", "--format=%cI", "--", filePath],
+					{ encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+				).trim();
+				if (committed) dateModified = new Date(committed).toISOString();
+			} catch {
+				// Archives without Git history retain the publication date, not checkout time.
+			}
 			return {
 				...entry.data,
 				id: entry.id,
@@ -38,7 +49,7 @@ export async function getPosts(): Promise<Post[]> {
 					String(entry.data.datePublished.getFullYear()),
 				],
 				datePublished,
-				dateModified: (await stat(filePath)).mtime.toISOString(),
+				dateModified,
 				timeToRead: Math.ceil(raw.split(/\s+/).length / 140),
 				githubEditUrl: `https://github.com/vahor/vahor.fr/edit/main/content/posts/${path.relative("content/posts", filePath).split(path.sep).join("/")}`,
 				body: { raw },

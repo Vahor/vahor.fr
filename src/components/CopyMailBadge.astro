@@ -11,8 +11,18 @@ import Icon from "./Icon.astro";
 			<span>{EMAIL}</span>
 		</span>
 	</button>
-	<span id="copy-email-tooltip" role="tooltip" aria-live="polite" data-copy-feedback hidden class="fade-in-0 zoom-in-95 slide-in-from-top-2 absolute top-[calc(100%+10px)] left-1/2 z-50 w-max -translate-x-1/2 animate-in rounded-md bg-primary px-3 py-1.5 text-primary-foreground text-xs leading-4!">
-		<span class="absolute -top-1 left-1/2 size-2.5 -translate-x-1/2 rotate-45 rounded-[2px] bg-primary" aria-hidden="true"></span>
+	<span data-copy-status role="status" class="sr-only"></span>
+	<span
+		id="copy-email-tooltip"
+		role="tooltip"
+		data-copy-feedback
+		hidden
+		class="fade-in-0 zoom-in-95 slide-in-from-top-2 absolute top-[calc(100%+10px)] left-1/2 z-50 w-max -translate-x-1/2 animate-in rounded-md bg-primary px-3 py-1.5 text-primary-foreground text-xs leading-4!"
+	>
+		<span
+			class="absolute -top-1 left-1/2 size-2.5 -translate-x-1/2 rotate-45 rounded-[2px] bg-primary"
+			aria-hidden="true"
+		></span>
 		<span data-copy-message class="leading-4!"></span>
 	</span>
 </span>

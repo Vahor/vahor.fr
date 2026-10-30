@@ -35,54 +35,54 @@ const cacheKey = (url: string) => `meta:${url}`;
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
 	const urlKey = cacheKey(cleanUrl);
-	const cached = await kv?.get<MetaTags>(urlKey);
-	if (cached) return cached;
-
-	const page = await fetch(url, { signal: AbortSignal.timeout(15000) });
-	if (!page.ok) {
-		return {
-			title: "",
-			description: "",
-			favicon: EMPTY_BASE64_IMAGE,
-			image: EMPTY_BASE64_IMAGE,
-		};
+	const fallback = {
+		title: "",
+		description: "",
+		favicon: EMPTY_BASE64_IMAGE,
+		image: EMPTY_BASE64_IMAGE,
+	};
+	try {
+		const cached = await kv?.get<MetaTags>(urlKey);
+		if (cached) return cached;
+	} catch (error) {
+		console.error(`Metadata cache read failed: ${url}`, error);
 	}
 
-	const html = await page.text();
+	try {
+		const page = await fetch(url, { signal: AbortSignal.timeout(15000) });
+		if (!page.ok) {
+			console.error(`Metadata request failed: ${url} (${page.status})`);
+			return fallback;
+		}
 
-	// Metadata needs an inert HTML tree, not a window that parses remote CSS.
-	const document = JSDOM.fragment(html);
-	const properties = mapProperties(document);
+		const html = await page.text();
 
-	let favicon = properties.favicon?.toString() ?? "";
-	favicon =
-		favicon &&
-		(favicon.startsWith("http") ? favicon : new URL(favicon, url).toString());
+		// Metadata needs an inert HTML tree, not a window that parses remote CSS.
+		const document = JSDOM.fragment(html);
+		const properties = mapProperties(document);
 
-	const image = properties.image?.toString() ?? "";
+		let favicon = properties.favicon?.toString() ?? "";
+		favicon =
+			favicon &&
+			(favicon.startsWith("http") ? favicon : new URL(favicon, url).toString());
 
-	properties.favicon = await imageToBase64(favicon, 16, 16);
-	properties.image = image
-		? await imageToBase64(image)
-		: await imageToBase64(favicon); // fallback to favicon
+		const image = properties.image?.toString() ?? "";
 
-	const previousValue = (await kv?.get<MetaTags>(urlKey)) ?? properties;
+		properties.favicon = await imageToBase64(favicon, 16, 16);
+		properties.image = image
+			? await imageToBase64(image)
+			: await imageToBase64(favicon); // fallback to favicon
 
-	const newProperties = {
-		...properties,
-		image:
-			properties.image === EMPTY_BASE64_IMAGE
-				? previousValue.image
-				: properties.image,
-		favicon:
-			properties.favicon === EMPTY_BASE64_IMAGE
-				? previousValue.favicon
-				: properties.favicon,
-	} as MetaTags;
-
-	await kv?.set(urlKey, newProperties, { ex: 60 * 60 * 24 }); // 24 hours
-
-	return newProperties;
+		try {
+			await kv?.set(urlKey, properties, { ex: 60 * 60 * 24 });
+		} catch (error) {
+			console.error(`Metadata cache write failed: ${url}`, error);
+		}
+		return properties;
+	} catch (error) {
+		console.error(`Metadata unavailable: ${url}`, error);
+		return fallback;
+	}
 };
 
 const EMPTY_BASE64_IMAGE =

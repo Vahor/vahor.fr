@@ -34,6 +34,10 @@ Use Node 24 and Bun, then `bun install --frozen-lockfile` and `bun dev`.
 
 `bun test` invokes Bun's test runner; use `bun run test` for Playwright.
 
+Biome's unused-import/variable rules are disabled for `.astro` files because
+template references are not counted as frontmatter usage. `astro check` validates
+those references instead; do not auto-remove imports used by templates.
+
 ### Integrations
 
 Local builds require no secrets. Configure `SPOTIFY_CLIENT_ID`,
@@ -48,7 +52,10 @@ The Node local preview does not emulate Vercel's ISR cache. If Spotify is
 unavailable or has no top track, the whole listening block is omitted; there is
 no generic fallback or client-side Spotify request.
 The refresh token must belong to the same Spotify app and authorize `user-top-read`.
-`scripts/spotify.sh` starts that authorization flow; its redirect URI must match
+`scripts/spotify.sh` starts that authorization flow and requires macOS's `open`,
+`curl` and `jq`, with the Spotify client ID and secret exported in the shell.
+On other platforms, open the authorization URL manually or adapt the browser
+launcher before running the script. Its redirect URI must match
 the URI registered in the Spotify app. Store the returned refresh token in Redis
 under `spotify:refreshToken`, without expiry. An access token is refreshed and
 cached automatically. Reuse the existing app and Redis database if already set up.
@@ -62,14 +69,13 @@ and pathname mapping; no authenticated comment posting is part of local checks.
 
 ### Upgrade compatibility exceptions
 
-All retained dependencies were upgraded, including major versions, except:
+Dependencies were reviewed and upgraded where compatible, including major
+versions. Some retained packages already satisfied the review or remain on their
+existing release; this is not a claim that every package changed or is the latest
+registry release. Explicit compatibility pins are:
 
 - TypeScript stays on `~6.0.3`: TypeScript 7 removes compiler APIs needed by
   Twoslash and is rejected by the installed Astro checker.
 - D2 stays on `0.1.23`: tested published versions 0.1.27–0.1.33 reject the
   existing article's wildcard style rule. Retaining the pin preserves diagrams
   without rewriting historical content.
-
-See [the prioritized audit checklist](plan/site-audit-CHECKLIST.md) for measured
-production baselines, migration validation and remaining editorial/performance
-work. Publication and post-deployment verification remain separate steps.

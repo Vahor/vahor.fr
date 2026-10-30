@@ -59,7 +59,6 @@ function showStatus(message: string, query = "") {
 	status.children[0]!.textContent = message;
 	status.children[1]!.textContent = query;
 	results.replaceChildren(status);
-	input.removeAttribute("aria-activedescendant");
 }
 
 function selectResult(link: HTMLAnchorElement) {
@@ -67,7 +66,6 @@ function selectResult(link: HTMLAnchorElement) {
 		.querySelector<HTMLElement>('[data-selected="true"]')
 		?.removeAttribute("data-selected");
 	link.dataset.selected = "true";
-	input.setAttribute("aria-activedescendant", link.id);
 }
 
 async function renderResults() {
@@ -139,7 +137,7 @@ document.querySelectorAll("[data-search-open]").forEach((button) => {
 input.addEventListener("input", () => {
 	void renderResults();
 });
-input.addEventListener("keydown", (event) => {
+dialog.addEventListener("keydown", (event) => {
 	if (event.key === "Escape") {
 		event.preventDefault();
 		dialog.close();
@@ -159,8 +157,18 @@ results.addEventListener("pointermove", (event) => {
 results.addEventListener("focusin", (event) => {
 	if (event.target instanceof HTMLAnchorElement) selectResult(event.target);
 });
+let pressedBackdrop = false;
+dialog.addEventListener("pointerdown", (event) => {
+	const box = dialog.getBoundingClientRect();
+	pressedBackdrop =
+		event.target === dialog &&
+		(event.clientX < box.left ||
+			event.clientX > box.right ||
+			event.clientY < box.top ||
+			event.clientY > box.bottom);
+});
 dialog.addEventListener("click", (event) => {
-	if (event.target === dialog) {
+	if (pressedBackdrop && event.target === dialog) {
 		const box = dialog.getBoundingClientRect();
 		if (
 			event.clientX < box.left ||
@@ -170,6 +178,7 @@ dialog.addEventListener("click", (event) => {
 		)
 			dialog.close();
 	}
+	pressedBackdrop = false;
 });
 document.addEventListener("keydown", (event) => {
 	if (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey)) {
@@ -194,5 +203,5 @@ document.addEventListener("keydown", (event) => {
 	const selected = links[next]!;
 	selectResult(selected);
 	selected.scrollIntoView({ block: "nearest" });
-	input.focus({ preventScroll: true });
+	selected.focus({ preventScroll: true });
 });

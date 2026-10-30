@@ -5,19 +5,22 @@ import {
 	type PluginOptions,
 } from "@vahor/llms-txt";
 import { visit } from "unist-util-visit";
+import { SITE_METADATA } from "../src/lib/constants";
 import type { Post } from "../src/lib/posts";
 
 function fixRelativeLinks() {
 	return (tree: any) => {
-		const pattern = /(?:\.\.\/)*(?:public|src\/assets)\//g;
+		const imagePattern = /^(?:\.\.?\/)*(?:public|src\/assets)\//;
+		// Only rewrite relative paths at token boundaries, never inside absolute URLs.
+		const pattern = /(^|[\s"'`(])(?:\.\.?\/)*(?:public|src\/assets)\//g;
 		visit(tree, "image", (node) => {
-			node.url = (node.url as string).replace(pattern, "/");
+			node.url = (node.url as string).replace(imagePattern, "/");
 		});
 		visit(tree, "html", (node) => {
-			node.value = (node.value as string).replace(pattern, "/");
+			node.value = (node.value as string).replace(pattern, "$1/");
 		});
 		visit(tree, "code", (node) => {
-			node.value = (node.value as string).replace(pattern, "/");
+			node.value = (node.value as string).replace(pattern, "$1/");
 		});
 
 		return tree;
@@ -52,10 +55,10 @@ export function generateLlms(posts: Post[]) {
 			},
 			{
 				title: "Posts",
-				links: posts.map((doc) => ({
-					title: doc.title,
-					url: `https://vahor.fr/${doc.pageType}/${doc.slug}.md`,
-					description: doc.description,
+				links: posts.map((post) => ({
+					title: post.title,
+					url: new URL(`${post.url}.md`, SITE_METADATA.url).href,
+					description: post.description,
 				})),
 			},
 		],

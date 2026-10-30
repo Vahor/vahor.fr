@@ -52,6 +52,9 @@ const date = (value: string) =>
 					class="flex flex-row items-center gap-2"
 					title={`Dernière modification le ${date(post.dateModified)}`}
 				>
+					<span class="sr-only">
+						Dernière modification le {date(post.dateModified)}. Publié le{" "}
+					</span>
 					<Icon name="calendar" />
 					<span class="text-xs">
 						<time datetime={post.datePublished}>

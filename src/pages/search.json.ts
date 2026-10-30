@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { env } from "../env";
 import {
 	EMAIL,
 	GITHUB_PROFILE,
@@ -29,7 +30,7 @@ export const GET: APIRoute = async () => {
 		title,
 		url,
 		pageType: "contact",
-		datePublished: "",
+		datePublished: env.BUILD_TIME,
 	}));
 	return Response.json([...entries, ...contacts]);
 };

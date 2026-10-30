@@ -1,10 +1,10 @@
 ---
 interface Props {
-	name: string;
+	name: keyof typeof paths;
 	class?: string;
 }
 const { name, class: className = "size-4" } = Astro.props;
-const paths: Record<string, string[]> = {
+const paths = {
 	x: ["M18 6 6 18", "m6 6 12 12"],
 	search: ["m21 21-4.34-4.34", "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16"],
 	sun: [
@@ -22,6 +22,21 @@ const paths: Record<string, string[]> = {
 	check: ["m20 6-11 11-5-5"],
 };
 ---
-<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class={className}>
-	{(paths[name] ?? []).map((d) => <path d={d} />)}
+
+<svg
+	aria-hidden="true"
+	xmlns="http://www.w3.org/2000/svg"
+	width="24"
+	height="24"
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="1.5"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	class={className}
+>
+	{paths[name].map((d) => (
+		<path d={d} />
+	))}
 </svg>

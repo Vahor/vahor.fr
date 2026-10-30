@@ -5,10 +5,12 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import { SITE_METADATA } from "./src/lib/constants";
 import { mdxOptions } from "./src/lib/markdown";
 
 const localPreview = process.env.ASTRO_LOCAL_PREVIEW === "1";
-const site = "https://vahor.fr";
+const site = SITE_METADATA.url;
+const buildTime = new Date().toISOString();
 
 export default defineConfig({
 	site,
@@ -31,5 +33,8 @@ export default defineConfig({
 		syntaxHighlight: false,
 		processor: unified({ ...mdxOptions, smartypants: false }),
 	},
-	vite: { plugins: [tailwindcss()] },
+	vite: {
+		plugins: [tailwindcss()],
+		define: { __BUILD_TIME__: JSON.stringify(buildTime) },
+	},
 });

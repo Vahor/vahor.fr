@@ -1,13 +1,41 @@
 ---
 import Layout from "../layouts/Layout.astro";
 ---
+
 <Layout title="Page introuvable" noindex>
 	<div class="container flex w-full flex-col items-center gap-8 sm:h-full sm:justify-center md:mt-[-105px] md:gap-12 lg:flex-row">
-		<img src="/where-am-i.gif" alt="Where am I?" width="400" height="300" class="rounded-md shadow-sm" />
+		<img
+			src="/where-am-i.gif"
+			alt="Where am I?"
+			width="400"
+			height="300"
+			class="rounded-md shadow-sm"
+		/>
 		<main class="flex flex-col gap-4">
 			<h1 class="font-semibold text-6xl text-black dark:text-white">Oops !</h1>
-			<div class="text-muted-foreground"><p>La page que vous cherchez n'existe pas.</p><p>Peut-être que vous avez mal tapé l'adresse ou que la page a été supprimée.</p></div>
-			<div class="flex items-center gap-2"><a href="/" class="w-max rounded-md bg-secondary px-4 py-2 text-sm text-secondary-foreground">Returner à l'accueil</a><span class="text-sm">ou</span><button type="button" data-search-open class="rounded-md bg-secondary px-4 py-2 text-sm text-secondary-foreground">Chercher une page</button></div>
+			<div class="text-muted-foreground">
+				<p>La page que vous cherchez n'existe pas.</p>
+				<p>
+					Peut-être que vous avez mal tapé l'adresse ou que la page a été
+					supprimée.
+				</p>
+			</div>
+			<div class="flex items-center gap-2">
+				<a
+					href="/"
+					class="w-max rounded-md bg-secondary px-4 py-2 text-sm text-secondary-foreground"
+				>
+					Retourner à l'accueil
+				</a>
+				<span class="text-sm">ou</span>
+				<button
+					type="button"
+					data-search-open
+					class="rounded-md bg-secondary px-4 py-2 text-sm text-secondary-foreground"
+				>
+					Chercher une page
+				</button>
+			</div>
 		</main>
 	</div>
 </Layout>

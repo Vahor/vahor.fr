@@ -53,6 +53,8 @@ document.addEventListener("click", async (event) => {
 	const feedback = button.parentElement?.querySelector<HTMLElement>(
 		"[data-copy-feedback]",
 	);
+	const status =
+		button.parentElement?.querySelector<HTMLElement>("[data-copy-status]");
 	let message = "Copié";
 	try {
 		await navigator.clipboard.writeText(text);
@@ -61,6 +63,7 @@ document.addEventListener("click", async (event) => {
 		button.dataset.copyState = "error";
 		message = "La copie a échoué";
 	}
+	if (status) status.textContent = message;
 	if (feedback) {
 		feedback.querySelector("[data-copy-message]")!.textContent = message;
 		feedback.hidden = false;
@@ -68,6 +71,7 @@ document.addEventListener("click", async (event) => {
 	} else button.title = message;
 	setTimeout(() => {
 		delete button.dataset.copyState;
+		if (status) status.textContent = "";
 		if (feedback) {
 			feedback.hidden = true;
 			button.removeAttribute("aria-describedby");
