@@ -9,6 +9,9 @@ const groupTemplate = dialog.querySelector<HTMLTemplateElement>(
 const resultTemplate = dialog.querySelector<HTMLTemplateElement>(
 	"#search-result-template",
 )!;
+const statusTemplate = dialog.querySelector<HTMLTemplateElement>(
+	"#search-status-template",
+)!;
 let loading:
 	| Promise<{
 			entries: SearchEntry[];
@@ -48,15 +51,36 @@ function loadSearch() {
 	return loading;
 }
 
+function showStatus(message: string, query = "") {
+	const status = statusTemplate.content.firstElementChild!.cloneNode(
+		true,
+	) as HTMLElement;
+	status.children[0]!.textContent = message;
+	status.children[1]!.textContent = query;
+	results.replaceChildren(status);
+	input.removeAttribute("aria-activedescendant");
+}
+
+function selectResult(link: HTMLAnchorElement) {
+	results
+		.querySelector<HTMLElement>('[data-selected="true"]')
+		?.removeAttribute("data-selected");
+	link.dataset.selected = "true";
+	input.setAttribute("aria-activedescendant", link.id);
+}
+
 async function renderResults() {
 	let search: Awaited<ReturnType<typeof loadSearch>>;
 	try {
 		search = await loadSearch();
 	} catch {
-		results.textContent =
-			"La recherche est indisponible. Réessayez ou consultez la page Blog.";
+		results.removeAttribute("aria-busy");
+		showStatus(
+			"La recherche est indisponible. Réessayez ou consultez la page Blog.",
+		);
 		return;
 	}
+	results.removeAttribute("aria-busy");
 	const { entries, index } = search;
 	const query = input.value.trim();
 	const matches = query
@@ -72,11 +96,11 @@ async function renderResults() {
 	);
 	results.replaceChildren();
 	if (!matches.length) {
-		results.textContent = `Aucun résultat pour ${query}`;
+		showStatus("Aucun résultat pour ", query);
 		return;
 	}
 	const groups = new Map<string, HTMLElement>();
-	for (const entry of matches) {
+	for (const [resultIndex, entry] of matches.entries()) {
 		let group = groups.get(entry.pageType);
 		if (!group) {
 			group = groupTemplate.content.firstElementChild!.cloneNode(
@@ -91,15 +115,20 @@ async function renderResults() {
 		) as HTMLAnchorElement;
 		link.href = entry.url;
 		link.textContent = entry.title;
+		link.id = `search-result-${resultIndex}`;
 		group.append(link);
 	}
+	selectResult(results.querySelector<HTMLAnchorElement>("a")!);
 }
 
 function openSearch() {
 	if (dialog.open) return;
+	if (!loading) {
+		results.setAttribute("aria-busy", "true");
+		showStatus("Chargement…");
+	}
 	dialog.showModal();
 	input.focus();
-	if (!loading) results.textContent = "Chargement…";
 	void renderResults();
 }
 
@@ -109,12 +138,25 @@ document.querySelectorAll("[data-search-open]").forEach((button) => {
 input.addEventListener("input", () => {
 	void renderResults();
 });
+input.addEventListener("keydown", (event) => {
+	if (event.key === "Escape") {
+		event.preventDefault();
+		dialog.close();
+	}
+});
 dialog
 	.querySelector("[data-search-close]")!
 	.addEventListener("click", () => dialog.close());
 dialog.querySelector("form")?.addEventListener("submit", (event) => {
 	event.preventDefault();
-	results.querySelector<HTMLAnchorElement>("a")?.click();
+	results.querySelector<HTMLAnchorElement>('[data-selected="true"]')?.click();
+});
+results.addEventListener("pointermove", (event) => {
+	const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("a");
+	if (link) selectResult(link);
+});
+results.addEventListener("focusin", (event) => {
+	if (event.target instanceof HTMLAnchorElement) selectResult(event.target);
 });
 dialog.addEventListener("click", (event) => {
 	if (event.target === dialog) {
@@ -138,7 +180,9 @@ document.addEventListener("keydown", (event) => {
 	const links = [...results.querySelectorAll<HTMLAnchorElement>("a")];
 	if (!links.length) return;
 	event.preventDefault();
-	const active = links.indexOf(document.activeElement as HTMLAnchorElement);
+	const active = links.indexOf(
+		results.querySelector<HTMLAnchorElement>('[data-selected="true"]')!,
+	);
 	const next =
 		active < 0
 			? event.key === "ArrowDown"
@@ -146,5 +190,8 @@ document.addEventListener("keydown", (event) => {
 				: links.length - 1
 			: (active + (event.key === "ArrowDown" ? 1 : -1) + links.length) %
 				links.length;
-	links[next]?.focus();
+	const selected = links[next]!;
+	selectResult(selected);
+	selected.scrollIntoView({ block: "nearest" });
+	input.focus({ preventScroll: true });
 });

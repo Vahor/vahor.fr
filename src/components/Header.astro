@@ -42,12 +42,14 @@ import Search from "./Search.astro";
 			type="button"
 			data-search-open
 			aria-label="Chercher une page"
-			class="relative flex items-center text-left text-sm"
+			aria-haspopup="dialog"
+			aria-controls="search-dialog"
+			class="relative flex cursor-text! items-center text-left text-sm leading-5 outline-hidden"
 		>
-			<Icon name="search" class="mr-2 size-4 shrink-0 opacity-50" />
-			<span class="w-24 sm:w-48">Chercher...</span>
-			<kbd class="pointer-events-none absolute right-0 hidden h-5 items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground sm:flex">
-				<span class="text-xs">⌘</span>K
+			<Icon name="search" class="mr-2 size-4 shrink-0 stroke-2 opacity-50" />
+			<span class="w-24 text-foreground/50 leading-5 sm:w-48">Chercher...</span>
+			<kbd class="pointer-events-none absolute inset-y-0 right-0 hidden h-5 select-none items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground sm:flex">
+				<span class="mt-px text-xs">⌘</span><span class="text-sm">K</span>
 			</kbd>
 		</button>
 	</div>

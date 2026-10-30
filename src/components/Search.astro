@@ -5,43 +5,98 @@ import Icon from "./Icon.astro";
 <dialog
 	id="search-dialog"
 	aria-labelledby="search-title"
-	class="fixed top-[20%] m-0 mx-auto w-[calc(100%-2rem)] max-w-lg overflow-hidden rounded-lg border bg-popover p-0 text-popover-foreground shadow-lg backdrop:bg-black/80"
+	class="fixed top-1/4 left-1/2 m-0 w-full max-w-[640px] overflow-hidden rounded-lg border bg-popover p-0 text-popover-foreground shadow-lg sm:top-1/2"
 >
 	<h2 id="search-title" class="sr-only">
 		Chercher une page
 	</h2>
-	<form class="flex items-center gap-2 border-b px-3">
-		<Icon name="search" />
+	<form class="flex h-12 items-center gap-2 border-b px-3">
+		<Icon name="search" class="size-4 shrink-0 stroke-2 opacity-50" />
 		<input
 			id="search-query"
 			type="search"
 			aria-label="Chercher une page"
 			placeholder="Chercher une page..."
 			autocomplete="off"
-			class="h-12 min-w-0 flex-1 bg-transparent outline-hidden"
+			aria-controls="search-results"
+			class="flex h-12 min-w-0 flex-1 rounded-md bg-transparent py-3 text-sm leading-5 outline-hidden placeholder:text-muted-foreground"
 		/>
 		<button
 			type="button"
 			data-search-close
 			aria-label="Fermer la recherche"
-			class="p-2 text-muted-foreground"
+			class="absolute top-4 right-4 cursor-default! rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
 		>
-			×
+			<Icon name="x" class="size-4 stroke-2" />
 		</button>
 	</form>
 	<div
 		id="search-results"
 		aria-live="polite"
-		class="max-h-80 overflow-y-auto p-2"
+		class="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto aria-busy:min-h-[300px]"
 	></div>
 	<template id="search-group-template">
-		<section>
-			<h3 class="mb-1 px-2 py-1 text-xs font-medium text-muted-foreground"></h3>
+		<section class="overflow-hidden px-2 py-1 text-foreground">
+			<h3 class="m-0 px-2 py-1.5 font-medium text-muted-foreground text-xs leading-4"></h3>
 		</section>
 	</template>
 	<template id="search-result-template">
-		<a class="block rounded-sm px-2 py-1.5 text-sm hover:bg-accent focus:bg-accent focus:outline-none"></a>
+		<a class="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-3 text-sm leading-5 outline-hidden data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"></a>
+	</template>
+	<template id="search-status-template">
+		<p class="py-6 text-center text-muted-foreground text-sm leading-5"><span></span><span class="text-foreground"></span></p>
 	</template>
 </dialog>
 
 <script src="../scripts/search.ts"></script>
+
+<style>
+	dialog {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.95);
+		transition:
+			opacity 150ms ease,
+			transform 150ms ease,
+			display 150ms allow-discrete,
+			overlay 150ms allow-discrete;
+	}
+
+	dialog[open] {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	dialog::backdrop {
+		background: rgb(0 0 0 / 0);
+		transition:
+			background 150ms ease,
+			display 150ms allow-discrete,
+			overlay 150ms allow-discrete;
+	}
+
+	dialog[open]::backdrop {
+		background: rgb(0 0 0 / 0.5);
+	}
+
+	@starting-style {
+		dialog[open] {
+			opacity: 0;
+			transform: translate(-50%, -50%) scale(0.95);
+		}
+
+		dialog[open]::backdrop {
+			background: rgb(0 0 0 / 0);
+		}
+	}
+
+	input::-webkit-search-cancel-button {
+		display: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		dialog,
+		dialog::backdrop {
+			transition-duration: 0s;
+		}
+	}
+</style>

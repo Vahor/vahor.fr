@@ -60,6 +60,17 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 	await page.keyboard.press("Control+k");
 	const query = page.getByRole("searchbox");
 	await expect(query).toBeFocused();
+	const links = page.locator("#search-results").getByRole("link");
+	await expect(links.nth(1)).toBeVisible();
+	const nextUrl = new URL(
+		(await links.nth(1).getAttribute("href"))!,
+		page.url(),
+	).href;
+	await query.press("ArrowDown");
+	await expect(query).toBeFocused();
+	await query.press("Enter");
+	await expect(page).toHaveURL(nextUrl);
+	await page.keyboard.press("Control+k");
 	await query.fill("charts");
 	const result = page
 		.locator("#search-results")
@@ -87,6 +98,7 @@ test("search is lazy, keyboard accessible, and themes persist across navigation"
 	await page
 		.getByRole("button", { name: "Chercher une page", exact: true })
 		.click();
+	await query.fill("charts");
 	await page.keyboard.press("Escape");
 	await expect(page.locator("#search-dialog")).not.toBeVisible();
 	await expect(
