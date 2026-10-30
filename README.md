@@ -60,7 +60,8 @@ those references instead; do not auto-remove imports used by templates.
 ### Integrations
 
 Local builds require no secrets. Configure `SPOTIFY_CLIENT_ID`,
-`SPOTIFY_CLIENT_SECRET`, `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in the hosting
+`SPOTIFY_CLIENT_SECRET`, `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`
+(or the Vercel KV aliases `KV_REST_API_URL` and `KV_REST_API_TOKEN`) in the hosting
 environment to enable Spotify. Redis must already contain the private
 `spotify:refreshToken` value from the existing integration. Do not put secrets in
 `PUBLIC_` variables. The homepage fetches the top track on the server and embeds
