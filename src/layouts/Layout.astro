@@ -1,5 +1,4 @@
 ---
-import SpeedInsights from "@vercel/speed-insights/astro";
 import "@fontsource-variable/inter/wght.css";
 import "@fontsource-variable/geist-mono/wght.css";
 import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
@@ -109,7 +108,6 @@ const canonical = new URL(
 	<body>
 		<Header />
 		<slot />
-		{process.env.ASTRO_LOCAL_PREVIEW !== "1" && <SpeedInsights />}
 		<script src="../scripts/interactions.ts"></script>
 	</body>
 </html>

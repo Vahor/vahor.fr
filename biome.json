@@ -14,8 +14,6 @@
 			"!dist",
 			"!node_modules",
 			"!.astro",
-			"!.local-dist",
-			"!.vercel",
 			"!.amp",
 			"!test-results",
 			"!playwright-report"
