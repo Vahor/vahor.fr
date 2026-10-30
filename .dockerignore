@@ -1,0 +1,14 @@
+# Allowlist the files needed to install dependencies and build the site.
+**
+!package.json
+!bun.lock
+!astro.config.mjs
+!tsconfig.json
+!src/
+!src/**
+!content/
+!content/**
+!public/
+!public/**
+!scripts/
+!scripts/**

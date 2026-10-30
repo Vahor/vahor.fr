@@ -19,7 +19,6 @@
 /build
 /dist/
 /.astro/
-/.local-dist/
 
 # misc
 .DS_Store
@@ -32,9 +31,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
-# vercel
-.vercel
 
 # typescript
 *.tsbuildinfo
