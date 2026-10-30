@@ -2,39 +2,33 @@ import { JSDOM } from "jsdom";
 import sharp from "sharp";
 import { kv } from "@/lib/redis";
 
-const xpaths = {
+const selectors = {
 	// title is either the first <title> or og:title
-	title: '//title | //meta[@property="og:title"]/@content',
+	title: 'title, meta[property="og:title"]',
 	// description is either the first <meta name="description"> or og:description
-	description:
-		'//meta[@name="description"]/@content | //meta[@property="og:description"]/@content',
+	description: 'meta[name="description"], meta[property="og:description"]',
 	// image is og:image (either name or property)
-	image:
-		'//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content',
-	favicon: '//link[@rel="icon" or @rel="shortcut icon"]/@href',
+	image: 'meta[name="og:image"], meta[property="og:image"]',
+	favicon: 'link[rel="icon"], link[rel="shortcut icon"]',
 } as const;
-type XPaths = typeof xpaths;
-type XPathsKeys = keyof XPaths;
+type MetadataKey = keyof typeof selectors;
 
-const mapProperties = (paths: typeof xpaths, document: JSDOM) => {
-	const properties = Object.keys(paths) as XPathsKeys[];
+const mapProperties = (document: DocumentFragment) => {
+	const properties = Object.keys(selectors) as MetadataKey[];
 	return properties.reduce(
 		(acc, path) => {
-			const result = document.window.document.evaluate(
-				paths[path],
-				document.window.document,
-				null,
-				document.window.XPathResult.FIRST_ORDERED_NODE_TYPE,
-				null,
-			).singleNodeValue;
-			acc[path] = result?.textContent ?? "";
+			const result = document.querySelector(selectors[path]);
+			acc[path] =
+				result?.getAttribute(path === "favicon" ? "href" : "content") ??
+				result?.textContent ??
+				"";
 			return acc;
 		},
-		{} as Record<XPathsKeys, string>,
+		{} as Record<MetadataKey, string>,
 	);
 };
 
-type MetaTags = Record<XPathsKeys, string>;
+type MetaTags = Record<MetadataKey, string>;
 
 const cacheKey = (url: string) => `meta:${url}`;
 
@@ -50,8 +44,9 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 
 	const html = await page.text();
 
-	const document = new JSDOM(html);
-	const properties = mapProperties(xpaths, document);
+	// Metadata needs an inert HTML tree, not a window that parses remote CSS.
+	const document = JSDOM.fragment(html);
+	const properties = mapProperties(document);
 
 	let favicon = properties.favicon?.toString() ?? "";
 	favicon =
