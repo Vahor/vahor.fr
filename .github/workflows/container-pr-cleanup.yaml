@@ -1,0 +1,45 @@
+name: Clean PR image
+
+on:
+  pull_request:
+    types:
+      - closed
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  cleanup:
+    name: Delete PR image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete PR image versions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPOSITORY: ${{ github.repository }}
+          PACKAGE: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          if [ "$(gh api "repos/${REPOSITORY}" --jq .owner.type)" = "Organization" ]; then
+            owner_path="orgs/${OWNER}"
+          else
+            owner_path="users/${OWNER}"
+          fi
+
+          prefix="pr-${PR_NUMBER}-"
+          ids=$(
+            gh api --paginate --slurp \
+              "${owner_path}/packages/container/${PACKAGE}/versions?per_page=100" |
+              jq -r --arg prefix "$prefix" \
+                '.[][] | select(any(.metadata.container.tags[]?; startswith($prefix))) | .id'
+          )
+
+          for id in $ids; do
+            echo "Deleting ${PACKAGE} version ${id} (${prefix}*)"
+            gh api --method DELETE \
+              "${owner_path}/packages/container/${PACKAGE}/versions/${id}"
+          done
