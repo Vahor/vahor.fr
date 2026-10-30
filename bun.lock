@@ -15,7 +15,6 @@
         "@shikijs/transformers": "^4.5.0",
         "@shikijs/twoslash": "^4.5.0",
         "@upstash/redis": "^1.40.0",
-        "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.0.0",
         "astro": "^7.4.4",
         "fuse.js": "^7.5.0",
