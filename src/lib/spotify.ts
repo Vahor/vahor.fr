@@ -14,7 +14,7 @@ const getCachedAccessToken = async () => {
 	return null;
 };
 
-export async function getSpotifyAccessToken(refresh = false) {
+async function getSpotifyAccessToken(refresh = false) {
 	if (!kv || !env.SPOTIFY_CLIENT_ID || !env.SPOTIFY_CLIENT_SECRET) {
 		throw new Error("Spotify integration is not configured");
 	}
@@ -68,4 +68,52 @@ export async function getSpotifyAccessToken(refresh = false) {
 	console.log("Spotify access token refreshed");
 
 	return access_token;
+}
+
+const apiSchema = z.object({
+	items: z.array(
+		z.object({
+			name: z.string(),
+			external_urls: z.object({ spotify: z.url() }),
+			artists: z.array(z.object({ name: z.string() })),
+			album: z.object({
+				name: z.string(),
+				images: z.array(z.object({ url: z.url() })),
+			}),
+		}),
+	),
+});
+
+export async function getSpotifyTopTrack() {
+	try {
+		const request = async (refresh = false) =>
+			fetch(
+				"https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1&offset=0",
+				{
+					headers: {
+						Authorization: `Bearer ${await getSpotifyAccessToken(refresh)}`,
+					},
+					signal: AbortSignal.timeout(10000),
+				},
+			);
+		let response = await request();
+		if (response.status === 401) response = await request(true);
+		if (!response.ok) throw new Error(`Spotify returned ${response.status}`);
+		const track = apiSchema.parse(await response.json()).items[0];
+		return track
+			? {
+					name: track.name,
+					artists: track.artists.map((artist) => artist.name).join(", "),
+					album: track.album.name,
+					image: track.album.images[0]?.url ?? "/icons/spotify.png",
+					url: `${track.external_urls.spotify}?ref=vahor.fr`,
+				}
+			: null;
+	} catch (error) {
+		console.error(
+			"Spotify top track unavailable:",
+			error instanceof Error ? error.message : "Unknown error",
+		);
+		return null;
+	}
 }

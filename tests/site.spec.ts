@@ -144,35 +144,14 @@ test("article code controls copy real text and toggle wrapping", async ({
 	await expect(darkDiagram).toBeVisible();
 });
 
-test("Spotify card updates from public data and remains usable when unavailable", async ({
+test("homepage needs no Spotify browser request or generic fallback", async ({
 	page,
 }) => {
-	await page.route("**/api/spotify", (route) =>
-		route.fulfill({
-			json: {
-				name: "Example track",
-				artists: "First artist, Second artist",
-				album: "Example album",
-				image: "/icons/spotify.png",
-				url: "https://open.spotify.com/track/example?ref=vahor.fr",
-			},
-		}),
-	);
+	const requests: string[] = [];
+	page.on("request", (request) => requests.push(request.url()));
 	await page.goto("/");
-	const card = page.locator("#spotify-track");
-	await expect(card).toContainText("Example track");
-	await expect(card).toContainText("First artist, Second artist");
-	await expect(card.locator("a")).toHaveAttribute(
-		"href",
-		"https://open.spotify.com/track/example?ref=vahor.fr",
-	);
-	await page.route("**/api/spotify", (route) =>
-		route.fulfill({ status: 503, json: { error: "Spotify unavailable" } }),
-	);
-	await page.reload();
-	await expect(card).toContainText("Ma musique préférée du moment");
-	await expect(card.locator("a")).toHaveAttribute(
-		"href",
-		"https://open.spotify.com/",
+	expect(requests.some((url) => url.includes("/api/spotify"))).toBe(false);
+	await expect(page.locator('a[href="https://open.spotify.com/"]')).toHaveCount(
+		0,
 	);
 });

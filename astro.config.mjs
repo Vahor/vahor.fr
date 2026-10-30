@@ -10,7 +10,9 @@ const localPreview = process.env.ASTRO_LOCAL_PREVIEW === "1";
 
 export default defineConfig({
 	site: "https://vahor.fr",
-	adapter: localPreview ? node({ mode: "standalone" }) : vercel(),
+	adapter: localPreview
+		? node({ mode: "standalone" })
+		: vercel({ isr: { expiration: 86400, exclude: ["/og/[slug]"] } }),
 	outDir: localPreview ? ".local-dist" : "dist",
 	integrations: [mdx()],
 	markdown: {
