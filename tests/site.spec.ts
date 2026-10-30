@@ -1,4 +1,4 @@
-import { readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { JSDOM } from "jsdom";
 
@@ -104,6 +104,61 @@ test("published routes, feeds, Markdown and social images remain available", asy
 	expect(image.headers()["content-type"]).toContain("image/png");
 	expect((await image.body()).subarray(1, 4).toString()).toBe("PNG");
 	expect((await request.get("/tag/not-a-real-tag")).status()).toBe(404);
+});
+
+test("article images retain captions, dimensions and original public URLs", async ({
+	page,
+	request,
+}) => {
+	for (const [route, originals] of [
+		["/blog/rss", ["/blog/rss/nom-menu.png", "/blog/rss/nom-page.png"]],
+		[
+			"/project/charts.vahor.fr",
+			[
+				"/projects/charts.vahor.fr/google-sheet-chart.png",
+				"/projects/charts.vahor.fr/shadcn-default-page.png",
+				"/projects/charts.vahor.fr/shadcn-chart.png",
+			],
+		],
+		["/project/saverly.fr", ["/projects/saverly.fr/homepage.png"]],
+		[
+			"/project/simple-schematics",
+			[
+				"/projects/simple-schematics/menu-main.png",
+				"/projects/simple-schematics/menu-list.png",
+			],
+		],
+		[
+			"/project/rehype-d2",
+			[
+				"/projects/rehype-d2/uml_diagram_in_editor_excalidraw.svg",
+				"/projects/rehype-d2/diagram_eraser_io.svg",
+			],
+		],
+	] as const) {
+		await page.goto(route);
+		const images = page.locator("article figure > img");
+		await expect(images).toHaveCount(originals.length);
+		const markdown = await (await request.get(`${route}.md`)).text();
+		for (const [index, original] of originals.entries()) {
+			const image = images.nth(index);
+			await image.scrollIntoViewIfNeeded();
+			await image.evaluate((element: HTMLImageElement) => element.decode());
+			await expect(image).toHaveAttribute("width", /^[1-9]\d*$/);
+			await expect(image).toHaveAttribute("height", /^[1-9]\d*$/);
+			await expect(image).toHaveAttribute(
+				"src",
+				original.endsWith(".svg") ? /\.svg$/ : /\.webp$/,
+			);
+			await expect(image.locator("..").locator("figcaption")).toHaveText(
+				(await image.getAttribute("alt"))!,
+			);
+			const response = await request.get(original);
+			expect(response.ok()).toBe(true);
+			expect(await response.body()).toEqual(readFileSync(`public${original}`));
+			expect(markdown).toContain(`](${original})`);
+		}
+	}
 });
 
 test("search is lazy, keyboard accessible, and themes persist across navigation", async ({

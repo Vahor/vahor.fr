@@ -9,7 +9,7 @@ import type { Post } from "../src/lib/posts";
 
 function fixRelativeLinks() {
 	return (tree: any) => {
-		const pattern = /(..\/)*public\//g;
+		const pattern = /(?:\.\.\/)*(?:public|src\/assets)\//g;
 		visit(tree, "image", (node) => {
 			node.url = (node.url as string).replace(pattern, "/");
 		});

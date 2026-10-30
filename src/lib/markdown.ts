@@ -24,14 +24,6 @@ import { shikiOptions } from "./shiki";
 
 type IncludeNode = Node & Partial<Parent & Literal> & { lang?: string };
 
-function publicImages() {
-	return (tree: Node) => {
-		visit(tree, "image", (node: Node & { url: string }) => {
-			node.url = node.url.replace(/^.*public\//, "/");
-		});
-	};
-}
-
 function includeMarkdown() {
 	return (tree: Node, file: VFile) => {
 		visit(tree, (node: IncludeNode) => {
@@ -88,7 +80,6 @@ export const remarkPlugins: RemarkPlugins = [
 	remarkDirective,
 	addCalloutComponent,
 	includeMarkdown,
-	publicImages,
 ];
 export const rehypePlugins: RehypePlugins = [
 	// Astro MDX moves fence metadata to `metastring`; D2 still reads data.meta.

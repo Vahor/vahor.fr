@@ -1,7 +1,10 @@
 ---
-const { src = "", alt = "", class: className, ...props } = Astro.props;
+import { Image, type LocalImageProps } from "astro:assets";
+
+type Props = LocalImageProps;
+const { src, alt, class: className, ...props } = Astro.props;
 ---
 <figure class="my-6 text-center">
-	<img src={src.replace(/^.*public\//, "/")} alt={alt} class:list={["mx-auto rounded-2xl border object-cover", className]} loading="lazy" {...props} />
+	<Image src={src} alt={alt} class:list={["mx-auto rounded-2xl border object-cover", className]} loading="lazy" {...props} />
 	<figcaption class="mt-2 text-balance leading-5">{alt}</figcaption>
 </figure>

@@ -13,6 +13,12 @@ Sitemaps use `@astrojs/sitemap` at `/sitemap-index.xml`; the previous
 included alongside discovered static pages. RSS uses `@astrojs/rss` at the
 unchanged `/rss.xml` URL, retaining article GUIDs and feed metadata.
 
+Article image sources live in `src/assets` and use Astro's `Image` component
+with intrinsic dimensions and lossless WebP encoding. SVGs stay vector images.
+The original `public/` images are retained for published URLs and Markdown
+exports; keep these compatibility copies when updating existing images.
+RSS channel metadata is serialized from an object with `fast-xml-builder`.
+
 ### Development and verification
 
 Use Node 24 and Bun, then `bun install --frozen-lockfile` and `bun dev`.

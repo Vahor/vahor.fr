@@ -20,6 +20,12 @@ export default defineConfig({
 		? node({ mode: "standalone" })
 		: vercel({ isr: { expiration: 86400, exclude: ["/og/[slug]"] } }),
 	outDir: localPreview ? ".local-dist" : "dist",
+	image: {
+		service: {
+			entrypoint: "astro/assets/services/sharp",
+			config: { webp: { lossless: true } },
+		},
+	},
 	integrations: [mdx(), sitemap({ customPages: [new URL("/", site).href] })],
 	markdown: {
 		syntaxHighlight: false,
