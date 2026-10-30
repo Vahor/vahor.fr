@@ -16,9 +16,13 @@ export function addCalloutComponent() {
 					};
 				},
 			) => {
+				const supportedTypes = ["info", "warning", "note", "tip", "check"];
+				const type = node.attributes?.type ?? node.name;
 				if (
 					!node.name ||
-					!["info", "warning", "note", "tip", "check"].includes(node.name)
+					(node.name !== "callout" && !supportedTypes.includes(node.name)) ||
+					!type ||
+					!supportedTypes.includes(type)
 				)
 					return;
 				if (
@@ -30,7 +34,7 @@ export function addCalloutComponent() {
 					const tagName = "callout";
 
 					node.attributes = node.attributes || {};
-					node.attributes.type = node.attributes.type || node.name || "note";
+					node.attributes.type = type;
 					data.hName = tagName;
 					data.hProperties = h(tagName, node.attributes || {}).properties;
 					node.data = data;

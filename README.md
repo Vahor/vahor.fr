@@ -8,6 +8,12 @@ the initial HTML and cached by Vercel ISR for 24 hours. There is no Spotify brow
 fetch or generic fallback. Other pages and social-image PNGs remain static;
 legacy social-image redirects are server endpoints.
 
+Search deliberately uses native result links: arrow keys move focus to a link,
+Enter follows it, and Escape closes the dialog and restores focus to its opener.
+To refine the query after navigating results, focus the search field again
+(Shift+Tab from the first result, past the close button, or click the field).
+This avoids an incomplete active-descendant combobox implementation.
+
 Sitemaps use `@astrojs/sitemap` at `/sitemap-index.xml`; the previous
 `/sitemap.xml` URL redirects there. The server-rendered homepage is explicitly
 included alongside discovered static pages. RSS uses `@astrojs/rss` at the
@@ -31,6 +37,10 @@ Use Node 24 and Bun, then `bun install --frozen-lockfile` and `bun dev`.
 - `bunx playwright install chromium && bun run test` — route/export, search,
   theme, clipboard and code-wrap browser tests. Set `PLAYWRIGHT_CHANNEL=chrome`
   to use an installed Google Chrome instead.
+  The suite also builds and exercises the Vercel handler with CommonJS-to-ESM
+  `require` disabled, reproducing the hosting loader's restriction.
+  Browser tests start their own production preview on port 4329; they never reuse
+  a development server on port 4321.
 
 `bun test` invokes Bun's test runner; use `bun run test` for Playwright.
 

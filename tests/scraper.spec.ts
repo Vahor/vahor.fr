@@ -13,14 +13,20 @@ if (redisToken === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN;
 else process.env.UPSTASH_REDIS_REST_TOKEN = redisToken;
 
 const fetchOriginal = globalThis.fetch;
+const cache = new Map<string, string>();
 test.beforeEach(() => {
+	cache.clear();
 	globalThis.fetch = async (input, options) => {
 		if (String(input).startsWith("https://cache.invalid")) {
 			const commands = JSON.parse(options!.body as string) as string[][];
 			return Response.json(
-				commands.map((command: string[]) => ({
-					result: command[0].toLowerCase() === "get" ? null : "OK",
-				})),
+				commands.map(([operation, key, value, ...flags]) => {
+					if (operation.toLowerCase() === "get")
+						return { result: cache.get(key) ?? null };
+					if (flags.includes("nx") && cache.has(key)) return { result: null };
+					cache.set(key, value);
+					return { result: "OK" };
+				}),
 			);
 		}
 		return fetchOriginal(input, options);
@@ -28,6 +34,99 @@ test.beforeEach(() => {
 });
 test.afterEach(() => {
 	globalThis.fetch = fetchOriginal;
+});
+
+test("metadata reuses fresh cache entries instead of legacy long-lived entries", async () => {
+	const cachedFetch = globalThis.fetch;
+	cache.set(
+		"meta:https://metadata.invalid/cached",
+		JSON.stringify({ title: "Legacy stale title" }),
+	);
+	let remoteRequests = 0;
+	globalThis.fetch = async (input, options) => {
+		if (String(input).startsWith("https://cache.invalid"))
+			return cachedFetch(input, options);
+		remoteRequests++;
+		return new Response("<title>Fresh title</title>");
+	};
+	const first = await extractMetaTags("https://metadata.invalid/cached");
+	const second = await extractMetaTags("https://metadata.invalid/cached");
+	expect(first.title).toBe("Fresh title");
+	expect(second).toEqual(first);
+	expect(remoteRequests).toBe(1);
+});
+
+test("a slower degraded request cannot replace concurrently cached metadata", async () => {
+	const cachedFetch = globalThis.fetch;
+	const started = Promise.withResolvers<void>();
+	const release = Promise.withResolvers<void>();
+	let pages = 0;
+	globalThis.fetch = async (input, options) => {
+		const url = String(input);
+		if (url.startsWith("https://cache.invalid"))
+			return cachedFetch(input, options);
+		if (url.endsWith("/valid.ico"))
+			return new Response(new Uint8Array([0, 1, 2]), {
+				headers: { "Content-Type": "image/x-icon" },
+			});
+		if (++pages === 1) {
+			started.resolve();
+			await release.promise;
+			return new Response("<title>Degraded response</title>");
+		}
+		return new Response(
+			'<title>Complete response</title><link rel="icon" href="/valid.ico">',
+		);
+	};
+	const slow = extractMetaTags("https://metadata.invalid/concurrent");
+	await started.promise;
+	try {
+		const complete = await extractMetaTags(
+			"https://metadata.invalid/concurrent",
+		);
+		expect(complete.favicon).toBe("data:image/x-icon;base64,AAEC");
+		release.resolve();
+		await slow;
+		expect(
+			await extractMetaTags("https://metadata.invalid/concurrent"),
+		).toEqual(complete);
+	} finally {
+		release.resolve();
+		await slow;
+	}
+});
+
+test("image network failures preserve parsed metadata and independent image results", async () => {
+	const cachedFetch = globalThis.fetch;
+	const originalError = console.error;
+	console.error = () => {};
+	try {
+		globalThis.fetch = async (input, options) => {
+			const url = String(input);
+			if (url.startsWith("https://cache.invalid"))
+				return cachedFetch(input, options);
+			if (url.endsWith("/cover.png"))
+				throw new TypeError("Image connection reset");
+			if (url.endsWith("/favicon.ico"))
+				return new Response(new Uint8Array([0, 1, 2]), {
+					headers: { "Content-Type": "image/x-icon" },
+				});
+			return new Response(
+				'<title>Useful title</title><meta name="description" content="Useful description"><link rel="icon" href="/favicon.ico"><meta property="og:image" content="https://metadata.invalid/cover.png">',
+			);
+		};
+		const metadata = await extractMetaTags(
+			"https://metadata.invalid/image-error",
+		);
+		expect(metadata.title).toBe("Useful title");
+		expect(metadata.description).toBe("Useful description");
+		expect(metadata.favicon).toBe("data:image/x-icon;base64,AAEC");
+		expect(metadata.image).toBe(
+			"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+		);
+	} finally {
+		console.error = originalError;
+	}
 });
 
 test("metadata extraction ignores remote stylesheets, preserves precedence and degrades HTTP errors", async () => {

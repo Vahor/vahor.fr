@@ -1,6 +1,4 @@
 ---
-import { extractMetaTags } from "../lib/scraper";
-
 interface Props {
 	url: string;
 	title: string;
@@ -9,7 +7,12 @@ interface Props {
 	darkFavicon?: string;
 }
 const { url, title, favicon, alt, darkFavicon } = Astro.props;
-const icon = favicon ?? (await extractMetaTags(url)).favicon;
+// Fixed badges need neither scraping nor its build-time HTML/image dependencies.
+let icon = favicon;
+if (icon === undefined) {
+	const { extractMetaTags } = await import("../lib/scraper");
+	icon = (await extractMetaTags(url)).favicon;
+}
 const href = new URL(url);
 href.searchParams.set("ref", "vahor.fr");
 ---

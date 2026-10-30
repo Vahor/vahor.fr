@@ -35,6 +35,9 @@ export async function getPosts(): Promise<Post[]> {
 				if (committed) dateModified = new Date(committed).toISOString();
 			} catch {
 				// Archives without Git history retain the publication date, not checkout time.
+				console.warn(
+					`Git modification date unavailable for ${filePath}; using publication date`,
+				);
 			}
 			return {
 				...entry.data,

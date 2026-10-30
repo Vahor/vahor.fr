@@ -30,7 +30,8 @@ const mapProperties = (document: DocumentFragment) => {
 
 type MetaTags = Record<MetadataKey, string>;
 
-const cacheKey = (url: string) => `meta:${url}`;
+// Old keys used a millisecond value as a seconds-based TTL (roughly 1,000 days).
+const cacheKey = (url: string) => `meta:v2:${url}`;
 
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
@@ -74,7 +75,8 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 			: await imageToBase64(favicon); // fallback to favicon
 
 		try {
-			await kv?.set(urlKey, properties, { ex: 60 * 60 * 24 });
+			// Do not overwrite a result populated by another request during this fetch.
+			await kv?.set(urlKey, properties, { ex: 60 * 60 * 24, nx: true });
 		} catch (error) {
 			console.error(`Metadata cache write failed: ${url}`, error);
 		}
@@ -90,24 +92,20 @@ const EMPTY_BASE64_IMAGE =
 
 const imageToBase64 = async (url: string, width = 300, height = 300) => {
 	if (!url) return EMPTY_BASE64_IMAGE;
-	const response = await fetch(url, {
-		method: "GET",
-		signal: AbortSignal.timeout(15000),
-		headers: {
-			Accept: "image/*",
-		},
-	});
-
-	if (!response.ok) {
-		console.error(
-			`Failed to fetch image: ${url}`,
-			response.status,
-			await response.text(),
-		);
-		return EMPTY_BASE64_IMAGE;
-	}
 
 	try {
+		const response = await fetch(url, {
+			method: "GET",
+			signal: AbortSignal.timeout(15000),
+			headers: {
+				Accept: "image/*",
+			},
+		});
+		if (!response.ok) {
+			console.error(`Failed to fetch image: ${url} (${response.status})`);
+			return EMPTY_BASE64_IMAGE;
+		}
+
 		const contentType = response.headers.get("content-type");
 		if (!contentType?.startsWith("image")) {
 			throw new Error("Invalid content type");
