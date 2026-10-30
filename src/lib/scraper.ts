@@ -39,8 +39,14 @@ export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	if (cached) return cached;
 
 	const page = await fetch(url, { signal: AbortSignal.timeout(15000) });
-	if (!page.ok)
-		throw new Error(`Metadata request failed: ${url} (${page.status})`);
+	if (!page.ok) {
+		return {
+			title: "",
+			description: "",
+			favicon: EMPTY_BASE64_IMAGE,
+			image: EMPTY_BASE64_IMAGE,
+		};
+	}
 
 	const html = await page.text();
 

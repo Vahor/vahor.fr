@@ -2,9 +2,16 @@ import { createServer } from "node:http";
 import { expect, test } from "@playwright/test";
 import { extractMetaTags } from "../src/lib/scraper";
 
-test("metadata extraction ignores remote stylesheets and preserves document-order precedence", async () => {
-	const server = createServer((_request, response) => {
+test("metadata extraction ignores remote stylesheets, preserves precedence and degrades HTTP errors", async () => {
+	const server = createServer((request, response) => {
 		response.setHeader("Content-Type", "text/html");
+		if (request.url === "/429" || request.url === "/503") {
+			response.statusCode = Number(request.url.slice(1));
+			response.end(
+				"<title>Error page must not become preview metadata</title>",
+			);
+			return;
+		}
 		response.end(`<!doctype html><html><head>
 			<meta property="og:title" content="First title &amp; more">
 			<title>Second title</title>
@@ -24,6 +31,15 @@ test("metadata extraction ignores remote stylesheets and preserves document-orde
 		expect(metadata.title).toBe("First title & more");
 		expect(metadata.description).toBe("First description");
 		expect(errors).toEqual([]);
+		for (const status of [429, 503]) {
+			const unavailable = await extractMetaTags(
+				`http://127.0.0.1:${address.port}/${status}`,
+			);
+			expect(unavailable.title).toBe("");
+			expect(unavailable.description).toBe("");
+			expect(unavailable.favicon).toMatch(/^data:image\//);
+			expect(unavailable.image).toMatch(/^data:image\//);
+		}
 	} finally {
 		console.error = originalError;
 		await new Promise<void>((resolve, reject) => {
