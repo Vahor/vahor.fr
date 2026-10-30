@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: "0 3 * * *"
   workflow_dispatch:
+    inputs:
+      older_than_hours:
+        description: "Delete untagged versions older than this many hours"
+        required: false
+        default: "24"
+        type: string
 
 permissions:
   contents: read
@@ -20,8 +26,16 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPOSITORY: ${{ github.repository }}
           PACKAGE: ${{ github.event.repository.name }}
+          OLDER_THAN_HOURS: ${{ github.event.inputs.older_than_hours || '24' }}
         run: |
           set -euo pipefail
+
+          case "${OLDER_THAN_HOURS}" in
+            '' | *[!0-9]*)
+              echo "older_than_hours must be a non-negative integer" >&2
+              exit 1
+              ;;
+          esac
 
           if [ "$(gh api "repos/${REPOSITORY}" --jq .owner.type)" = "Organization" ]; then
             owner_path="orgs/${OWNER}"
@@ -29,17 +43,20 @@ jobs:
             owner_path="users/${OWNER}"
           fi
 
-          # Keep recent untagged versions briefly in case a push is still settling.
+          cutoff=$(( $(date -u +%s) - OLDER_THAN_HOURS * 3600 ))
           ids=$(
             gh api --paginate --slurp \
               "${owner_path}/packages/container/${PACKAGE}/versions?per_page=100" |
-              jq -r '
+              jq -r --argjson cutoff "$cutoff" '
                 .[][]
                 | select((.metadata.container.tags // []) | length == 0)
-                | select((now - (.created_at | fromdateiso8601)) > 86400)
+                | select((.created_at | fromdateiso8601) < $cutoff)
                 | .id
               '
           )
+
+          count=$(printf "%s" "$ids" | wc -w | tr -d ' ')
+          echo "Found ${count} untagged versions older than ${OLDER_THAN_HOURS}h"
 
           for id in $ids; do
             echo "Deleting untagged ${PACKAGE} version ${id}"
