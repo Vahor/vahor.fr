@@ -1,0 +1,96 @@
+---
+import { render } from "astro:content";
+import Icon from "../components/Icon.astro";
+import { mdxComponents } from "../components/mdx";
+import Layout from "../layouts/Layout.astro";
+import { articlePage } from "../lib/jsonld";
+import { getPosts } from "../lib/posts";
+import "../styles/code.css";
+import "@shikijs/twoslash/style-rich.css";
+export async function getStaticPaths() {
+	return (await getPosts()).map((post) => ({
+		params: { slug: post.url.slice(1) },
+		props: { post },
+	}));
+}
+const { post } = Astro.props;
+const { Content } = await render(post.entry);
+const date = (value: string) =>
+	new Intl.DateTimeFormat("fr-FR", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+		timeZone: "UTC",
+	}).format(new Date(value));
+---
+
+<Layout
+	title={post.title}
+	description={post.description}
+	article
+	image={`/og/${post.slug}.png`}
+	jsonLd={articlePage({
+		headline: post.title,
+		datePublished: post.datePublished,
+		dateModified: post.dateModified,
+		image: new URL(`/og/${post.slug}.png`, Astro.site).href,
+		description: post.description,
+	})}
+>
+	<main class="post-content container mx-auto pb-16" id="skip-nav">
+		<header class="mb-10 flex flex-col gap-6">
+			<h1 class="text-balance font-semibold text-3xl text-black dark:text-white">
+				{post.title}
+			</h1>
+			<p>{post.description}</p>
+			<div class="flex flex-row items-center gap-6 font-mono">
+				<div class="flex flex-row items-center gap-2">
+					<Icon name="clock" />
+					<span class="text-xs">{post.timeToRead} min de lecture</span>
+				</div>
+				<div
+					class="flex flex-row items-center gap-2"
+					title={`Dernière modification le ${date(post.dateModified)}`}
+				>
+					<span class="sr-only">
+						Dernière modification le {date(post.dateModified)}. Publié le{" "}
+					</span>
+					<Icon name="calendar" />
+					<span class="text-xs">
+						<time datetime={post.datePublished}>
+							{date(post.datePublished)}
+						</time>
+					</span>
+				</div>
+			</div>
+			<div class="flex flex-row flex-wrap items-center gap-2" id="tags">
+				{post.fullTags.map((tag) => (
+					<a
+						href={`/tag/${tag}`}
+						class="rounded-md bg-accent px-2 py-1 font-mono text-black text-xs capitalize dark:text-white"
+					>
+						{tag}
+					</a>
+				))}
+			</div>
+		</header>
+		<article class="text-pretty">
+			<Content components={mdxComponents} />
+		</article>
+		<hr class="my-4 md:my-8" />
+		<footer class="mb-16">
+			<a
+				href={post.githubEditUrl}
+				class="flex w-max flex-row items-center gap-2 font-mono text-sm hover:text-black dark:hover:text-white"
+			>
+				<Icon name="pencil" class="size-3" />
+				<span>Suggérer une modification</span>
+			</a>
+		</footer>
+		<section
+			id="comments"
+			class="giscus larger-post-content"
+			aria-label="Commentaires"
+		></section>
+	</main>
+</Layout>

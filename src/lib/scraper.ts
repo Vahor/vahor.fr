@@ -1,91 +1,90 @@
-"use server";
-
 import { JSDOM } from "jsdom";
 import sharp from "sharp";
 import { kv } from "@/lib/redis";
 
-const xpaths = {
+const selectors = {
 	// title is either the first <title> or og:title
-	title: '//title | //meta[@property="og:title"]/@content',
+	title: 'title, meta[property="og:title"]',
 	// description is either the first <meta name="description"> or og:description
-	description:
-		'//meta[@name="description"]/@content | //meta[@property="og:description"]/@content',
+	description: 'meta[name="description"], meta[property="og:description"]',
 	// image is og:image (either name or property)
-	image:
-		'//meta[@name="og:image"]/@content | //meta[@property="og:image"]/@content',
-	favicon: '//link[@rel="icon" or @rel="shortcut icon"]/@href',
+	image: 'meta[name="og:image"], meta[property="og:image"]',
+	favicon: 'link[rel="icon"], link[rel="shortcut icon"]',
 } as const;
-type XPaths = typeof xpaths;
-type XPathsKeys = keyof XPaths;
+type MetadataKey = keyof typeof selectors;
 
-const mapProperties = (paths: typeof xpaths, document: JSDOM) => {
-	const properties = Object.keys(paths) as XPathsKeys[];
+const mapProperties = (document: DocumentFragment) => {
+	const properties = Object.keys(selectors) as MetadataKey[];
 	return properties.reduce(
 		(acc, path) => {
-			const result = document.window.document.evaluate(
-				paths[path],
-				document.window.document,
-				null,
-				document.window.XPathResult.FIRST_ORDERED_NODE_TYPE,
-				null,
-			).singleNodeValue;
-			acc[path] = result?.textContent ?? "";
+			const result = document.querySelector(selectors[path]);
+			acc[path] =
+				result?.getAttribute(path === "favicon" ? "href" : "content") ??
+				result?.textContent ??
+				"";
 			return acc;
 		},
-		{} as Record<XPathsKeys, string>,
+		{} as Record<MetadataKey, string>,
 	);
 };
 
-type MetaTags = Record<XPathsKeys, string>;
+type MetaTags = Record<MetadataKey, string>;
 
-const cacheKey = (url: string) => `meta:${url}`;
+// Old keys used a millisecond value as a seconds-based TTL (roughly 1,000 days).
+const cacheKey = (url: string) => `meta:v2:${url}`;
 
 export const extractMetaTags = async (url: string): Promise<MetaTags> => {
 	const cleanUrl = url.split("?", 2)[0];
 	const urlKey = cacheKey(cleanUrl);
-	const cached = await kv.get<MetaTags>(urlKey);
-	if (cached) return cached;
+	const fallback = {
+		title: "",
+		description: "",
+		favicon: EMPTY_BASE64_IMAGE,
+		image: EMPTY_BASE64_IMAGE,
+	};
+	try {
+		const cached = await kv?.get<MetaTags>(urlKey);
+		if (cached) return cached;
+	} catch (error) {
+		console.error(`Metadata cache read failed: ${url}`, error);
+	}
 
-	const page = await fetch(url, {
-		next: {
-			revalidate: 24 * 60 * 60, // 24 hours
-		},
-	});
+	try {
+		const page = await fetch(url, { signal: AbortSignal.timeout(15000) });
+		if (!page.ok) {
+			console.error(`Metadata request failed: ${url} (${page.status})`);
+			return fallback;
+		}
 
-	const html = await page.text();
+		const html = await page.text();
 
-	const document = new JSDOM(html);
-	const properties = mapProperties(xpaths, document);
+		// Metadata needs an inert HTML tree, not a window that parses remote CSS.
+		const document = JSDOM.fragment(html);
+		const properties = mapProperties(document);
 
-	let favicon = properties.favicon?.toString() ?? "";
-	favicon =
-		favicon &&
-		(favicon.startsWith("http") ? favicon : new URL(favicon, url).toString());
+		let favicon = properties.favicon?.toString() ?? "";
+		favicon =
+			favicon &&
+			(favicon.startsWith("http") ? favicon : new URL(favicon, url).toString());
 
-	const image = properties.image?.toString() ?? "";
+		const image = properties.image?.toString() ?? "";
 
-	properties.favicon = await imageToBase64(favicon, 16, 16);
-	properties.image = image
-		? await imageToBase64(image)
-		: await imageToBase64(favicon); // fallback to favicon
+		properties.favicon = await imageToBase64(favicon, 16, 16);
+		properties.image = image
+			? await imageToBase64(image)
+			: await imageToBase64(favicon); // fallback to favicon
 
-	const previousValue = (await kv.get<MetaTags>(urlKey)) ?? properties;
-
-	const newProperties = {
-		...properties,
-		image:
-			properties.image === EMPTY_BASE64_IMAGE
-				? previousValue.image
-				: properties.image,
-		favicon:
-			properties.favicon === EMPTY_BASE64_IMAGE
-				? previousValue.favicon
-				: properties.favicon,
-	} as MetaTags;
-
-	kv.set(urlKey, newProperties, { ex: 1000 * 60 * 60 * 24 }); // 24 hours
-
-	return newProperties;
+		try {
+			// Do not overwrite a result populated by another request during this fetch.
+			await kv?.set(urlKey, properties, { ex: 60 * 60 * 24, nx: true });
+		} catch (error) {
+			console.error(`Metadata cache write failed: ${url}`, error);
+		}
+		return properties;
+	} catch (error) {
+		console.error(`Metadata unavailable: ${url}`, error);
+		return fallback;
+	}
 };
 
 const EMPTY_BASE64_IMAGE =
@@ -93,25 +92,22 @@ const EMPTY_BASE64_IMAGE =
 
 const imageToBase64 = async (url: string, width = 300, height = 300) => {
 	if (!url) return EMPTY_BASE64_IMAGE;
-	const response = await fetch(url, {
-		method: "GET",
-		headers: {
-			Accept: "image/*",
-		},
-	});
-
-	if (!response.ok) {
-		console.error(
-			`Failed to fetch image: ${url}`,
-			response.status,
-			await response.text(),
-		);
-		return EMPTY_BASE64_IMAGE;
-	}
 
 	try {
+		const response = await fetch(url, {
+			method: "GET",
+			signal: AbortSignal.timeout(15000),
+			headers: {
+				Accept: "image/*",
+			},
+		});
+		if (!response.ok) {
+			console.error(`Failed to fetch image: ${url} (${response.status})`);
+			return EMPTY_BASE64_IMAGE;
+		}
+
 		const contentType = response.headers.get("content-type");
-		if (!contentType || !contentType.startsWith("image")) {
+		if (!contentType?.startsWith("image")) {
 			throw new Error("Invalid content type");
 		}
 
@@ -126,11 +122,12 @@ const imageToBase64 = async (url: string, width = 300, height = 300) => {
 					fit: "contain",
 					background: { r: 0, g: 0, b: 0, alpha: 0 },
 				})
+				.png()
 				.toBuffer();
 			base64 = resized.toString("base64");
 		}
 
-		return `data:${contentType};base64,${base64}`;
+		return `data:${isIcoFavicon(url) ? contentType : "image/png"};base64,${base64}`;
 	} catch (error) {
 		console.error(`Failed to convert image to base64 url: ${url}`, error);
 		return EMPTY_BASE64_IMAGE;

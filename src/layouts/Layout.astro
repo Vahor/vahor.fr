@@ -1,0 +1,126 @@
+---
+import SpeedInsights from "@vercel/speed-insights/astro";
+import "@fontsource-variable/inter/wght.css";
+import "@fontsource-variable/geist-mono/wght.css";
+import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import "../styles/globals.css";
+import Header from "../components/Header.astro";
+import { SITE_METADATA } from "../lib/constants";
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	article?: boolean;
+	jsonLd?: unknown;
+	noindex?: boolean;
+}
+const {
+	title,
+	description = SITE_METADATA.description,
+	image = SITE_METADATA.image,
+	article = false,
+	jsonLd,
+	noindex = false,
+} = Astro.props;
+const pageTitle = title
+	? `${title} | ${SITE_METADATA.title}`
+	: SITE_METADATA.title;
+const canonical = new URL(
+	Astro.url.pathname.replace(/\/$/, "") || "/",
+	Astro.site,
+).href;
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark light" />
+		<link
+			rel="preload"
+			href={interFont}
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<title>{pageTitle}</title>
+		<meta name="description" content={description} />
+		<meta name="author" content={SITE_METADATA.author} />
+		<meta
+			name="robots"
+			content={
+				noindex ? "noindex, follow" : "index, follow, max-image-preview:large"
+			}
+		/>
+		<link rel="canonical" href={canonical} />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title={SITE_METADATA.title}
+			href="/rss.xml"
+		/>
+		{article && (
+			<link rel="alternate" type="text/markdown" href={`${canonical}.md`} />
+		)}
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content={article ? "article" : "website"} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:site_name" content={SITE_METADATA.title} />
+		<meta property="og:locale" content={SITE_METADATA.locale} />
+		<meta property="og:image" content={new URL(image, Astro.site).href} />
+		<meta property="og:image:alt" content={title ?? SITE_METADATA.title} />
+		{article && <meta property="og:image:width" content="1200" />}
+		{article && <meta property="og:image:height" content="630" />}
+		<meta
+			name="twitter:card"
+			content={article ? "summary_large_image" : "summary"}
+		/>
+		<meta name="twitter:creator" content={SITE_METADATA.twitterCreator} />
+		<meta name="twitter:image" content={new URL(image, Astro.site).href} />
+		{jsonLd && (
+			<script
+				type="application/ld+json"
+				set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+			/>
+		)}
+		<script is:inline>
+			try {
+				const theme = localStorage.getItem("theme");
+				document.documentElement.classList.toggle(
+					"dark",
+					theme === "dark" ||
+						((!theme || theme === "system") &&
+							matchMedia("(prefers-color-scheme: dark)").matches),
+				);
+			} catch {
+				document.documentElement.classList.toggle(
+					"dark",
+					matchMedia("(prefers-color-scheme: dark)").matches,
+				);
+			}
+		</script>
+	</head>
+	<body>
+		<Header />
+		<slot />
+		{process.env.ASTRO_LOCAL_PREVIEW !== "1" && <SpeedInsights />}
+		<script src="../scripts/interactions.ts"></script>
+	</body>
+</html>
+<style is:global>
+	body {
+		font-family: "Inter Variable", sans-serif;
+	}
+	:root {
+		--font-mono: "Geist Mono Variable", monospace;
+	}
+	button {
+		cursor: pointer;
+	}
+</style>

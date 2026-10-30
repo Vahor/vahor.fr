@@ -1,0 +1,38 @@
+---
+import { EMAIL } from "../lib/constants";
+import Icon from "./Icon.astro";
+---
+
+<span class="relative inline-block">
+	<button type="button" data-copy={EMAIL} aria-label="Copier l’adresse e-mail">
+		<span class="inline w-max cursor-pointer space-x-1 whitespace-nowrap rounded-md border border-neutral-200 bg-card p-1 text-accent-foreground text-sm leading-4 hover:border-neutral-300 dark:border-neutral-700 hover:dark:border-neutral-600">
+			<Icon name="send" class="send-icon inline-block size-4 stroke-2" />
+			<Icon name="check" class="check-icon inline-block size-4 stroke-2" />
+			<span>{EMAIL}</span>
+		</span>
+	</button>
+	<span data-copy-status role="status" class="sr-only"></span>
+	<span
+		id="copy-email-tooltip"
+		role="tooltip"
+		data-copy-feedback
+		hidden
+		class="fade-in-0 zoom-in-95 slide-in-from-top-2 absolute top-[calc(100%+10px)] left-1/2 z-50 w-max -translate-x-1/2 animate-in rounded-md bg-primary px-3 py-1.5 text-primary-foreground text-xs leading-4!"
+	>
+		<span
+			class="absolute -top-1 left-1/2 size-2.5 -translate-x-1/2 rotate-45 rounded-[2px] bg-primary"
+			aria-hidden="true"
+		></span>
+		<span data-copy-message class="leading-4!"></span>
+	</span>
+</span>
+
+<style>
+	button :global(.check-icon),
+	[data-copy-state="success"] :global(.send-icon) {
+		display: none;
+	}
+	[data-copy-state="success"] :global(.check-icon) {
+		display: inline-block;
+	}
+</style>

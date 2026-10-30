@@ -1,0 +1,61 @@
+---
+import { HEADER_LINKS } from "../lib/constants";
+import Icon from "./Icon.astro";
+import Search from "./Search.astro";
+---
+
+<header class="mx-auto flex max-w-(--breakpoint-xl) items-center justify-between px-8 py-4 sm:px-12 sm:py-8">
+	<a href="/" class="flex shrink-0 cursor-pointer items-center gap-3">
+		<img
+			src="/logo-white.svg"
+			alt="Logo"
+			width="24"
+			height="24"
+			class="h-6 w-6 transition-transform hover:rotate-12 dark:hidden"
+		/>
+		<img
+			src="/logo-dark.svg"
+			alt="Logo"
+			width="24"
+			height="24"
+			class="hidden h-6 w-6 transition-transform hover:rotate-12 dark:block"
+		/>
+		<span class="hidden font-semibold text-dark text-lg sm:inline dark:text-white">
+			Vahor
+		</span>
+	</a>
+	<div class="flex items-center justify-end gap-3">
+		<nav>
+			{HEADER_LINKS.map(({ href, label }) => (
+				<a href={href} class="hover:text-black dark:hover:text-white">
+					{label}
+				</a>
+			))}
+		</nav>
+		<button
+			type="button"
+			data-theme-toggle
+			aria-label="Changer le thème"
+			class="flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent"
+		>
+			<Icon name="sun" class="size-4 dark:hidden" />
+			<Icon name="moon" class="hidden size-4 dark:block" />
+		</button>
+		<button
+			type="button"
+			data-search-open
+			aria-label="Chercher une page"
+			aria-haspopup="dialog"
+			aria-controls="search-dialog"
+			class="relative flex cursor-text! items-center text-left text-sm leading-5 outline-hidden"
+		>
+			<Icon name="search" class="mr-2 size-4 shrink-0 stroke-2 opacity-50" />
+			<span class="w-24 text-foreground/50 leading-5 sm:w-48">Chercher...</span>
+			<kbd class="pointer-events-none absolute inset-y-0 right-0 hidden h-5 select-none items-center gap-1.5 rounded-md border px-1.5 text-muted-foreground sm:flex">
+				<span class="mt-px text-xs">⌘</span>
+				<span class="text-sm">K</span>
+			</kbd>
+		</button>
+	</div>
+</header>
+<Search />

@@ -7,7 +7,19 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!dist", "!node_modules", "!.contentlayer", "!.next"]
+		"includes": [
+			"**",
+			"!public",
+			"!src/assets",
+			"!dist",
+			"!node_modules",
+			"!.astro",
+			"!.local-dist",
+			"!.vercel",
+			"!.amp",
+			"!test-results",
+			"!playwright-report"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -47,5 +59,18 @@
 		"formatter": {
 			"quoteStyle": "double"
 		}
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.astro"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedImports": "off",
+						"noUnusedVariables": "off"
+					}
+				}
+			}
+		}
+	]
 }
